@@ -1,3 +1,4 @@
+import {Lock, Eye, User } from 'lucide-react'
 import InputError from '@/components/input-error';
 import TextLink from '@/components/text-link';
 import { Button } from '@/components/ui/button';
@@ -24,8 +25,8 @@ export default function Login({
 }: Props) {
     return (
         <AuthLayout
-            title="Log in to your account"
-            description="Enter your email and password below to log in"
+            title="Bem vindo ao sistema de controle interno Revest"
+            description="Utilize suas credenciais para realizar login"
         >
             <Head title="Log in" />
 
@@ -37,9 +38,11 @@ export default function Login({
                 {({ processing, errors }) => (
                     <>
                         <div className="grid gap-6">
-                            <div className="grid gap-2">
-                                <Label htmlFor="email">Email address</Label>
+                            <div className="grid gap-2 ">
+                                <Label className=" text-sm text-login-card-border" htmlFor="email">Nome de Usuário</Label>
                                 <Input
+                                    leftIcon={User}
+                                    className=" text-sm border-login-card-border h-[40px]  2xl:h-[52px]"
                                     id="email"
                                     type="email"
                                     name="email"
@@ -47,14 +50,15 @@ export default function Login({
                                     autoFocus
                                     tabIndex={1}
                                     autoComplete="email"
-                                    placeholder="email@example.com"
+                                    placeholder="Digite seu usuário"
+
                                 />
                                 <InputError message={errors.email} />
                             </div>
 
                             <div className="grid gap-2">
                                 <div className="flex items-center">
-                                    <Label htmlFor="password">Password</Label>
+                                    <Label className=" text-sm text-login-card-border" htmlFor="password">Senha</Label>
                                     {canResetPassword && (
                                         <TextLink
                                             href={request()}
@@ -66,44 +70,49 @@ export default function Login({
                                     )}
                                 </div>
                                 <Input
+                                    leftIcon={Lock}
+                                    className=" text-sm border-login-card-border h-[40px] 2xl:h-[52px] } "
                                     id="password"
                                     type="password"
                                     name="password"
                                     required
                                     tabIndex={2}
                                     autoComplete="current-password"
-                                    placeholder="Password"
+                                    placeholder="Digite sua senha"
+                                    rightIcon={Eye}
                                 />
                                 <InputError message={errors.password} />
                             </div>
 
-                            <div className="flex items-center space-x-3">
-                                <Checkbox
-                                    id="remember"
-                                    name="remember"
-                                    tabIndex={3}
-                                />
-                                <Label htmlFor="remember">Remember me</Label>
-                            </div>
+
 
                             <Button
                                 type="submit"
-                                className="mt-4 w-full"
+                                className="mt-4 w-full rounded-xl bg-bg-button-1 text-white 2xl:h-[48px] h-40px 2xl:text-md hover:bg-sidebar-bg cursor-pointer"
                                 tabIndex={4}
                                 disabled={processing}
                                 data-test="login-button"
                             >
                                 {processing && <Spinner />}
-                                Log in
+                                Entrar
                             </Button>
                         </div>
 
                         {canRegister && (
-                            <div className="text-center text-sm text-muted-foreground">
-                                Don't have an account?{' '}
-                                <TextLink href={register()} tabIndex={5}>
-                                    Sign up
-                                </TextLink>
+                            <div className="text-center text-sm">
+                                <ul>
+                                    <li>
+                                        <TextLink href={register()} tabIndex={5} className="text-login-card-border" >
+                                            Esqueceu sua senha?
+                                        </TextLink>
+                                    </li>
+                                    <li>
+                                        <TextLink href={register()} tabIndex={5} className="text-login-card-border">
+                                            Esqueceu seu nome de Usuário?
+                                        </TextLink>
+                                    </li>
+                                </ul>
+
                             </div>
                         )}
                     </>
