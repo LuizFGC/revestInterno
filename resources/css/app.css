@@ -18,11 +18,12 @@
     --color-bg-button-1: var(--button-bg-1);
     --color-sidebar-bg: var(--sidebar-bg);
     --background-image-login-bg: var(--login-background);
-    --color-background: var(--background);
+    --color-text-2: var(--text-color-2);
+    --color-background: var(--main-bg);
     --color-foreground: var(--foreground);
 
     --color-card: var(--card);
-    --color-card-foreground: var(--card-foreground);
+    --color-card-foreground: var(--white);
 
     --color-popover: var(--popover);
     --color-popover-foreground: var(--popover-foreground);
@@ -67,6 +68,7 @@
     --login-card-border: #ABABAB;
     --button-bg-1: #033024;
     --white: #ffff;
+    --main-bg: #E5E7EB;
     --sidebar-bg:#00543D;
     --text-color-1: #0A0A0A;
     --text-color-2: #4A5565;

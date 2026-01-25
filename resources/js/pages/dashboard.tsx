@@ -1,34 +1,56 @@
-import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
+import { Head } from '@inertiajs/react';
+import { Card } from '@/components/ui/card';
 import AppLayout from '@/layouts/app-layout';
 import { dashboard } from '@/routes';
 import type { BreadcrumbItem } from '@/types';
-import { Head } from '@inertiajs/react';
 
-const breadcrumbs: BreadcrumbItem[] = [
+
+const cardItems = [
     {
-        title: 'Dashboard',
-        href: dashboard().url,
+        title: 'Total de Entrega',
+        value: 4,
     },
+    {
+        title : 'Pendentes',
+        value: 2
+    },
+    {
+        title: 'Em rota de entrega',
+        value: 1
+    },
+    {
+        title: 'Entregues',
+        value: 1
+    }
 ];
+
+
+
+
 
 export default function Dashboard() {
     return (
-        <AppLayout breadcrumbs={breadcrumbs}>
+        <AppLayout title="Dashboard" date={new Date()}>
             <Head title="Dashboard" />
+
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-                <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-                    <div className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                        <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                    </div>
-                    <div className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                        <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                    </div>
-                    <div className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                        <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                    </div>
+                <div className="flex items-center justify-center gap-20 self-stretch">
+                    {cardItems.map((item, index) => (
+                        <Card key={index} className="flex h-24 grow flex-col gap-2 rounded-xl border border-background bg-white px-6 pt-6 pb-0.5">
+                            <div className="flex h-6 shrink-0 items-start self-stretch text-black">
+                                {item.title}
+                            </div>
+                            <div className="flex h-6 shrink-0 items-start self-stretch text-black">
+                                {item.value}
+                            </div>
+                        </Card>
+                    ))}
                 </div>
-                <div className="relative min-h-[100vh] flex-1 overflow-hidden rounded-xl border border-sidebar-border/70 md:min-h-min dark:border-sidebar-border">
-                    <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
+                <div className="flex flex-col items-start justify-end self-stretch rounded-xl border border-background bg-white">
+                    <div className="flex w-full flex-col items-sbtart order-b border-background">
+                        <p className="text-black">Ultimas Entregas</p>
+                    </div>
+                    <Card></Card>
                 </div>
             </div>
         </AppLayout>

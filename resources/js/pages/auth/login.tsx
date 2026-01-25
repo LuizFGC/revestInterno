@@ -38,11 +38,16 @@ export default function Login({
                 {({ processing, errors }) => (
                     <>
                         <div className="grid gap-6">
-                            <div className="grid gap-2 ">
-                                <Label className=" text-sm text-login-card-border" htmlFor="email">Nome de Usuário</Label>
+                            <div className="grid gap-2">
+                                <Label
+                                    className="text-sm text-login-card-border"
+                                    htmlFor="email"
+                                >
+                                    Nome de Usuário
+                                </Label>
                                 <Input
                                     leftIcon={User}
-                                    className=" text-sm border-login-card-border h-[40px]  2xl:h-[52px]"
+                                    className="h-[40px] border-login-card-border text-sm 2xl:h-[52px]"
                                     id="email"
                                     type="email"
                                     name="email"
@@ -51,14 +56,18 @@ export default function Login({
                                     tabIndex={1}
                                     autoComplete="email"
                                     placeholder="Digite seu usuário"
-
                                 />
                                 <InputError message={errors.email} />
                             </div>
 
                             <div className="grid gap-2">
                                 <div className="flex items-center">
-                                    <Label className=" text-sm text-login-card-border" htmlFor="password">Senha</Label>
+                                    <Label
+                                        className="text-sm text-login-card-border"
+                                        htmlFor="password"
+                                    >
+                                        Senha
+                                    </Label>
                                     {canResetPassword && (
                                         <TextLink
                                             href={request()}
@@ -71,7 +80,7 @@ export default function Login({
                                 </div>
                                 <Input
                                     leftIcon={Lock}
-                                    className=" text-sm border-login-card-border h-[40px] 2xl:h-[52px] } "
+                                    className="} h-[40px] border-login-card-border text-sm 2xl:h-[52px]"
                                     id="password"
                                     type="password"
                                     name="password"
@@ -84,11 +93,9 @@ export default function Login({
                                 <InputError message={errors.password} />
                             </div>
 
-
-
                             <Button
                                 type="submit"
-                                className="mt-4 w-full rounded-xl bg-bg-button-1 text-white 2xl:h-[48px] h-40px 2xl:text-md hover:bg-sidebar-bg cursor-pointer"
+                                className="h-40px 2xl:text-md mt-4 w-full cursor-pointer rounded-xl bg-bg-button-1 text-white hover:bg-sidebar-bg 2xl:h-[48px]"
                                 tabIndex={4}
                                 disabled={processing}
                                 data-test="login-button"
@@ -102,17 +109,28 @@ export default function Login({
                             <div className="text-center text-sm">
                                 <ul>
                                     <li>
-                                        <TextLink href={register()} tabIndex={5} className="text-login-card-border" >
+                                        <TextLink
+                                            href={register()}
+                                            tabIndex={5}
+                                            className="text-login-card-border"
+                                        >
                                             Esqueceu sua senha?
                                         </TextLink>
                                     </li>
                                     <li>
-                                        <TextLink href={register()} tabIndex={5} className="text-login-card-border">
+                                        <TextLink
+                                            href={register()}
+                                            tabIndex={5}
+                                            className="pt-3 text-login-card-border"
+                                        >
                                             Esqueceu seu nome de Usuário?
                                         </TextLink>
                                     </li>
                                 </ul>
 
+                                <div className="pt-3 text-login-card-border">
+                                    © 2025 Revest Materiais
+                                </div>
                             </div>
                         )}
                     </>

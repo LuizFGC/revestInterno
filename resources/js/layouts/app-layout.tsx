@@ -1,8 +1,17 @@
 import AppLayoutTemplate from '@/layouts/app/app-sidebar-layout';
-import type { AppLayoutProps } from '@/types';
 
-export default ({ children, breadcrumbs, ...props }: AppLayoutProps) => (
-    <AppLayoutTemplate breadcrumbs={breadcrumbs} {...props}>
+
+export default ({
+    children,
+    title,
+    date,
+    ...props
+}: {
+    children: React.ReactNode;
+    title: string;
+    date: Date
+}) => (
+    <AppLayoutTemplate title={title} date={date} {...props}>
         {children}
     </AppLayoutTemplate>
 );
