@@ -9,7 +9,7 @@ import {
     SidebarHeader,
 
 } from '@/components/ui/sidebar';
-import { dashboard } from '@/routes';
+import { dashboard, entregas, relatorios } from '@/routes';
 import { edit } from '@/routes/profile';
 import type { NavItem } from '@/types';
 
@@ -23,12 +23,12 @@ const mainNavItems: NavItem[] = [
     },
     {
         title: 'Entregas',
-        href: dashboard(),
+        href: entregas(),
         icon: Package,
     },
     {
         title: 'Relatorios',
-        href: dashboard(),
+        href: relatorios(),
         icon: FileSpreadsheet,
     },
     {
@@ -42,8 +42,8 @@ const mainNavItems: NavItem[] = [
 
 export function AppSidebar() {
     return (
-        <Sidebar collapsible="icon" variant="inset" className="bg-sidebar-bg p-0">
-            <SidebarHeader className="flex items-center justify-center ">
+        <Sidebar collapsible="icon" variant="inset" className="bg-login-bg p-0">
+            <SidebarHeader className="flex items-center justify-center">
                 <AppLogo />
             </SidebarHeader>
 
