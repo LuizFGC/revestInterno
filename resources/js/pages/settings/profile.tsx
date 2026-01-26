@@ -1,144 +1,249 @@
 import { Transition } from '@headlessui/react';
-import { Form, Head, Link, usePage } from '@inertiajs/react';
+import { Form, Head,usePage } from '@inertiajs/react';
+import {Save, Lock} from 'lucide-react';
+import { useRef } from 'react';
+import PasswordController from '@/actions/App/Http/Controllers/Settings/PasswordController';
 import ProfileController from '@/actions/App/Http/Controllers/Settings/ProfileController';
-import DeleteUser from '@/components/delete-user';
-import Heading from '@/components/heading';
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
+import { Card, CardHeader } from '@/components/ui/card';
+import {Icon} from '@/components/ui/icon';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import AppLayout from '@/layouts/app-layout';
-import SettingsLayout from '@/layouts/settings/layout';
-import { send } from '@/routes/verification';
 import type { SharedData } from '@/types';
+import {Badge} from '@/components/ui/badge';
 
 
 
-export default function Profile({
-    mustVerifyEmail,
-    status,
-}: {
-    mustVerifyEmail: boolean;
-    status?: string;
-}) {
-    const { auth } = usePage<SharedData>().props;
+export default function Profile(){
+    const passwordInput = useRef<HTMLInputElement>(null)
+    const currentPasswordInput = useRef<HTMLInputElement>(null)
+    const { auth } = usePage<SharedData>().props
 
     return (
         <AppLayout title="Configuracoes" date={new Date()}>
             <Head title="Configuracoes" />
 
-            <h1 className="sr-only">Profile Settings</h1>
-
-            <SettingsLayout>
-                <div className="space-y-6">
-                    <Heading
-                        variant="small"
-                        title="Profile information"
-                        description="Update your name and email address"
-                    />
+                <div className="flex flex-col justify-center items-center h-full w-full gap-4 px-6 py-6 2xl:py-0 ">
 
                     <Form
                         {...ProfileController.update.form()}
                         options={{
                             preserveScroll: true,
                         }}
-                        className="space-y-6"
+                        className="space-y-6 w-full  "
                     >
                         {({ processing, recentlySuccessful, errors }) => (
                             <>
-                                <div className="grid gap-2">
-                                    <Label htmlFor="name">Name</Label>
 
-                                    <Input
-                                        id="name"
-                                        className="mt-1 block w-full"
-                                        defaultValue={auth.user.name}
-                                        name="name"
-                                        required
-                                        autoComplete="name"
-                                        placeholder="Full name"
-                                    />
+                                <Card className="bg-transparent  gap-3 text-black border border-background px-6 py-2 gap-8 w-full ">
 
-                                    <InputError
-                                        className="mt-2"
-                                        message={errors.name}
-                                    />
-                                </div>
+                                    <CardHeader className="text-black  2xl:text-lg px-0   ">
+                                        Perfil do Usuario
+                                    </CardHeader>
 
-                                <div className="grid gap-2">
-                                    <Label htmlFor="email">Email address</Label>
+                                    <section  className="flex gap-3 w-full ">
+                                        <div className="w-full "  >
+                                            <Label htmlFor="name">Nome</Label>
 
-                                    <Input
-                                        id="email"
-                                        type="email"
-                                        className="mt-1 block w-full"
-                                        defaultValue={auth.user.email}
-                                        name="email"
-                                        required
-                                        autoComplete="username"
-                                        placeholder="Email address"
-                                    />
+                                            <Input
+                                                id="name"
+                                                className="border border-background "
+                                                defaultValue={auth.user.name}
+                                                name="name"
+                                                required
+                                                autoComplete="name"
+                                                placeholder="Nome Completo"
+                                            />
 
-                                    <InputError
-                                        className="mt-2"
-                                        message={errors.email}
-                                    />
-                                </div>
-
-                                {mustVerifyEmail &&
-                                    auth.user.email_verified_at === null && (
-                                        <div>
-                                            <p className="-mt-4 text-sm text-muted-foreground">
-                                                Your email address is
-                                                unverified.{' '}
-                                                <Link
-                                                    href={send()}
-                                                    as="button"
-                                                    className="text-foreground underline decoration-neutral-300 underline-offset-4 transition-colors duration-300 ease-out hover:decoration-current! dark:decoration-neutral-500"
-                                                >
-                                                    Click here to resend the
-                                                    verification email.
-                                                </Link>
-                                            </p>
-
-                                            {status ===
-                                                'verification-link-sent' && (
-                                                <div className="mt-2 text-sm font-medium text-green-600">
-                                                    A new verification link has
-                                                    been sent to your email
-                                                    address.
-                                                </div>
-                                            )}
+                                            <InputError
+                                                className="mt-2"
+                                                message={errors.name}
+                                            />
                                         </div>
-                                    )}
 
-                                <div className="flex items-center gap-4">
-                                    <Button
-                                        disabled={processing}
-                                        data-test="update-profile-button"
-                                    >
-                                        Save
-                                    </Button>
+                                        <div className="w-full " >
+                                            <Label htmlFor="email">Email </Label>
 
-                                    <Transition
-                                        show={recentlySuccessful}
-                                        enter="transition ease-in-out"
-                                        enterFrom="opacity-0"
-                                        leave="transition ease-in-out"
-                                        leaveTo="opacity-0"
-                                    >
-                                        <p className="text-sm text-neutral-600">
-                                            Saved
-                                        </p>
-                                    </Transition>
-                                </div>
+                                            <Input
+                                                id="email"
+                                                type="email"
+                                                className="border border-background "
+                                                defaultValue={auth.user.email}
+                                                name="email"
+                                                required
+                                                autoComplete="username"
+                                                placeholder="Digite seu email"
+                                            />
+
+                                            <InputError
+                                                className="mt-2"
+                                                message={errors.email}
+                                            />
+                                        </div>
+                                    </section>
+
+                                    <section className="flex gap-3 w-full ">
+                                        <div className="w-full ">
+                                            <Label>Telefone</Label>
+                                            <Input
+                                                className="border border-background "
+                                                placeholder="(34) 9 9912-6903"
+                                            />
+                                        </div>
+                                        <div className="w-full ">
+                                            <Label>Cargo</Label>
+                                            <Input
+                                                className="border border-background "
+                                                placeholder="Auxiliar Administrativo"
+                                            />
+                                        </div>
+                                    </section>
+
+                                    <div className="flex items-center gap-4">
+                                        <Button
+                                            disabled={processing}
+                                            data-test="update-profile-button"
+                                        >
+                                            <Icon iconNode={Save}/>
+                                            Salvar Configuracoes
+                                        </Button>
+
+                                        <Transition
+                                            show={recentlySuccessful}
+                                            enter="transition ease-in-out"
+                                            enterFrom="opacity-0"
+                                            leave="transition ease-in-out"
+                                            leaveTo="opacity-0"
+                                        >
+                                            <p className="text-sm text-neutral-600">
+                                                Salvo
+                                            </p>
+                                        </Transition>
+                                    </div>
+
+                                </Card>
+
+
+                            </>
+                        )}
+                    </Form>
+                    <Form
+                        {...PasswordController.update.form()}
+                        options={{
+                            preserveScroll: true,
+                        }}
+                        resetOnError={[
+                            'password',
+                            'password_confirmation',
+                            'current_password',
+                        ]}
+                        resetOnSuccess
+                        onError={(errors) => {
+                            if (errors.password) {
+                                passwordInput.current?.focus();
+                            }
+
+                            if (errors.current_password) {
+                                currentPasswordInput.current?.focus();
+                            }
+                        }}
+                        className="space-y-6 w-full "
+                    >
+                        {({ errors, processing, recentlySuccessful }) => (
+                            <>
+
+                                <Card className="bg-transparent  gap-3 text-black border border-background px-6 py-2 gap-8 ">
+                                    <CardHeader className="text-black  2xl:text-lg px-0   ">
+                                        Seguranca
+                                    </CardHeader>
+                                        <section className="flex gap-3 w-full">
+                                            <div className="w-full " >
+                                                <Label htmlFor="current_password">
+                                                    Senha Atual
+                                                </Label>
+
+                                                <Input
+                                                    id="current_password"
+                                                    ref={currentPasswordInput}
+                                                    name="current_password"
+                                                    type="password"
+                                                    className="border border-background w-full"
+                                                    autoComplete="current-password"
+                                                    placeholder="Senha Atual"
+                                                />
+
+                                                <InputError
+                                                    message={errors.current_password}
+                                                />
+                                            </div>
+
+                                        </section>
+                                    <section className="flex gap-3 w-full  ">
+                                        <div className="w-full ">
+                                            <Label htmlFor="password">
+                                                Nova Senha
+                                            </Label>
+
+                                            <Input
+                                                id="password"
+                                                ref={passwordInput}
+                                                name="password"
+                                                type="password"
+                                                className="border border-background"
+                                                autoComplete="new-password"
+                                                placeholder="Nova senha"
+                                            />
+
+                                            <InputError message={errors.password} />
+                                        </div>
+                                        <div className="w-full " >
+                                            <Label htmlFor="password_confirmation">
+                                                Confirmar Senha
+                                            </Label>
+
+                                            <Input
+                                                id="password_confirmation"
+                                                name="password_confirmation"
+                                                type="password"
+                                                className="border border-background"
+                                                autoComplete="new-password"
+                                                placeholder="Confirme sua senha"
+                                            />
+
+                                            <InputError
+                                                message={errors.password_confirmation}
+                                            />
+                                        </div>
+                                    </section>
+                                    <div className="flex items-center gap-4">
+                                        <Button
+                                            disabled={processing}
+                                            data-test="update-password-button"
+                                        >
+                                            <Icon iconNode={Lock}/>
+                                            Atualizar Senha
+                                        </Button>
+
+                                        <Transition
+                                            show={recentlySuccessful}
+                                            enter="transition ease-in-out"
+                                            enterFrom="opacity-0"
+                                            leave="transition ease-in-out"
+                                            leaveTo="opacity-0"
+                                        >
+                                            <p className="text-sm text-neutral-600">
+                                                Saved
+                                            </p>
+                                        </Transition>
+                                    </div>
+                                </Card>
+
                             </>
                         )}
                     </Form>
                 </div>
-
-                <DeleteUser />
-            </SettingsLayout>
         </AppLayout>
     );
 }

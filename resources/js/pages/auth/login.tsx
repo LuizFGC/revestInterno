@@ -1,8 +1,8 @@
+import { Form, Head } from '@inertiajs/react';
 import {Lock, Eye, User } from 'lucide-react'
 import InputError from '@/components/input-error';
 import TextLink from '@/components/text-link';
 import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
@@ -10,7 +10,6 @@ import AuthLayout from '@/layouts/auth-layout';
 import { register } from '@/routes';
 import { store } from '@/routes/login';
 import { request } from '@/routes/password';
-import { Form, Head } from '@inertiajs/react';
 
 type Props = {
     status?: string;
@@ -27,6 +26,7 @@ export default function Login({
         <AuthLayout
             title="Bem vindo ao sistema de controle interno Revest"
             description="Utilize suas credenciais para realizar login"
+
         >
             <Head title="Log in" />
 
@@ -95,7 +95,6 @@ export default function Login({
 
                             <Button
                                 type="submit"
-                                className="h-40px 2xl:text-md mt-4 w-full cursor-pointer rounded-xl bg-bg-button-1 text-white hover:bg-sidebar-bg 2xl:h-[48px]"
                                 tabIndex={4}
                                 disabled={processing}
                                 data-test="login-button"

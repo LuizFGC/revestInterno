@@ -1,54 +1,134 @@
-import { Card } from '@/components/ui/card';
-import AppLayout from '@/layouts/app-layout';
 import { Head } from '@inertiajs/react';
+import { Calendar, Filter } from 'lucide-react';
+import {Button} from '@/components/ui/button';
+import {
+    Card,
+    CardContent,
+    CardFooter,
+    CardHeader,
+} from '@/components/ui/card';
+import {Icon} from '@/components/ui/icon';
+import {Input} from '@/components/ui/input';
+import {Label} from '@/components/ui/label';
+import AppLayout from '@/layouts/app-layout';
 
-const cardItems = [
-    {
-        title: 'Total de Entrega',
-        value: 4,
-    },
-    {
-        title: 'Pendentes',
-        value: 2,
-    },
-    {
-        title: 'Em rota de entrega',
-        value: 1,
-    },
-    {
-        title: 'Entregues',
-        value: 1,
-    },
-];
+
+
+
 
 export default function Relatorios() {
     return (
-        <AppLayout title="Relatorios" date={new Date()}>
+        <AppLayout title="Relatorios" date={new Date()} >
             <Head title="Relatorios" />
 
-            <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-                <div className="mt-8 mb-8 flex items-center justify-center gap-20 self-stretch">
-                    {cardItems.map((item, index) => (
-                        <Card
-                            key={index}
-                            className="flex h-24 w-80 flex-col gap-2 rounded-xl border border-background bg-white px-6 pt-6 pb-0.5 2xl:h-32"
+            <div className="flex  justify-center items-center h-full mb-30 m-25 mt-10 ">
+                <Card className="w-full h-full bg-white border border-background ">
+
+                    <CardHeader className="text-black 2xl:text-lg">
+                        Filtros
+                    </CardHeader>
+                    <CardContent>
+                        <form action="" className="flex flex-col text-black px-6 py-2 gap-8">
+                            <section className=" flex  gap-3">
+
+                                <div>
+                                    <Label>
+                                        Nome
+                                    </Label>
+                                    <Input
+                                        className="border border-background "
+                                        placeholder="Ex: Luiz Filipe"
+
+                                    />
+                                </div>
+
+                                <div>
+                                    <Label>
+                                        Entregador
+                                    </Label>
+                                    <Input
+                                        className="border border-background "
+                                        placeholder="Ex: Gustavo"
+
+                                    />
+                                </div>
+
+                                <div>
+                                    <Label>Data</Label>
+                                    <Input
+                                        className="border border-background "
+                                        placeholder="01/2026 A 02/2026"
+                                        rightIcon={Calendar}
+
+                                    />
+                                </div>
+
+
+                            </section>
+
+                            <section className="flex gap-3">
+
+                                <div >
+                                    <Label>
+                                        Status
+                                    </Label>
+                                    <select name="" id=""  className="border border-background p-3 rounded-xl text-black w-full" >
+                                        <option value="Cancelada">Cancelada</option>
+                                        <option value="Entregue">Entregue</option>
+                                        <option value="Em rota">Em rota</option>
+                                        <option value="Pendente">Pendente</option>
+                                    </select>
+                                </div>
+
+                                <div className="ml-10">
+                                    <Label>
+                                        Numero da Entrega
+                                    </Label>
+                                    <Input
+                                        className="border border-background w-40 "
+                                        placeholder="Ex: 125"
+
+                                    />
+                                </div>
+
+
+                            </section>
+                            <div>
+                                <Label>
+                                    Endereco
+                                </Label>
+                                <Input
+                                    className="border border-background "
+                                    placeholder="Ex: Av. Adail Gomes Ferreira, 2101"
+
+                                />
+                            </div>
+                        </form>
+
+                    </CardContent>
+                    <CardFooter className="flex gap-3 2xl:items-end">
+                        <Button
+                            variant='primary'
+                            className="h-9 w-50"
+                            type="submit"
                         >
-                            <div className="flex h-6 shrink-0 items-start self-stretch text-black">
-                                {item.title}
-                            </div>
-                            <div className="flex h-6 shrink-0 items-start self-stretch text-black">
-                                {item.value}
-                            </div>
-                        </Card>
-                    ))}
-                </div>
-                <div className="flex flex-col items-start justify-end self-stretch rounded-xl border border-background bg-white">
-                    <div className="items-sbtart order-b flex w-full flex-col border-background">
-                        <p className="text-black">Ultimas Entregas</p>
-                    </div>
-                    <Card></Card>
-                </div>
+                            Gerar Relatorio
+                        </Button>
+                        <Button
+                            variant='secondary'
+                            className="h-9 w-50"
+                        >
+                            <Icon iconNode={Filter}/>
+
+                            Limpar Filtros
+                        </Button>
+                    </CardFooter>
+
+                </Card>
+
+
             </div>
+
         </AppLayout>
     );
 }

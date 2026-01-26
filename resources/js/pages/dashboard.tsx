@@ -19,7 +19,7 @@ const cardItems = [
     {
         title: 'Em rota de entrega',
         value: 1,
-        color: "em-rota"
+        color: "emRota"
     },
     {
         title: 'Entregues',
@@ -35,7 +35,7 @@ const entregas = [
         cliente: 'Jose',
         endereco: 'Av.Lasasdasd 34',
         status:'Em rota',
-        color: 'em-rota',
+        color: 'emRota',
         entregador: 'Paulo'
 
     },
@@ -43,8 +43,8 @@ const entregas = [
         codigo: 2,
         cliente: 'Jose',
         endereco: 'Av.Lasasdasd 34',
-        status:'Em rota',
-        color: 'em-rota',
+        status:'Cancelada',
+        color: 'cancelada',
         entregador: 'Paulo'
 
     },
@@ -52,8 +52,8 @@ const entregas = [
         codigo: 3,
         cliente: 'Jose',
         endereco: 'Av.Lasasdasd 34',
-        status:'Em rota',
-        color: 'em-rota',
+        status:'Entregue',
+        color: 'entregue',
         entregador: 'Paulo'
 
     },
@@ -61,8 +61,8 @@ const entregas = [
         codigo: 4,
         cliente: 'Jose',
         endereco: 'Av.Lasasdasd 34',
-        status:'Em rota',
-        color: 'em-rota',
+        status:'Pendente',
+        color: 'pendentes',
         entregador: 'Paulo'
 
     },
@@ -71,7 +71,7 @@ const entregas = [
         cliente: 'Jose',
         endereco: 'Av.Lasasdasd 34',
         status:'Em rota',
-        color: 'em-rota',
+        color: 'emRota',
         entregador: 'Paulo'
 
     }
@@ -84,6 +84,7 @@ const entregas = [
 
 
 export default function Dashboard() {
+
     return (
         <AppLayout title="Dashboard" date={new Date()}>
             <Head title="Dashboard" />
@@ -107,62 +108,61 @@ export default function Dashboard() {
                     ))}
                 </div>
                 <div>
-                    <Card className="mx-auto flex flex-col items-start justify-end gap-6 self-stretch rounded-xl border-background bg-white pb-0">
-                        <CardHeader className="flex w-full flex-col items-start border-b border-background pb-0.5 text-[16px] text-black 2xl:text-lg">
+                    <Card className="mx-auto flex flex-col items-start justify-end gap-1 self-stretch rounded-xl border-background bg-white pb-0">
+                        <CardHeader className="flex w-full flex-col items-Start justify-center pb-1 text-base  text-black 2xl:text-lg">
                             Ultimas Entregas
                         </CardHeader>
-                        <ul className="flex w-full shrink-0 items-start justify-between border-b border-background bg-background text-sm font-bold text-text-2 2xl:text-[16px]">
-                            <li className="flex items-center px-14 py-2 pl-6">
-                                Codigo
-                            </li>
-                            <li className="flex items-center px-14 py-2 pl-6">
-                                Cliente
-                            </li>
-                            <li className="flex items-center px-14 py-2 pl-6">
-                                Endereco
-                            </li>
-                            <li className="flex items-center px-14 py-2 pl-6">
-                                Status
-                            </li>
-                            <li className="flex items-center px-14 py-2 pl-6">
-                                Entregador
-                            </li>
-                        </ul>
-                        {entregas.map((entrega, index) => (
-                            <CardContent key={index} className="w-full">
-                                <ul className="flex w-full shrink-0 items-start justify-between text-xs text-black 2xl:text-sm">
-                                    <li className="flex items-center px-14 py-2 pl-6">
-                                        {entrega.codigo}
-                                    </li>
-                                    <li className="flex items-center px-14 py-2 pl-6">
-                                        {entrega.cliente}
-                                    </li>
-                                    <li className="flex items-center px-14 py-2 pl-6">
-                                        {entrega.endereco}
-                                    </li>
-                                    <li
-                                        className={`flex items-center px-14 py-2 pl-6 text-${entrega.color}`}
-                                    >
-                                        <Badge
-                                            variant={'default'}
-                                            className={`bg-${entrega.color} text-${entrega.color}`}
-                                        >
-                                            {entrega.status}
-                                        </Badge>
-                                    </li>
-                                    <li className="flex items-center px-14 py-2 pl-6">
-                                        {entrega.entregador}
-                                    </li>
-                                </ul>
-                            </CardContent>
-                        ))}
-                        ;
+
+                        <CardContent className="w-full">
+                            <table className="w-full">
+                                <thead className="w-full bg-background text-text-2 2xl:text-lg h-8 border border-background text-base">
+                                    <tr >
+                                        <th>Codigo</th>
+                                        <th>Cliente</th>
+                                        <th>Endereco</th>
+                                        <th>Status</th>
+                                        <th>Entregador</th>
+                                    </tr>
+                                </thead>
+                                {entregas.map((entrega, index) => (
+
+                                    <tbody key={index} className="text-black  text-sm 2xl:text-base border-b border-background">
+                                        <tr >
+                                            <th className="py-4 font-light " >
+                                                {entrega.codigo}
+                                            </th>
+                                            <th className="font-light">
+                                                {entrega.cliente}
+                                            </th>
+                                            <th className="font-light">
+                                                {entrega.endereco}
+                                            </th>
+                                            <th  >
+                                                <Badge variant={`${entrega.color}`}  className={`font-light text-${entrega.color}  text-sm 2xl:text-base ` }>
+                                                    {entrega.status}
+                                                </Badge>
+
+                                            </th>
+                                            <th className="font-light">
+                                                {entrega.entregador}
+                                            </th>
+                                        </tr>
+                                    </tbody>
+
+
+                                    )
+
+                                )}
+                            </table>
+
+                        </CardContent>
+
                     </Card>
                 </div>
             </div>
         </AppLayout>
     );
 }
-{
+ {
 
 }
