@@ -17,7 +17,7 @@ const cardItems = [
         color: "pendentes"
     },
     {
-        title: 'Em rota de entrega',
+        title: 'Em rota ',
         value: 1,
         color: "emRota"
     },
@@ -25,6 +25,11 @@ const cardItems = [
         title: 'Entregues',
         value: 1,
         color: "entregue"
+    },
+    {
+        title: 'Canceladas',
+        value: 1,
+        color: "cancelada"
     }
 ];
 
@@ -90,13 +95,13 @@ export default function Dashboard() {
             <Head title="Dashboard" />
 
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-                <div className="mt-8 mb-8 flex items-center justify-center gap-20 self-stretch">
+                <div className="mt-8 mb-8 flex items-center justify-center gap-12 self-stretch">
                     {cardItems.map((item, index) => (
                         <Card
                             key={index}
-                            className="flex h-30 w-80 flex-col gap-2 rounded-xl border border-background bg-white px-6 pt-6 pb-0.5 2xl:h-40"
+                            className="flex h-30 w-80 flex-col w-full  rounded-xl border border-background bg-white px-6 pt-6 pb-0.5 2xl:h-40"
                         >
-                            <div className="flex h-6 shrink-0 items-start self-stretch text-[16px] text-text-2 2xl:h-10 2xl:text-xl">
+                            <div className="flex h-6 shrink-0 items-start w-full self-stretch text-[16px] text-text-2 2xl:h-10 2xl:text-xl">
                                 {item.title}
                             </div>
                             <div

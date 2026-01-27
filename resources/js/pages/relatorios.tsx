@@ -33,10 +33,10 @@ export default function Relatorios() {
 
                                 <div>
                                     <Label>
-                                        Nome
+                                        Cliente
                                     </Label>
                                     <Input
-                                        className="border border-background "
+                                        className="border border-background h-10 "
                                         placeholder="Ex: Luiz Filipe"
 
                                     />
@@ -47,7 +47,7 @@ export default function Relatorios() {
                                         Entregador
                                     </Label>
                                     <Input
-                                        className="border border-background "
+                                        className="border border-background h-10 "
                                         placeholder="Ex: Gustavo"
 
                                     />
@@ -56,7 +56,7 @@ export default function Relatorios() {
                                 <div>
                                     <Label>Data</Label>
                                     <Input
-                                        className="border border-background "
+                                        className="border border-background h-10"
                                         placeholder="01/2026 A 02/2026"
                                         rightIcon={Calendar}
 
@@ -72,7 +72,7 @@ export default function Relatorios() {
                                     <Label>
                                         Status
                                     </Label>
-                                    <select name="" id=""  className="border border-background p-3 rounded-xl text-black w-full" >
+                                    <select name="" id=""  className="border border-background px-3 rounded-xl text-black w-full h-10" >
                                         <option value="Cancelada">Cancelada</option>
                                         <option value="Entregue">Entregue</option>
                                         <option value="Em rota">Em rota</option>
@@ -85,7 +85,7 @@ export default function Relatorios() {
                                         Numero da Entrega
                                     </Label>
                                     <Input
-                                        className="border border-background w-40 "
+                                        className="border border-background w-40 h-10 "
                                         placeholder="Ex: 125"
 
                                     />
@@ -98,7 +98,7 @@ export default function Relatorios() {
                                     Endereco
                                 </Label>
                                 <Input
-                                    className="border border-background "
+                                    className="border border-background h-10 "
                                     placeholder="Ex: Av. Adail Gomes Ferreira, 2101"
 
                                 />
@@ -109,7 +109,7 @@ export default function Relatorios() {
                     <CardFooter className="flex gap-3 2xl:items-end">
                         <Button
                             variant='primary'
-                            className="h-9 w-50"
+                            className="h-9 w-50 "
                             type="submit"
                         >
                             Gerar Relatorio

@@ -10,8 +10,8 @@ export function AppSidebarHeader({ title, date}:PropsWithChildren<{
 
 
     return (
-        <header className="flex h-16 shrink-0 items-center gap-2 border-b bg-white border-background px-6 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12 md:px-4">
-            <div className="flex items-start flex-col gap-1">
+        <header className="flex h-16 shrink-0 items-center gap-2 border-b bg-white border-background px-6 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12 md:px-4 ">
+            <div className="flex items-start flex-col gap-1 ">
                 <CardTitle className="text-black 2xl:text-2xl text-xl ">{title}</CardTitle>
                 <CardTitle className="text-text-2 2xl:text-lg text-sm ">
                     {date &&

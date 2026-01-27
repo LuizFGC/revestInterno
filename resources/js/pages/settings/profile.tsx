@@ -12,7 +12,6 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import AppLayout from '@/layouts/app-layout';
 import type { SharedData } from '@/types';
-import {Badge} from '@/components/ui/badge';
 
 
 
@@ -49,7 +48,7 @@ export default function Profile(){
 
                                             <Input
                                                 id="name"
-                                                className="border border-background "
+                                                className="border border-background h-10 "
                                                 defaultValue={auth.user.name}
                                                 name="name"
                                                 required
@@ -69,7 +68,7 @@ export default function Profile(){
                                             <Input
                                                 id="email"
                                                 type="email"
-                                                className="border border-background "
+                                                className="border border-background h-10 "
                                                 defaultValue={auth.user.email}
                                                 name="email"
                                                 required
@@ -88,21 +87,22 @@ export default function Profile(){
                                         <div className="w-full ">
                                             <Label>Telefone</Label>
                                             <Input
-                                                className="border border-background "
+                                                className="border border-background h-10 "
                                                 placeholder="(34) 9 9912-6903"
                                             />
                                         </div>
                                         <div className="w-full ">
                                             <Label>Cargo</Label>
                                             <Input
-                                                className="border border-background "
+                                                className="border border-background h-10"
                                                 placeholder="Auxiliar Administrativo"
                                             />
                                         </div>
                                     </section>
 
-                                    <div className="flex items-center gap-4">
+                                    <div className="flex items-center gap-4 ">
                                         <Button
+                                            variant='primary'
                                             disabled={processing}
                                             data-test="update-profile-button"
                                         >
@@ -158,7 +158,7 @@ export default function Profile(){
                                     <CardHeader className="text-black  2xl:text-lg px-0   ">
                                         Seguranca
                                     </CardHeader>
-                                        <section className="flex gap-3 w-full">
+                                        <section className="flex gap-3 w-full h-10">
                                             <div className="w-full " >
                                                 <Label htmlFor="current_password">
                                                     Senha Atual
@@ -169,7 +169,7 @@ export default function Profile(){
                                                     ref={currentPasswordInput}
                                                     name="current_password"
                                                     type="password"
-                                                    className="border border-background w-full"
+                                                    className="border border-background w-full h-10"
                                                     autoComplete="current-password"
                                                     placeholder="Senha Atual"
                                                 />
@@ -191,7 +191,7 @@ export default function Profile(){
                                                 ref={passwordInput}
                                                 name="password"
                                                 type="password"
-                                                className="border border-background"
+                                                className="border border-background h-10"
                                                 autoComplete="new-password"
                                                 placeholder="Nova senha"
                                             />
@@ -219,6 +219,7 @@ export default function Profile(){
                                     </section>
                                     <div className="flex items-center gap-4">
                                         <Button
+                                            variant='primary'
                                             disabled={processing}
                                             data-test="update-password-button"
                                         >
