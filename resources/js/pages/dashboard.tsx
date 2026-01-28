@@ -3,6 +3,13 @@ import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import AppLayout from '@/layouts/app-layout';
 
+const statusColorMap = {
+    pendente: 'text-pendentes',
+    Rota: 'text-emRota',
+    entregue: 'text-entregue',
+    cancelada: 'text-cancelada',
+    black: 'text-black',
+};
 
 
 const cardItems = [
@@ -28,7 +35,7 @@ const cardItems = [
     },
     {
         title: 'Canceladas',
-        value: 1,
+        value: 2,
         color: "cancelada"
     }
 ];
@@ -99,13 +106,13 @@ export default function Dashboard() {
                     {cardItems.map((item, index) => (
                         <Card
                             key={index}
-                            className="flex h-30 w-80 flex-col w-full  rounded-xl border border-background bg-white px-6 pt-6 pb-0.5 2xl:h-40"
+                            className="flex h-30 w-80 flex-col w-full rounded-xl border border-background bg-white px-6 pt-6 pb-0.5 2xl:h-40"
                         >
                             <div className="flex h-6 shrink-0 items-start w-full self-stretch text-[16px] text-text-2 2xl:h-10 2xl:text-xl">
                                 {item.title}
                             </div>
                             <div
-                                className={`flex h-6 shrink-0 items-start self-stretch 2xl:h-10 text-${item.color} text-[16px] 2xl:text-xl`}
+                                className={`flex h-6 shrink-0 items-start self-stretch 2xl:h-10  text-${item.color}  text-[16px] 2xl:text-xl`}
                             >
                                 {item.value}
                             </div>

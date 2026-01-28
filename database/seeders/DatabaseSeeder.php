@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Entregas;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -13,12 +14,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        Entregas::factory(20)->create();
 
-        User::factory()->create([
-            'name' => 'Luiz Filipe',
-            'email' => 'luiz2@gmail.com',
-            'password' => '123456789',
-        ]);
+
     }
 }

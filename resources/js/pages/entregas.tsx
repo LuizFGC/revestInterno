@@ -3,6 +3,14 @@ import { Pen, Pencil, Plus, Search, X, Check, Calendar } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import {
+    Dialog,
+    DialogClose,
+    DialogContent,
+    DialogHeader,
+
+    DialogTrigger,
+} from "@/components/ui/dialog"
 import { Icon } from '@/components/ui/icon';
 import { Input } from '@/components/ui/input';
 import {Label} from '@/components/ui/label'
@@ -13,134 +21,13 @@ import {
     PopoverTrigger,
 } from '@/components/ui/popover';
 import AppLayout from '@/layouts/app-layout';
-import {
-    Dialog,
-    DialogClose,
-    DialogContent,
-    DialogHeader,
 
-    DialogTrigger,
-} from "@/components/ui/dialog"
 
-const entregas = [
-    {
-        codigo: 1,
-        cliente: 'Jose',
-        endereco: 'Av.Lasasdasd 34',
-        status: 'Em rota',
-        color: 'emRota',
-        entregador: 'Paulo',
-    },
-    {
-        codigo: 2,
-        cliente: 'Jose',
-        endereco: 'Av.Lasasdasd 34',
-        status: 'Cancelada',
-        color: 'cancelada',
-        entregador: 'Paulo',
-    },
-    {
-        codigo: 3,
-        cliente: 'Jose',
-        endereco: 'Av.Lasasdasd 34',
-        status: 'Entregue',
-        color: 'entregue',
-        entregador: 'Paulo',
-    },
-    {
-        codigo: 4,
-        cliente: 'Jose',
-        endereco: 'Av.Lasasdasd 34',
-        status: 'Pendente',
-        color: 'pendentes',
-        entregador: 'Paulo',
-    },
-    {
-        codigo: 5,
-        cliente: 'Jose',
-        endereco: 'Av.Lasasdasd 34',
-        status: 'Em rota',
-        color: 'emRota',
-        entregador: 'Paulo',
-    },
-    {
-        codigo: 6,
-        cliente: 'Jose',
-        endereco: 'Av.Lasasdasd 34',
-        status: 'Em rota',
-        color: 'emRota',
-        entregador: 'Paulo',
-    },
-    {
-        codigo: 7,
-        cliente: 'Jose',
-        endereco: 'Av.Lasasdasd 34',
-        status: 'Em rota',
-        color: 'emRota',
-        entregador: 'Paulo',
-    },
-    {
-        codigo: 8,
-        cliente: 'Jose',
-        endereco: 'Av.Lasasdasd 34',
-        status: 'Em rota',
-        color: 'emRota',
-        entregador: 'Paulo',
-    },
-    {
-        codigo: 9,
-        cliente: 'Jose',
-        endereco: 'Av.Lasasdasd 34',
-        status: 'Cancelada',
-        color: 'cancelada',
-        entregador: 'Paulo',
-    },
-    {
-        codigo: 10,
-        cliente: 'Jose',
-        endereco: 'Av.Lasasdasd 34',
-        status: 'Em rota',
-        color: 'emRota',
-        entregador: 'Paulo',
-    },    {
-        codigo: 11,
-        cliente: 'Jose',
-        endereco: 'Av.Lasasdasd 34',
-        status: 'Em rota',
-        color: 'emRota',
-        entregador: 'Paulo',
-    },    {
-        codigo: 12,
-        cliente: 'Jose',
-        endereco: 'Av.Lasasdasd 34',
-        status: 'Em rota',
-        color: 'emRota',
-        entregador: 'Paulo',
-    },    {
-        codigo: 13,
-        cliente: 'Jose',
-        endereco: 'Av.Lasasdasd 34',
-        status: 'Em rota',
-        color: 'emRota',
-        entregador: 'Paulo',
-    },    {
-        codigo: 14,
-        cliente: 'Jose',
-        endereco: 'Av.Lasasdasd 34',
-        status: 'Entregue',
-        color: 'entregue',
-        entregador: 'Paulo',
-    },    {
-        codigo: 15,
-        cliente: 'Jose',
-        endereco: 'Av.Lasasdasd 34',
-        status: 'Pendente',
-        color: 'pendentes',
-        entregador: 'Paulo',
-    },
-];
 
-export default function Entregas() {
+
+
+
+export default function Entregas({entregas}) {
     return (
         <AppLayout title="Entregas" date={new Date()}   >
             <Head title="Entregas" />
@@ -166,7 +53,7 @@ export default function Entregas() {
                                 </DialogClose>
                             </DialogHeader>
 
-                            <form action=""  className=" rounded-b-xl ">
+                            <form   className=" rounded-b-xl ">
 
                                 <section className="flex flex-col gap-3 px-6 pt-2 text-black  ">
                                     <div>
@@ -211,7 +98,7 @@ export default function Entregas() {
                                     </div>
                                 </section>
                                 <section className="py-2 px-6">
-                                    <Button variant="primary" className=" h-10 ">
+                                    <Button variant="primary" className=" h-10  " type="submit">
                                         Criar
                                     </Button>
                                 </section>
@@ -318,7 +205,7 @@ export default function Entregas() {
                                         <th>Acoes</th>
                                     </tr>
                                 </thead>
-                                {entregas.map((entrega, index) => (
+                                {entregas.data.map((entrega, index) => (
                                     <tbody
                                         key={index}
                                         className="border-b border-background text-sm text-black 2xl:text-base"
