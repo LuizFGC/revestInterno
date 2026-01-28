@@ -168,6 +168,4 @@ export default function Dashboard() {
         </AppLayout>
     );
 }
- {
 
-}
