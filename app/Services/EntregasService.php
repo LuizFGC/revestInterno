@@ -15,4 +15,8 @@ class EntregasService {
        return $this->entregasRepository->all();
     }
 
+    public function criarEntrega($entrega){
+        return $this->entregasRepository->inserirEntrega($entrega);
+    }
+
 }

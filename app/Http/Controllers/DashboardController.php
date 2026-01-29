@@ -19,13 +19,13 @@ class DashboardController extends Controller
 
         $entregas = $this->dashboardService->getLastEntregas();
 
-        $showCard = json_decode($this->dashboardService->getCardValues());
+        $cardValues = json_decode($this->dashboardService->getCardValues());
 
         return Inertia::render('dashboard', [
 
             'entregas' => $entregas,
 
-            'cardValues' => $showCard,
+            'cardValues' => $cardValues,
 
         ]);
     }

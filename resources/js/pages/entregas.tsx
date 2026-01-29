@@ -1,5 +1,6 @@
-import { Head } from '@inertiajs/react';
-import { Pen, Pencil, Plus, Search, X, Check, Calendar } from 'lucide-react';
+import { Head, useForm } from '@inertiajs/react';
+import { Pen, Pencil, Plus, X, Check, Calendar } from 'lucide-react';
+import { useState, useMemo } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
@@ -25,84 +26,148 @@ import AppLayout from '@/layouts/app-layout';
 
 export default function Entregas({entregas}) {
 
+    const [filtros, setFiltros] = useState({
+
+        codigo: '',
+        cliente: '',
+        entregador: '',
+        data: '',
+        status: '',
+    })
+
+
+    function handleFiltrosEntregas(e) {
+
+        const {name, value} = e.target
+
+        setFiltros(prev => ({
+            ...prev,
+            [name]:value,
+        }) )
+
+    }
+
+    function handleLimparFiltros(e) {
+
+        e.preventDefault()
+
+        setFiltros({
+            codigo: '',
+            cliente: '',
+            entregador: '',
+            data: '',
+            status: '',
+        })
+    }
+
+
+    const entregasFiltradas = useMemo(() => {
+
+
+
+        return entregas.filter(entrega => {
+
+            const codigoEntrega = entrega.codigo
+
+
+            const codigo = !filtros.codigo || codigoEntrega.toString().includes(filtros.codigo)
+
+            const cliente = entrega.cliente.toLowerCase().includes(filtros.cliente.toLowerCase())
+
+            const entregador = entrega.entregador.toLowerCase().includes(filtros.entregador.toLowerCase())
+
+            const status = !filtros.status || entrega.status === filtros.status
+
+            return (
+                codigo && cliente && entregador && status
+
+            )
+        })
+
+    }, [entregas, filtros])
+
+
+    const { data, setData, post, processing, errors, reset } = useForm({
+
+        codigo: '',
+        cliente: '',
+        endereco: '',
+        previsao: '',
+        status: 'Pendente'
+    })
+    function handleAdicionarEntrega(e){
+
+    }
+
     return (
-        <AppLayout title="Entregas" date={new Date()}   >
+        <AppLayout title="Entregas" date={new Date()}>
             <Head title="Entregas" />
 
             <div className="flex flex-1 flex-col gap-4 rounded-xl p-4">
-
                 {/*//Botoes do topo*/}
-                <div className="mt-1 mb-1 flex items-center gap-3">
-
+                <div className="mb-1 flex items-center gap-3">
                     {/*//Criar Entrega*/}
                     <Dialog>
-                        <DialogTrigger  asChild>
+                        <DialogTrigger asChild>
                             <Button variant="primary" className="h-9 w-50">
                                 <Icon iconNode={Plus} />
                                 Adicionar nova entrega
                             </Button>
                         </DialogTrigger>
-                        <DialogContent className="p-0 border-none bg-white  rounded-xl">
-                            <DialogHeader  className="flex flex-row items-center justify-between text-black px-4 py-2 pb-2 border-b border-background  ">
-                                <DialogTitle>
-                                Criar Entrega
-                                </DialogTitle>
+                        <DialogContent className="rounded-xl border-none bg-white p-0">
+                            <DialogHeader className="flex flex-row items-center justify-between border-b border-background px-4 py-2 pb-2 text-black">
+                                <DialogTitle>Criar Entrega</DialogTitle>
                                 <DialogClose>
-                                    <Icon iconNode={X} className="size-4 cursor-pointer "/>
+                                    <Icon
+                                        iconNode={X}
+                                        className="size-4 cursor-pointer"
+                                    />
                                 </DialogClose>
                             </DialogHeader>
 
-                            <form   className=" rounded-b-xl ">
-
-                                <section className="flex flex-col gap-3 px-6 pt-2 text-black  ">
+                            <form className="rounded-b-xl" onSubmit={handleAdicionarEntrega}>
+                                <section className="flex flex-col gap-3 px-6 pt-2 text-black">
                                     <div>
-                                        <Label >
-                                           Codigo
-                                        </Label>
+                                        <Label>Codigo</Label>
                                         <Input
-                                            className="border border-background w-full  text-sm h-10"
+                                            className="h-10 w-full border border-background text-sm"
                                             placeholder="Codigo da entrega"
                                         />
                                     </div>
 
-
                                     <div>
-                                        <Label >
-                                            Cliente
-                                        </Label>
+                                        <Label>Cliente</Label>
                                         <Input
-                                            className="border border-background w-full text-sm h-10"
-                                            placeholder="Nome do entregador"
+                                            className="h-10 w-full border border-background text-sm"
+                                            placeholder="Nome do cliente"
                                         />
-
                                     </div>
                                     <div>
-                                        <Label >
-                                            Previsao de Entrega
-                                        </Label>
+                                        <Label>Previsao de Entrega</Label>
                                         <Input
-                                            className="border border-background w-full   text-sm h-10"
+                                            className="h-10 w-full border border-background text-sm"
                                             placeholder="21/01/2026"
                                             rightIcon={Calendar}
                                         />
                                     </div>
                                     <div>
-                                        <Label >
-                                            Endereco
-                                        </Label>
+                                        <Label>Endereco</Label>
                                         <Input
-                                            className="border border-background w-full  text-sm h-10"
+                                            className="h-10 w-full border border-background text-sm"
                                             placeholder="Endereco de entrega"
                                         />
                                     </div>
                                 </section>
-                                <section className="py-2 px-6">
-                                    <Button variant="primary" className=" h-10  " type="submit">
+                                <section className="px-6 py-2">
+                                    <Button
+                                        variant="primary"
+                                        className="h-10"
+                                        type="submit"
+                                    >
                                         Criar
                                     </Button>
                                 </section>
                             </form>
-
                         </DialogContent>
                     </Dialog>
 
@@ -114,87 +179,116 @@ export default function Entregas({entregas}) {
                                 Colocar entrega em rota
                             </Button>
                         </DialogTrigger>
-                        <DialogContent className="p-0 border-none rounded-xl">
-                            <DialogHeader  className="flex flex-row items-center justify-between text-black px-4 py-2 pb-0 ">
-                                    Colocar entrega em Rota
+                        <DialogContent className="rounded-xl border-none p-0">
+                            <DialogHeader className="flex flex-row items-center justify-between px-4 py-2 pb-0 text-black">
+                                Colocar entrega em Rota
                                 <DialogClose>
-                                    <Icon iconNode={X} className="size-4 cursor-pointer "/>
+                                    <Icon
+                                        iconNode={X}
+                                        className="size-4 cursor-pointer"
+                                    />
                                 </DialogClose>
                             </DialogHeader>
 
-                                <form action=""  className="bg-sidebar-bg rounded-b-xl ">
-
-                                    <section className="flex flex-row  gap-3 px-6 pt-2 ">
+                            <form
+                                action=""
+                                className="rounded-b-xl bg-sidebar-bg"
+                            >
+                                <section className="flex flex-row gap-3 px-6 pt-2">
                                     <div>
-                                        <Label >
-                                            Entrega
-                                        </Label>
+                                        <Label>Entrega</Label>
                                         <Input
-                                            className="border border-background w-full bg-white text-black text-sm h-10"
+                                            className="h-10 w-full border border-background bg-white text-sm text-black"
                                             placeholder="Codigo da entrega"
                                         />
                                     </div>
 
-
                                     <div>
-                                        <Label >
-                                            Entregador
-                                        </Label>
+                                        <Label>Entregador</Label>
                                         <Input
-                                            className="border border-background w-full bg-white text-black  text-sm h-10"
+                                            className="h-10 w-full border border-background bg-white text-sm text-black"
                                             placeholder="Nome do entregador"
                                         />
                                     </div>
-                                    </section>
-                                        <section className="py-2 px-6">
-                                    <Button className="hover:bg-bg-button-1/50 h-10">
-                                            Adicionar
+                                </section>
+                                <section className="px-6 py-2">
+                                    <Button className="h-10 hover:bg-bg-button-1/50">
+                                        Adicionar
                                     </Button>
-                                        </section>
-
-
-                                </form>
-
+                                </section>
+                            </form>
                         </DialogContent>
                     </Dialog>
-
                 </div>
 
                 {/*//Tabela de Entregas*/}
-                <div >
-                    <Card className="mx-auto flex flex-col items-start justify-end gap-1 self-stretch rounded-xl border-background bg-white pb-0 h-[calc(100vh-200px)] ">
-                        <CardHeader className="flex w-full flex-row items-start pb-4 text-black gap-2">
-                            {/*//Campo de Pesquisa*/}
-                            <Input
-                                className="h-8  rounded-xl border border-background 2xl:h-10 text-sm"
-                                placeholder="Codigo"
-                            ></Input>
-                            <Input
-                                className="h-8  rounded-xl border border-background 2xl:h-10 text-sm"
-                                placeholder="Cliente"
-                            ></Input>
-                            <Input
-                                className="h-8  rounded-xl border border-background 2xl:h-10 text-sm"
-                                placeholder="Entregador"
-                            ></Input>
+                <div>
+                    <Card className="mx-auto flex h-[calc(100vh-200px)] flex-col justify-end gap-1 self-stretch rounded-xl border-background bg-white pb-0">
 
-                            <select name="" id=""   className="h-8  w-full rounded-xl border 2xl:h-10 border-background text-sm">
-                                <option selected value=""></option>
-                                <option value="Cancelada">Cancelada</option>
-                                <option value="Entregue">Entregue</option>
-                                <option value="Em rota">Em rota</option>
-                                <option value="Pendente">Pendente</option>
-                            </select>
-                            <Button variant='secondary' className="m-0 h-8 2xl:h-10 ">
-                                <Icon iconNode={Search}/>
-                                Pesquisar
-                            </Button>
+                        <CardHeader className="flex w-full flex-row items-start gap-2 px-3 pb-1 text-black">
+                            {/*//Campos de Pesquisa*/}
+
+                                <Input
+                                    type="number"
+                                    min="0"
+                                    id="codigo"
+                                    name="codigo"
+                                    value={filtros.codigo}
+                                    onChange={handleFiltrosEntregas}
+                                    className="h-8 rounded-xl border border-background text-sm 2xl:h-10 "
+                                    placeholder="Codigo"
+                                ></Input>
+                                <Input
+                                    type="text"
+                                    id="cliente"
+                                    name="cliente"
+                                    value={filtros.cliente}
+                                    onChange={handleFiltrosEntregas}
+                                    className="h-8 rounded-xl border border-background text-sm 2xl:h-10"
+                                    placeholder="Cliente"
+                                ></Input>
+                                <Input
+                                    type="text"
+                                    id="entregador"
+                                    name="entregador"
+                                    value={filtros.entregador}
+                                    onChange={handleFiltrosEntregas}
+                                    className="h-8 rounded-xl border border-background text-sm 2xl:h-10"
+                                    placeholder="Entregador"
+                                ></Input>
+
+                                <select
+                                    name="status"
+                                    id="status"
+                                    className="h-8 w-full rounded-xl border border-background text-sm 2xl:h-10"
+                                    value={filtros.status}
+                                    onChange={handleFiltrosEntregas}
+                                >
+                                    <option selected value="">
+                                        Todos
+                                    </option>
+                                    <option value="Cancelado">Cancelada</option>
+                                    <option value="Entregue">Entregue</option>
+                                    <option value="Rota">em Rota</option>
+                                    <option value="Pendente">Pendente</option>
+                                </select>
+
+
+
+                                <Button
+                                    onClick={handleLimparFiltros}
+                                    variant="secondary"
+                                    className="m-0 h-8 w-full"
+                                >
+                                    Limpar Filtros
+                                </Button>
+
 
                         </CardHeader>
 
-                        <CardContent className="w-full h-[calc(100vh-200px)] overflow-auto ">
-                            <table className="w-full ">
-                                <thead className="h-10 w-full  bg-background text-base text-text-2 2xl:text-lg sticky top-0  z-10 ">
+                        <CardContent className="h-[calc(100vh-200px)] w-full overflow-auto">
+                            <table className="w-full">
+                                <thead className="sticky top-0 z-10 h-10 w-full bg-background text-base text-text-2 2xl:text-lg">
                                     <tr>
                                         <th>Codigo</th>
                                         <th>Cliente</th>
@@ -204,164 +298,188 @@ export default function Entregas({entregas}) {
                                         <th>Acoes</th>
                                     </tr>
                                 </thead>
-                                {entregas.map((entrega, index:number) => (
-                                    <tbody
-                                        key={index}
-                                        className="border-b border-background text-sm text-black 2xl:text-base"
-                                    >
-                                        <tr>
-                                            <th className="py-4 font-light">
-                                                {entrega.codigo}
-                                            </th>
-                                            <th className="font-light">
-                                                {entrega.cliente}
-                                            </th>
-                                            <th className="font-light">
-                                                {entrega.endereco}
-                                            </th>
-                                            <th>
-                                                <Badge
-                                                    variant={entrega.status}
-                                                    className={`font-light text-${entrega.status} text-sm 2xl:text-base`}
-                                                >
-                                                    {entrega.status}
-                                                </Badge>
-                                            </th>
-                                            <th className="font-light">
-                                                {entrega.entregador}
-                                            </th>
-                                            <th className="flex justify-center gap-3 py-4">
-                                                {/*//Editar entrega*/}
-                                                <Dialog>
-                                                    <DialogTrigger>
-                                                        <Icon
-                                                            iconNode={Pen}
-                                                            className="size-4 cursor-pointer hover:fill-gray-500 "
-                                                        />
-                                                    </DialogTrigger>
-                                                    <DialogContent className="p-0 border-none bg-white  rounded-xl">
-                                                        <DialogHeader  className="flex flex-row items-center justify-between text-black px-4 py-2 pb-2 border-b border-background  ">
-                                                            Editar Entrega
-                                                            <DialogClose>
-                                                                <Icon iconNode={X} className="size-4 cursor-pointer "/>
-                                                            </DialogClose>
-                                                        </DialogHeader>
-
-                                                        <form action=""  className=" rounded-b-xl ">
-
-                                                            <section className="flex flex-col gap-3 px-6 pt-2 text-black  ">
-                                                                <div>
-                                                                    <Label >
-                                                                        Codigo
-                                                                    </Label>
-                                                                    <Input
-                                                                        className="border border-background w-full  text-sm h-10"
-                                                                        placeholder="Codigo da entrega"
+                                {entregasFiltradas.map(
+                                    (entrega, index: number) => (
+                                        <tbody
+                                            key={index}
+                                            className="border-b border-background text-sm text-black 2xl:text-base"
+                                        >
+                                            <tr>
+                                                <th className="py-4 font-light">
+                                                    {entrega.codigo}
+                                                </th>
+                                                <th className="font-light">
+                                                    {entrega.cliente}
+                                                </th>
+                                                <th className="font-light">
+                                                    {entrega.endereco}
+                                                </th>
+                                                <th>
+                                                    <Badge
+                                                        variant={entrega.status}
+                                                        className={`font-light text-${entrega.status} text-sm 2xl:text-base`}
+                                                    >
+                                                        {entrega.status}
+                                                    </Badge>
+                                                </th>
+                                                <th className="font-light">
+                                                    {entrega.entregador}
+                                                </th>
+                                                <th className="flex justify-center gap-3 py-4">
+                                                    {/*//Editar entrega*/}
+                                                    <Dialog>
+                                                        <DialogTrigger>
+                                                            <Icon
+                                                                iconNode={Pen}
+                                                                className="size-4 cursor-pointer hover:fill-gray-500"
+                                                            />
+                                                        </DialogTrigger>
+                                                        <DialogContent className="rounded-xl border-none bg-white p-0">
+                                                            <DialogHeader className="flex flex-row items-center justify-between border-b border-background px-4 py-2 pb-2 text-black">
+                                                                Editar Entrega
+                                                                <DialogClose>
+                                                                    <Icon
+                                                                        iconNode={
+                                                                            X
+                                                                        }
+                                                                        className="size-4 cursor-pointer"
                                                                     />
-                                                                </div>
+                                                                </DialogClose>
+                                                            </DialogHeader>
 
+                                                            <form
+                                                                action=""
+                                                                className="rounded-b-xl"
+                                                            >
+                                                                <section className="flex flex-col gap-3 px-6 pt-2 text-black">
+                                                                    <div>
+                                                                        <Label>
+                                                                            Codigo
+                                                                        </Label>
+                                                                        <Input
+                                                                            className="h-10 w-full border border-background text-sm"
+                                                                            placeholder="Codigo da entrega"
+                                                                        />
+                                                                    </div>
 
-                                                                <div>
-                                                                    <Label >
-                                                                        Cliente
-                                                                    </Label>
-                                                                    <Input
-                                                                        className="border border-background w-full text-sm h-10"
-                                                                        placeholder="Nome do entregador"
+                                                                    <div>
+                                                                        <Label>
+                                                                            Cliente
+                                                                        </Label>
+                                                                        <Input
+                                                                            className="h-10 w-full border border-background text-sm"
+                                                                            placeholder="Nome do entregador"
+                                                                        />
+                                                                    </div>
+                                                                    <div>
+                                                                        <Label>
+                                                                            Previsao
+                                                                            de
+                                                                            Entrega
+                                                                        </Label>
+                                                                        <Input
+                                                                            className="h-10 w-full border border-background text-sm"
+                                                                            placeholder="21/01/2026"
+                                                                            rightIcon={
+                                                                                Calendar
+                                                                            }
+                                                                        />
+                                                                    </div>
+                                                                    <div>
+                                                                        <Label>
+                                                                            Endereco
+                                                                        </Label>
+                                                                        <Input
+                                                                            className="h-10 w-full border border-background text-sm"
+                                                                            placeholder="Endereco de entrega"
+                                                                        />
+                                                                    </div>
+                                                                </section>
+                                                                <section className="px-6 py-2">
+                                                                    <Button
+                                                                        variant="primary"
+                                                                        className="h-10"
+                                                                    >
+                                                                        Salvar
+                                                                    </Button>
+                                                                </section>
+                                                            </form>
+                                                        </DialogContent>
+                                                    </Dialog>
+                                                    {/*//Cancelar Entrega*/}
+                                                    <Dialog>
+                                                        <DialogTrigger>
+                                                            <Icon
+                                                                iconNode={X}
+                                                                className="hover:text-cancelada size-4 cursor-pointer"
+                                                            />
+                                                        </DialogTrigger>
+                                                        <DialogContent className="rounded-xl border-none p-0">
+                                                            <DialogHeader className="flex flex-row items-center justify-between px-4 py-2 pb-0 text-black">
+                                                                Cancelar Entrega
+                                                                <DialogClose>
+                                                                    <Icon
+                                                                        iconNode={
+                                                                            X
+                                                                        }
+                                                                        className="size-4 cursor-pointer"
                                                                     />
+                                                                </DialogClose>
+                                                            </DialogHeader>
 
-                                                                </div>
-                                                                <div>
-                                                                    <Label >
-                                                                        Previsao de Entrega
-                                                                    </Label>
-                                                                    <Input
-                                                                        className="border border-background w-full   text-sm h-10"
-                                                                        placeholder="21/01/2026"
-                                                                        rightIcon={Calendar}
-                                                                    />
-                                                                </div>
-                                                                <div>
-                                                                    <Label >
-                                                                        Endereco
-                                                                    </Label>
-                                                                    <Input
-                                                                        className="border border-background w-full  text-sm h-10"
-                                                                        placeholder="Endereco de entrega"
-                                                                    />
-                                                                </div>
-                                                            </section>
-                                                            <section className="py-2 px-6">
-                                                                <Button variant="primary" className=" h-10 ">
-                                                                    Salvar
-                                                                </Button>
-                                                            </section>
-                                                        </form>
-
-                                                    </DialogContent>
-                                                </Dialog>
-                                                {/*//Cancelar Entrega*/}
-                                                <Dialog>
-                                                    <DialogTrigger>
-                                                        <Icon
-                                                            iconNode={X}
-                                                            className="size-4 cursor-pointer hover:text-cancelada"
-                                                        />
-                                                    </DialogTrigger>
-                                                    <DialogContent className="p-0 border-none rounded-xl">
-                                                        <DialogHeader  className="flex flex-row items-center justify-between text-black px-4 py-2 pb-0  ">
-                                                            Cancelar Entrega
-                                                            <DialogClose>
-                                                                <Icon iconNode={X} className="size-4 cursor-pointer "/>
-                                                            </DialogClose>
-                                                        </DialogHeader>
-
-                                                        <form action=""  className="bg-sidebar-bg rounded-b-xl ">
-
-                                                            <section className=" w-full ">
-                                                                <div className="w-full text-center px-6 flex flex-col gap-3 pt-2 ">
-                                                                    <Label >
-                                                                        Motivo do cancelamento
-                                                                    </Label>
-                                                                    <Input
-                                                                        className="border border-background w-full bg-white text-black text-sm h-10 "
-                                                                        placeholder="Motivo"
-                                                                    />
-                                                                </div>
-                                                            </section>
-                                                            <section className="pb-2 px-6">
-                                                                <Button className="hover:bg-bg-button-1/50 h-10">
-                                                                    Cancelar
-                                                                </Button>
-                                                            </section>
-
-
-                                                        </form>
-
-                                                    </DialogContent>
-                                                </Dialog>
-                                                {/*Finalizar Entrega*/}
-                                                <Popover>
-                                                    <PopoverTrigger>
-                                                        <Icon iconNode={Check} className="size-4 hover:text-entregue cursor-pointer"/>
-                                                    </PopoverTrigger>
-                                                    <PopoverContent className="bg-white text-black rounded-xl border-background ">
-                                                        <PopoverHeader>
-                                                            Finalizar entrega ?
-                                                        </PopoverHeader>
-                                                        <div className="flex gap-2">
-                                                            <Button>
+                                                            <form
+                                                                action=""
+                                                                className="rounded-b-xl bg-sidebar-bg"
+                                                            >
+                                                                <section className="w-full">
+                                                                    <div className="flex w-full flex-col gap-3 px-6 pt-2 text-center">
+                                                                        <Label>
+                                                                            Motivo
+                                                                            do
+                                                                            cancelamento
+                                                                        </Label>
+                                                                        <Input
+                                                                            className="h-10 w-full border border-background bg-white text-sm text-black"
+                                                                            placeholder="Motivo"
+                                                                        />
+                                                                    </div>
+                                                                </section>
+                                                                <section className="px-6 pb-2">
+                                                                    <Button className="h-10 hover:bg-bg-button-1/50">
+                                                                        Cancelar
+                                                                    </Button>
+                                                                </section>
+                                                            </form>
+                                                        </DialogContent>
+                                                    </Dialog>
+                                                    {/*Finalizar Entrega*/}
+                                                    <Popover>
+                                                        <PopoverTrigger>
+                                                            <Icon
+                                                                iconNode={Check}
+                                                                className="hover:text-entregue size-4 cursor-pointer"
+                                                            />
+                                                        </PopoverTrigger>
+                                                        <PopoverContent className="rounded-xl border-background bg-white text-black">
+                                                            <PopoverHeader>
                                                                 Finalizar
-                                                            </Button>
-                                                        </div>
-                                                    </PopoverContent>
-                                                </Popover>
-                                            </th>
-                                        </tr>
-                                    </tbody>
-                                ))}
+                                                                entrega ?
+                                                            </PopoverHeader>
+                                                            <div className="flex gap-2">
+                                                                <Button>
+                                                                    Finalizar
+                                                                </Button>
+                                                            </div>
+                                                        </PopoverContent>
+                                                    </Popover>
+                                                </th>
+                                            </tr>
+                                        </tbody>
+                                    ),
+                                )}
                             </table>
                         </CardContent>
+
                     </Card>
                 </div>
             </div>

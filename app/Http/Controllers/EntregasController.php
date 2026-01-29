@@ -25,5 +25,10 @@ class EntregasController extends Controller {
 
     }
 
+    public function store(Request $request) {
+
+        return $this->entregasService->criarEntrega($request);
+    }
+
 
 }

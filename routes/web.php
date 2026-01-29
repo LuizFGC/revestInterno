@@ -15,6 +15,9 @@ Route::get('/', function () {
 Route::get('/entregas', [EntregasController::class, 'index'])
     ->name('entregas');
 
+Route::post('/entregas', [EntregasController::class, 'store'])
+    ->name('criar-entrega');
+
 Route::get('/relatorios', function () {
     return Inertia::render('relatorios');
 })->name('relatorios');
