@@ -9,18 +9,18 @@ const badgeVariants = cva(
   {
     variants: {
       variant: {
-        emRota:
-          "border-transparent bg-emRota/20 rounded-xl ",
-        pendentes:
-          "border-transparent bg-pendentes/20 rounded-xl  ",
-        cancelada:
-          "border-transparent bg-cancelada/20 rounded-xl ",
-        entregue:
-          "border-transparent bg-entregue/20 rounded-xl ",
+        Rota:
+          "border-transparent bg-Rota/20 rounded-xl ",
+        Pendente:
+          "border-transparent bg-Pendente/20 rounded-xl  ",
+        Cancelado:
+          "border-transparent bg-Cancelado/20 rounded-xl ",
+        Entregue:
+          "border-transparent bg-Entregue/20 rounded-xl ",
       },
     },
     defaultVariants: {
-      variant: "pendentes",
+      variant: "Pendente",
     },
   }
 )

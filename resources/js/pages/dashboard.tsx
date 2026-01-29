@@ -3,99 +3,19 @@ import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import AppLayout from '@/layouts/app-layout';
 
+
+
 const statusColorMap = {
-    pendente: 'text-pendentes',
-    Rota: 'text-emRota',
-    entregue: 'text-entregue',
-    cancelada: 'text-cancelada',
+    Pendente: 'text-Pendente',
+    Rota: 'text-Rota',
+    Entregue: 'text-Entregue',
+    Cancelado: 'text-Cancelado',
     black: 'text-black',
 };
 
 
-const cardItems = [
-    {
-        title: 'Total de Entregas',
-        value: 4,
-        color: "black"
-    },
-    {
-        title : 'Pendentes',
-        value: 2,
-        color: "pendentes"
-    },
-    {
-        title: 'Em rota ',
-        value: 1,
-        color: "emRota"
-    },
-    {
-        title: 'Entregues',
-        value: 1,
-        color: "entregue"
-    },
-    {
-        title: 'Canceladas',
-        value: 2,
-        color: "cancelada"
-    }
-];
+export default function Dashboard({entregas, cardValues}) {
 
-const entregas = [
-
-    {
-        codigo: 1,
-        cliente: 'Jose',
-        endereco: 'Av.Lasasdasd 34',
-        status:'Em rota',
-        color: 'emRota',
-        entregador: 'Paulo'
-
-    },
-    {
-        codigo: 2,
-        cliente: 'Jose',
-        endereco: 'Av.Lasasdasd 34',
-        status:'Cancelada',
-        color: 'cancelada',
-        entregador: 'Paulo'
-
-    },
-    {
-        codigo: 3,
-        cliente: 'Jose',
-        endereco: 'Av.Lasasdasd 34',
-        status:'Entregue',
-        color: 'entregue',
-        entregador: 'Paulo'
-
-    },
-    {
-        codigo: 4,
-        cliente: 'Jose',
-        endereco: 'Av.Lasasdasd 34',
-        status:'Pendente',
-        color: 'pendentes',
-        entregador: 'Paulo'
-
-    },
-    {
-        codigo: 5,
-        cliente: 'Jose',
-        endereco: 'Av.Lasasdasd 34',
-        status:'Em rota',
-        color: 'emRota',
-        entregador: 'Paulo'
-
-    }
-]
-
-
-
-
-
-
-
-export default function Dashboard() {
 
     return (
         <AppLayout title="Dashboard" date={new Date()}>
@@ -103,18 +23,29 @@ export default function Dashboard() {
 
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
                 <div className="mt-8 mb-8 flex items-center justify-center gap-12 self-stretch">
-                    {cardItems.map((item, index) => (
+
+                    <Card className="flex h-30 w-80 flex-col w-full rounded-xl border border-background bg-white px-6 pt-6 pb-0.5 2xl:h-40">
+                        <div className="flex h-6 shrink-0 items-start w-full self-stretch text-[16px] text-text-2 2xl:h-10 2xl:text-xl">
+                            Total de Entregas
+                        </div>
+                        <div
+                            className={`flex h-6 shrink-0 items-start self-stretch 2xl:h-10  text-black text-[16px] 2xl:text-xl`}
+                        >
+                            {cardValues.total}
+                        </div>
+                    </Card>
+                    {cardValues.status.map((item, index:number) => (
                         <Card
                             key={index}
                             className="flex h-30 w-80 flex-col w-full rounded-xl border border-background bg-white px-6 pt-6 pb-0.5 2xl:h-40"
                         >
                             <div className="flex h-6 shrink-0 items-start w-full self-stretch text-[16px] text-text-2 2xl:h-10 2xl:text-xl">
-                                {item.title}
+                                {item.status}
                             </div>
                             <div
-                                className={`flex h-6 shrink-0 items-start self-stretch 2xl:h-10  text-${item.color}  text-[16px] 2xl:text-xl`}
+                                className={`flex h-6 shrink-0 items-start self-stretch 2xl:h-10  text-${item.status}  text-[16px] 2xl:text-xl`}
                             >
-                                {item.value}
+                                {item.total}
                             </div>
                         </Card>
                     ))}
@@ -136,7 +67,7 @@ export default function Dashboard() {
                                         <th>Entregador</th>
                                     </tr>
                                 </thead>
-                                {entregas.map((entrega, index) => (
+                                {entregas.map((entrega, index:number) => (
 
                                     <tbody key={index} className="text-black  text-sm 2xl:text-base border-b border-background">
                                         <tr >
@@ -150,7 +81,7 @@ export default function Dashboard() {
                                                 {entrega.endereco}
                                             </th>
                                             <th  >
-                                                <Badge variant={`${entrega.color}`}  className={`font-light text-${entrega.color}  text-sm 2xl:text-base ` }>
+                                                <Badge variant={entrega.status}  className={`font-light text-${entrega.status}  text-sm 2xl:text-base ` }>
                                                     {entrega.status}
                                                 </Badge>
 

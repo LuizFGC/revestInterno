@@ -18,10 +18,10 @@
     --color-bg-button-1: var(--button-bg-1);
     --color-sidebar-bg: var(--sidebar-bg);
     --background-image-login-bg: var(--login-background);
-    --color-emRota: var(--badge-color-1);
-    --color-entregue: var(--badge-color-2);
-    --color-cancelada: var(--badge-color-3);
-    --color-pendentes: var(--badge-color-4);
+    --color-Rota: var(--badge-color-1);
+    --color-Entregue: var(--badge-color-2);
+    --color-Cancelado: var(--badge-color-3);
+    --color-Pendente: var(--badge-color-4);
     --color-text-1: var(--text-color-1);
     --color-text-2: var(--text-color-2);
     --color-text-3: var(--text-color-3);

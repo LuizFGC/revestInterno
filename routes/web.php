@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\EntregasController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Laravel\Fortify\Features;
@@ -10,18 +12,16 @@ Route::get('/', function () {
     ]);
 })->name('home');
 
-Route::get('/entregas', function () {
-    return Inertia::render('entregas');
-})->name('entregas');
+Route::get('/entregas', [EntregasController::class, 'index'])
+    ->name('entregas');
 
 Route::get('/relatorios', function () {
     return Inertia::render('relatorios');
 })->name('relatorios');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('dashboard', function () {
-        return Inertia::render('dashboard');
-    })->name('dashboard');
+    Route::get('dashboard', [DashboardController::class, 'index'])
+        ->name('dashboard');
 });
 
 require __DIR__.'/settings.php';

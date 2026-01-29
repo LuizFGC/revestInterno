@@ -8,7 +8,7 @@ import {
     DialogClose,
     DialogContent,
     DialogHeader,
-
+    DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
 import { Icon } from '@/components/ui/icon';
@@ -23,11 +23,8 @@ import {
 import AppLayout from '@/layouts/app-layout';
 
 
-
-
-
-
 export default function Entregas({entregas}) {
+
     return (
         <AppLayout title="Entregas" date={new Date()}   >
             <Head title="Entregas" />
@@ -39,7 +36,7 @@ export default function Entregas({entregas}) {
 
                     {/*//Criar Entrega*/}
                     <Dialog>
-                        <DialogTrigger>
+                        <DialogTrigger  asChild>
                             <Button variant="primary" className="h-9 w-50">
                                 <Icon iconNode={Plus} />
                                 Adicionar nova entrega
@@ -47,7 +44,9 @@ export default function Entregas({entregas}) {
                         </DialogTrigger>
                         <DialogContent className="p-0 border-none bg-white  rounded-xl">
                             <DialogHeader  className="flex flex-row items-center justify-between text-black px-4 py-2 pb-2 border-b border-background  ">
+                                <DialogTitle>
                                 Criar Entrega
+                                </DialogTitle>
                                 <DialogClose>
                                     <Icon iconNode={X} className="size-4 cursor-pointer "/>
                                 </DialogClose>
@@ -205,7 +204,7 @@ export default function Entregas({entregas}) {
                                         <th>Acoes</th>
                                     </tr>
                                 </thead>
-                                {entregas.data.map((entrega, index) => (
+                                {entregas.map((entrega, index:number) => (
                                     <tbody
                                         key={index}
                                         className="border-b border-background text-sm text-black 2xl:text-base"
@@ -222,8 +221,8 @@ export default function Entregas({entregas}) {
                                             </th>
                                             <th>
                                                 <Badge
-                                                    variant={`${entrega.color}`}
-                                                    className={`font-light text-${entrega.color} text-sm 2xl:text-base`}
+                                                    variant={entrega.status}
+                                                    className={`font-light text-${entrega.status} text-sm 2xl:text-base`}
                                                 >
                                                     {entrega.status}
                                                 </Badge>

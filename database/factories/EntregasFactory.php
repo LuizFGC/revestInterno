@@ -21,10 +21,10 @@ class EntregasFactory extends Factory
             'cliente'    => $this->faker->name(),
             'endereco'   => $this->faker->address(),
             'status'     => $this->faker->randomElement([
-                'pendente',
-                'entregue',
+                'Pendente',
+                'Entregue',
                 'Rota',
-                'cancelado',
+                'Cancelado',
             ]),
             'entregador' => $this->faker->name(),
             'previsao'   => $this->faker->dateTimeBetween('now', '+7 days'),
