@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Entregas;
 use App\Services\EntregasService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -17,10 +16,10 @@ class EntregasController extends Controller {
 
 
 
-    public function index(Request $request) {
+    public function index() {
             $entregas = $this->entregasService->getAllEntregas();
 
-            return Inertia::render('Entregas/Entregas', [
+            return Inertia::render('entregas', [
                 'entregas' => $entregas,
             ]);
 
