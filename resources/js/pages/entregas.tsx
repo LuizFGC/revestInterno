@@ -1,9 +1,13 @@
 import { Head, useForm } from '@inertiajs/react';
 import { Pen, Pencil, Plus, X, Check, Calendar } from 'lucide-react';
 import { useState, useMemo } from 'react';
+import CancelarEntrega from '@/components/cancelar-entrega';
+import ColocarEmRota from '@/components/colocar-em-rota';
+import CriarEntrega from '@/components/criar-entrega';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { DatePickerInput } from '@/components/ui/date-picker';
 import {
     Dialog,
     DialogClose,
@@ -21,9 +25,7 @@ import {
     PopoverHeader,
     PopoverTrigger,
 } from '@/components/ui/popover';
-import { Spinner } from '@/components/ui/spinner';
 import AppLayout from '@/layouts/app-layout';
-import { DatePickerInput } from '@/components/ui/date-picker';
 
 export default function Entregas({entregas}) {
 
@@ -75,7 +77,7 @@ export default function Entregas({entregas}) {
 
             const cliente = entrega.cliente.toLowerCase().includes(filtros.cliente.toLowerCase())
 
-            const entregador = entrega.entregador.toLowerCase().includes(filtros.entregador.toLowerCase())
+            const entregador = !entrega.entregador || entrega.entregador.toLowerCase().includes(filtros.entregador.toLowerCase())
 
             const status = !filtros.status || entrega.status === filtros.status
 
@@ -88,25 +90,6 @@ export default function Entregas({entregas}) {
     }, [entregas, filtros])
 
 
-    const { data, setData, post, processing, errors, reset, clearErrors } = useForm({
-
-        codigo: '',
-        cliente: '',
-        endereco: '',
-        previsao: null as Date | null,
-        status: 'Pendente'
-    })
-    function handleAdicionarEntrega(e: React.FormEvent){
-        e.preventDefault()
-
-        post('/entregas/store', {
-
-            onSuccess: () => {
-                reset()
-            }
-        })
-    }
-
     return (
         <AppLayout title="Entregas" date={new Date()}>
             <Head title="Entregas" />
@@ -115,161 +98,10 @@ export default function Entregas({entregas}) {
                 {/*//Botoes do topo*/}
                 <div className="mb-1 flex items-center gap-3">
                     {/*//Criar Entrega*/}
-                    <Dialog>
-                        <DialogTrigger asChild>
-                            <Button variant="primary" className="h-9 w-50">
-                                <Icon iconNode={Plus} />
-                                Adicionar nova entrega
-                            </Button>
-                        </DialogTrigger>
-                        <DialogContent className="rounded-xl border-none bg-white p-0">
-                            <DialogHeader className="flex flex-row items-center justify-between border-b border-background px-4 py-2 pb-2 text-black">
-                                <DialogTitle>Criar Entrega</DialogTitle>
-                                <DialogClose>
-                                    <Icon
-                                        iconNode={X}
-                                        className="size-4 cursor-pointer"
-                                    />
-                                </DialogClose>
-                            </DialogHeader>
-
-                            <form className="rounded-b-xl" onSubmit={handleAdicionarEntrega}>
-                                <section className="flex flex-col gap-3 px-6 pt-2 text-black">
-                                    <div>
-                                        <Label>Codigo</Label>
-                                        <Input
-                                            type="number"
-                                            min="0"
-                                            id="codigo"
-                                            name="codigo"
-                                            value={data.codigo}
-                                            onChange={e => {setData('codigo', e.target.value); clearErrors('codigo')}}
-                                            className="h-10 w-full border border-background text-sm"
-                                            placeholder="Codigo da entrega"
-                                        />
-                                        {errors.codigo && (
-                                            <p className="text-red-500 text-xs">{errors.codigo}</p>
-                                        )}
-                                    </div>
-
-                                    <div>
-                                        <Label>Cliente</Label>
-                                        <Input
-                                            id="cliente"
-                                            name="cliente"
-                                            value={data.cliente}
-                                            onChange={e => {setData('cliente', e.target.value); clearErrors('cliente')}}
-                                            className="h-10 w-full border border-background text-sm"
-                                            placeholder="Nome do cliente"
-                                        />
-                                        {errors.cliente && (
-                                            <p className="text-red-500 text-xs">{errors.cliente}</p>
-                                        )}
-                                    </div>
-                                    <div>
-                                        <Label>Previsao de Entrega</Label>
-
-                                        <DatePickerInput
-                                            value={data.previsao || undefined}
-                                            onChange={(date) => {
-                                                setData('previsao', date || null)
-                                                clearErrors('previsao')
-                                            }}/>
-
-                                        {errors.previsao && (
-                                            <p className="text-red-500 text-xs">{errors.previsao}</p>
-                                        )}
-                                    </div>
-                                    <div>
-                                        <Label>Endereco</Label>
-                                        <Input
-                                            type="text"
-                                            id="endereco"
-                                            name="endereco"
-                                            className="h-10 w-full border border-background text-sm"
-                                            placeholder="Endereco de entrega"
-                                            value={data.endereco}
-                                            onChange={e => {setData('endereco', e.target.value); clearErrors('endereco')
-
-                                            }}
-                                        />
-                                        {errors.endereco && (
-                                            <p className="text-red-500 text-xs">{errors.endereco}</p>
-                                        )}
-
-                                        <Input
-                                            className="hidden"
-                                            id="status"
-                                            name="status"
-                                            value={data.status}
-                                        />
-                                    </div>
-                                </section>
-                                <section className="px-6 py-2">
-                                    <Button
-                                        variant="primary"
-                                        className="h-10"
-                                        type="submit"
-                                        disabled={processing}
-                                    >
-                                        {processing && <Spinner />}
-                                        Criar
-                                    </Button>
-                                </section>
-                            </form>
-                        </DialogContent>
-                    </Dialog>
-
+                    <CriarEntrega />
                     {/*//Colocar Entrega em rota*/}
-                    <Dialog>
-                        <DialogTrigger>
-                            <Button variant="secondary" className="h-9 w-50">
-                                <Icon iconNode={Pencil} />
-                                Colocar entrega em rota
-                            </Button>
-                        </DialogTrigger>
-                        <DialogContent className="rounded-xl border-none p-0">
-                            <DialogHeader className="flex flex-row items-center justify-between px-4 py-2 pb-0 text-black">
-                                Colocar entrega em Rota
-                                <DialogClose>
-                                    <Icon
-                                        iconNode={X}
-                                        className="size-4 cursor-pointer"
-                                    />
-                                </DialogClose>
-                            </DialogHeader>
-
-                            <form
-                                action=""
-                                className="rounded-b-xl bg-sidebar-bg"
-                            >
-                                <section className="flex flex-row gap-3 px-6 pt-2">
-                                    <div>
-                                        <Label>Entrega</Label>
-                                        <Input
-                                            className="h-10 w-full border border-background bg-white text-sm text-black"
-                                            placeholder="Codigo da entrega"
-                                        />
-                                    </div>
-
-                                    <div>
-                                        <Label>Entregador</Label>
-                                        <Input
-                                            className="h-10 w-full border border-background bg-white text-sm text-black"
-                                            placeholder="Nome do entregador"
-                                        />
-                                    </div>
-                                </section>
-                                <section className="px-6 py-2">
-                                    <Button className="h-10 hover:bg-bg-button-1/50">
-                                        Adicionar
-                                    </Button>
-                                </section>
-                            </form>
-                        </DialogContent>
-                    </Dialog>
+                    <ColocarEmRota/>
                 </div>
-
                 {/*//Tabela de Entregas*/}
                 <div>
                     <Card className="mx-auto flex h-[calc(100vh-200px)] flex-col justify-end gap-1 self-stretch rounded-xl border-background bg-white pb-0">
@@ -452,51 +284,7 @@ export default function Entregas({entregas}) {
                                                         </DialogContent>
                                                     </Dialog>
                                                     {/*//Cancelar Entrega*/}
-                                                    <Dialog>
-                                                        <DialogTrigger>
-                                                            <Icon
-                                                                iconNode={X}
-                                                                className="hover:text-Cancelado size-4 cursor-pointer"
-                                                            />
-                                                        </DialogTrigger>
-                                                        <DialogContent className="rounded-xl border-none p-0">
-                                                            <DialogHeader className="flex flex-row items-center justify-between px-4 py-2 pb-0 text-black">
-                                                                Cancelar Entrega
-                                                                <DialogClose>
-                                                                    <Icon
-                                                                        iconNode={
-                                                                            X
-                                                                        }
-                                                                        className="size-4 cursor-pointer "
-                                                                    />
-                                                                </DialogClose>
-                                                            </DialogHeader>
-
-                                                            <form
-                                                                action=""
-                                                                className="rounded-b-xl bg-sidebar-bg"
-                                                            >
-                                                                <section className="w-full">
-                                                                    <div className="flex w-full flex-col gap-3 px-6 pt-2 text-center">
-                                                                        <Label>
-                                                                            Motivo
-                                                                            do
-                                                                            cancelamento
-                                                                        </Label>
-                                                                        <Input
-                                                                            className="h-10 w-full border border-background bg-white text-sm text-black"
-                                                                            placeholder="Motivo"
-                                                                        />
-                                                                    </div>
-                                                                </section>
-                                                                <section className="px-6 pb-2">
-                                                                    <Button className="h-10 hover:bg-bg-button-1/50">
-                                                                        Cancelar
-                                                                    </Button>
-                                                                </section>
-                                                            </form>
-                                                        </DialogContent>
-                                                    </Dialog>
+                                                    <CancelarEntrega codigo={entrega.codigo}/>
                                                     {/*Finalizar Entrega*/}
                                                     <Popover>
                                                         <PopoverTrigger>
@@ -527,6 +315,7 @@ export default function Entregas({entregas}) {
 
                     </Card>
                 </div>
+
             </div>
         </AppLayout>
     );

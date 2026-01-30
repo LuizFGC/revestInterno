@@ -26,4 +26,16 @@ class EntregasService {
         return $this->entregasRepository->inserirEntrega($entrega);
     }
 
+
+    public function updateStatusEmRota($entrega){
+
+      return  $this->entregasRepository->colocarEmRota($entrega);
+
+  }
+
+  public function updateStatusCancelado($entrega){
+        return $this->entregasRepository->cancelarEntrega($entrega);
+
+
+  }
 }

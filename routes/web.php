@@ -18,6 +18,12 @@ Route::get('/entregas', [EntregasController::class, 'index'])
 Route::post('/entregas/store', [EntregasController::class, 'store'])
     ->name('criar-entrega');
 
+Route::patch('/entregas/update', [EntregasController::class, 'emRotaUpdate'])
+    ->name('colocar-emRota');
+
+Route::patch('/entregas/cancelar', [EntregasController::class, 'cancelar'])
+    ->name('cancelar-entrega');
+
 Route::get('/relatorios', function () {
     return Inertia::render('relatorios');
 })->name('relatorios');

@@ -6,6 +6,8 @@ use App\Models\Entregas;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -14,8 +16,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        Entregas::factory(1)->create();
 
+        DB::table('users')->insert([
+            'name' => 'Luiz',
+            'email' => 'luiz@email.com',
+            'password' => Hash::make('123456'),
+        ]);
 
     }
 }

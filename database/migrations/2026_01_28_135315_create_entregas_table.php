@@ -18,8 +18,9 @@ return new class extends Migration
             $table->string('cliente');
             $table->string('endereco');
             $table->string('status');
-            $table->string('entregador');
+            $table->string('entregador')->nullable();
             $table->date('previsao');
+            $table->string('motivo')->nullable();
         });
     }
 

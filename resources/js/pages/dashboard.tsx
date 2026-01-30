@@ -16,39 +16,59 @@ const statusColorMap = {
 
 export default function Dashboard({entregas, cardValues}) {
 
+    const cards = [
+
+        {
+            Title: 'Total de Entregas',
+            value: cardValues.total,
+            color: 'black'
+        },
+        {
+            Title: 'Pendentes',
+            value:  cardValues.status['Pendente']|| 0,
+            color: 'Pendente'
+        },
+        {
+            Title: 'Entregue',
+            value:  cardValues.status['Entregue']|| 0,
+            color: 'Entregue'
+        },
+        {
+            Title: 'Em Rota',
+            value:  cardValues.status['Rota']|| 0,
+            color: 'Rota'
+        },
+        {
+            Title: 'Canceladas',
+            value:  cardValues.status['Cancelado']|| 0,
+            color: 'Cancelado'
+        }
+
+
+    ]
 
     return (
         <AppLayout title="Dashboard" date={new Date()}>
             <Head title="Dashboard" />
 
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
+                {/*DashboardCards*/}
                 <div className="mt-8 mb-8 flex items-center justify-center gap-12 self-stretch">
 
-                    <Card className="flex h-30 w-80 flex-col w-full rounded-xl border border-background bg-white px-6 pt-6 pb-0.5 2xl:h-40">
-                        <div className="flex h-6 shrink-0 items-start w-full self-stretch text-[16px] text-text-2 2xl:h-10 2xl:text-xl">
-                            Total de Entregas
-                        </div>
-                        <div
-                            className={`flex h-6 shrink-0 items-start self-stretch 2xl:h-10  text-black text-[16px] 2xl:text-xl`}
-                        >
-                            {cardValues.total}
-                        </div>
-                    </Card>
-                    {cardValues.status.map((item, index:number) => (
-                        <Card
-                            key={index}
-                            className="flex h-30 w-80 flex-col w-full rounded-xl border border-background bg-white px-6 pt-6 pb-0.5 2xl:h-40"
-                        >
+                    {cards.map((card) =>
+                        <Card className="flex h-30 w-80 flex-col w-full rounded-xl border border-background bg-white px-6 pt-6 pb-0.5 2xl:h-40">
                             <div className="flex h-6 shrink-0 items-start w-full self-stretch text-[16px] text-text-2 2xl:h-10 2xl:text-xl">
-                                {item.status}
+                                {card.Title}
                             </div>
                             <div
-                                className={`flex h-6 shrink-0 items-start self-stretch 2xl:h-10  text-${item.status}  text-[16px] 2xl:text-xl`}
+                                className={`flex h-6 shrink-0 items-start self-stretch 2xl:h-10  text-${card.color} text-[16px] 2xl:text-xl`}
                             >
-                                {item.total}
+                                {card.value}
                             </div>
-                        </Card>
-                    ))}
+                        </Card>)}
+
+
+
                 </div>
                 <div>
                     <Card className="mx-auto flex flex-col items-start justify-end gap-1 self-stretch rounded-xl border-background bg-white pb-0">
