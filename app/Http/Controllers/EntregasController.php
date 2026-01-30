@@ -25,9 +25,32 @@ class EntregasController extends Controller {
 
     }
 
+
+
     public function store(Request $request) {
 
-        return $this->entregasService->criarEntrega($request);
+
+        $data = $request->validate([
+            'codigo' => 'required|unique:entregas,codigo',
+            'cliente' => 'required|string',
+            'endereco' => 'required|string',
+            'previsao' => 'required|date',
+            'status' => 'required|string',
+        ],
+            [
+                'required' => 'Este campo e obrigatorio',
+
+                'codigo.unique' => 'Esse codigo ja esta vinculado a outra entrega'
+            ]
+
+
+
+        );
+
+
+        $this->entregasService->criarEntrega($data);
+
+        return redirect()->back();
     }
 
 
