@@ -21,7 +21,7 @@ export default function Relatorios() {
         <AppLayout title="Relatorios" date={new Date()} >
             <Head title="Relatorios" />
 
-            <div className="flex  justify-center items-center h-full mb-30 m-25 mt-10 ">
+            <div className="flex  justify-center items-center h-full mb-30 m-25 mt-10  ">
                 <Card className="w-full h-full bg-white border border-background ">
 
                     <CardHeader className="text-black 2xl:text-lg">
