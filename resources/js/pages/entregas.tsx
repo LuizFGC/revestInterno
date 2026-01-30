@@ -21,6 +21,7 @@ import { Input } from '@/components/ui/input';
 import {Label} from '@/components/ui/label'
 
 import AppLayout from '@/layouts/app-layout';
+import EditarEntrega from '@/components/editar-entrega';
 
 export default function Entregas({entregas}) {
 
@@ -203,81 +204,7 @@ export default function Entregas({entregas}) {
                                                 </th>
                                                 <th className="flex justify-center gap-3 py-4">
                                                     {/*//Editar entrega*/}
-                                                    <Dialog>
-                                                        <DialogTrigger>
-                                                            <Icon
-                                                                iconNode={Pen}
-                                                                className="size-4 cursor-pointer hover:fill-gray-500"
-                                                            />
-                                                        </DialogTrigger>
-                                                        <DialogContent className="rounded-xl border-none bg-white p-0">
-                                                            <DialogHeader className="flex flex-row items-center justify-between border-b border-background px-4 py-2 pb-2 text-black">
-                                                                Editar Entrega
-                                                                <DialogClose>
-                                                                    <Icon
-                                                                        iconNode={
-                                                                            X
-                                                                        }
-                                                                        className="size-4 cursor-pointer"
-                                                                    />
-                                                                </DialogClose>
-                                                            </DialogHeader>
-
-                                                            <form
-                                                                action=""
-                                                                className="rounded-b-xl"
-                                                            >
-                                                                <section className="flex flex-col gap-3 px-6 pt-2 text-black">
-                                                                    <div>
-                                                                        <Label>
-                                                                            Codigo
-                                                                        </Label>
-                                                                        <Input
-                                                                            className="h-10 w-full border border-background text-sm"
-                                                                            placeholder="Codigo da entrega"
-                                                                        />
-                                                                    </div>
-
-                                                                    <div>
-                                                                        <Label>
-                                                                            Cliente
-                                                                        </Label>
-                                                                        <Input
-                                                                            className="h-10 w-full border border-background text-sm"
-                                                                            placeholder="Nome do entregador"
-                                                                        />
-                                                                    </div>
-                                                                    <div>
-                                                                        <Label>
-                                                                            Previsao
-                                                                            de
-                                                                            Entrega
-                                                                        </Label>
-
-                                                                        <DatePickerInput />
-
-                                                                    </div>
-                                                                    <div>
-                                                                        <Label>
-                                                                            Endereco
-                                                                        </Label>
-                                                                        <Input
-                                                                            className="h-10 w-full border border-background text-sm"
-                                                                            placeholder="Endereco de entrega"
-                                                                        />
-                                                                    </div>
-                                                                </section>
-                                                                <section className="px-6 py-2">
-                                                                    <Button
-                                                                        variant="primary"
-                                                                        className="h-10"
-                                                                    >
-                                                                        Salvar
-                                                                    </Button>
-                                                                </section>
-                                                            </form>
-                                                        </DialogContent>
-                                                    </Dialog>
+                                                    <EditarEntrega  entrega={entrega}/>
                                                     {/*//Cancelar Entrega*/}
                                                     <CancelarEntrega codigo={entrega.codigo}/>
                                                     {/*Finalizar Entrega*/}

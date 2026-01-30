@@ -97,4 +97,6 @@ class EntregasController extends Controller {
         $this->entregasService->updateStatusFinalizado($data);
 
     }
+
+
 }
