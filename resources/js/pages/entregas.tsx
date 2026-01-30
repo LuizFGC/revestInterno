@@ -21,8 +21,9 @@ import {
     PopoverHeader,
     PopoverTrigger,
 } from '@/components/ui/popover';
+import { Spinner } from '@/components/ui/spinner';
 import AppLayout from '@/layouts/app-layout';
-
+import { DatePickerInput } from '@/components/ui/date-picker';
 
 export default function Entregas({entregas}) {
 
@@ -87,16 +88,23 @@ export default function Entregas({entregas}) {
     }, [entregas, filtros])
 
 
-    const { data, setData, post, processing, errors, reset } = useForm({
+    const { data, setData, post, processing, errors, reset, clearErrors } = useForm({
 
         codigo: '',
         cliente: '',
         endereco: '',
-        previsao: '',
+        previsao: null as Date | null,
         status: 'Pendente'
     })
-    function handleAdicionarEntrega(e){
+    function handleAdicionarEntrega(e: React.FormEvent){
+        e.preventDefault()
 
+        post('/entregas/store', {
+
+            onSuccess: () => {
+                reset()
+            }
+        })
     }
 
     return (
@@ -130,31 +138,70 @@ export default function Entregas({entregas}) {
                                     <div>
                                         <Label>Codigo</Label>
                                         <Input
+                                            type="number"
+                                            min="0"
+                                            id="codigo"
+                                            name="codigo"
+                                            value={data.codigo}
+                                            onChange={e => {setData('codigo', e.target.value); clearErrors('codigo')}}
                                             className="h-10 w-full border border-background text-sm"
                                             placeholder="Codigo da entrega"
                                         />
+                                        {errors.codigo && (
+                                            <p className="text-red-500 text-xs">{errors.codigo}</p>
+                                        )}
                                     </div>
 
                                     <div>
                                         <Label>Cliente</Label>
                                         <Input
+                                            id="cliente"
+                                            name="cliente"
+                                            value={data.cliente}
+                                            onChange={e => {setData('cliente', e.target.value); clearErrors('cliente')}}
                                             className="h-10 w-full border border-background text-sm"
                                             placeholder="Nome do cliente"
                                         />
+                                        {errors.cliente && (
+                                            <p className="text-red-500 text-xs">{errors.cliente}</p>
+                                        )}
                                     </div>
                                     <div>
                                         <Label>Previsao de Entrega</Label>
-                                        <Input
-                                            className="h-10 w-full border border-background text-sm"
-                                            placeholder="21/01/2026"
-                                            rightIcon={Calendar}
-                                        />
+
+                                        <DatePickerInput
+                                            value={data.previsao || undefined}
+                                            onChange={(date) => {
+                                                setData('previsao', date || null)
+                                                clearErrors('previsao')
+                                            }}/>
+
+                                        {errors.previsao && (
+                                            <p className="text-red-500 text-xs">{errors.previsao}</p>
+                                        )}
                                     </div>
                                     <div>
                                         <Label>Endereco</Label>
                                         <Input
+                                            type="text"
+                                            id="endereco"
+                                            name="endereco"
                                             className="h-10 w-full border border-background text-sm"
                                             placeholder="Endereco de entrega"
+                                            value={data.endereco}
+                                            onChange={e => {setData('endereco', e.target.value); clearErrors('endereco')
+
+                                            }}
+                                        />
+                                        {errors.endereco && (
+                                            <p className="text-red-500 text-xs">{errors.endereco}</p>
+                                        )}
+
+                                        <Input
+                                            className="hidden"
+                                            id="status"
+                                            name="status"
+                                            value={data.status}
                                         />
                                     </div>
                                 </section>
@@ -163,7 +210,9 @@ export default function Entregas({entregas}) {
                                         variant="primary"
                                         className="h-10"
                                         type="submit"
+                                        disabled={processing}
                                     >
+                                        {processing && <Spinner />}
                                         Criar
                                     </Button>
                                 </section>
@@ -377,13 +426,9 @@ export default function Entregas({entregas}) {
                                                                             de
                                                                             Entrega
                                                                         </Label>
-                                                                        <Input
-                                                                            className="h-10 w-full border border-background text-sm"
-                                                                            placeholder="21/01/2026"
-                                                                            rightIcon={
-                                                                                Calendar
-                                                                            }
-                                                                        />
+
+                                                                        <DatePickerInput />
+
                                                                     </div>
                                                                     <div>
                                                                         <Label>
@@ -411,7 +456,7 @@ export default function Entregas({entregas}) {
                                                         <DialogTrigger>
                                                             <Icon
                                                                 iconNode={X}
-                                                                className="hover:text-cancelada size-4 cursor-pointer"
+                                                                className="hover:text-Cancelado size-4 cursor-pointer"
                                                             />
                                                         </DialogTrigger>
                                                         <DialogContent className="rounded-xl border-none p-0">
@@ -422,7 +467,7 @@ export default function Entregas({entregas}) {
                                                                         iconNode={
                                                                             X
                                                                         }
-                                                                        className="size-4 cursor-pointer"
+                                                                        className="size-4 cursor-pointer "
                                                                     />
                                                                 </DialogClose>
                                                             </DialogHeader>
@@ -457,7 +502,7 @@ export default function Entregas({entregas}) {
                                                         <PopoverTrigger>
                                                             <Icon
                                                                 iconNode={Check}
-                                                                className="hover:text-entregue size-4 cursor-pointer"
+                                                                className="hover:text-Entregue size-4 cursor-pointer"
                                                             />
                                                         </PopoverTrigger>
                                                         <PopoverContent className="rounded-xl border-background bg-white text-black">
