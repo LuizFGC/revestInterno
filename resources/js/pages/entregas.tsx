@@ -1,9 +1,10 @@
-import { Head, useForm } from '@inertiajs/react';
-import { Pen, Pencil, Plus, X, Check, Calendar } from 'lucide-react';
+import { Head } from '@inertiajs/react';
+import { Pen, X, } from 'lucide-react';
 import { useState, useMemo } from 'react';
 import CancelarEntrega from '@/components/cancelar-entrega';
 import ColocarEmRota from '@/components/colocar-em-rota';
 import CriarEntrega from '@/components/criar-entrega';
+import FinalizarEntrega from '@/components/finalizar-entrega';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
@@ -13,18 +14,12 @@ import {
     DialogClose,
     DialogContent,
     DialogHeader,
-    DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
 import { Icon } from '@/components/ui/icon';
 import { Input } from '@/components/ui/input';
 import {Label} from '@/components/ui/label'
-import {
-    Popover,
-    PopoverContent,
-    PopoverHeader,
-    PopoverTrigger,
-} from '@/components/ui/popover';
+
 import AppLayout from '@/layouts/app-layout';
 
 export default function Entregas({entregas}) {
@@ -286,25 +281,7 @@ export default function Entregas({entregas}) {
                                                     {/*//Cancelar Entrega*/}
                                                     <CancelarEntrega codigo={entrega.codigo}/>
                                                     {/*Finalizar Entrega*/}
-                                                    <Popover>
-                                                        <PopoverTrigger>
-                                                            <Icon
-                                                                iconNode={Check}
-                                                                className="hover:text-Entregue size-4 cursor-pointer"
-                                                            />
-                                                        </PopoverTrigger>
-                                                        <PopoverContent className="rounded-xl border-background bg-white text-black">
-                                                            <PopoverHeader>
-                                                                Finalizar
-                                                                entrega ?
-                                                            </PopoverHeader>
-                                                            <div className="flex gap-2">
-                                                                <Button>
-                                                                    Finalizar
-                                                                </Button>
-                                                            </div>
-                                                        </PopoverContent>
-                                                    </Popover>
+                                                    <FinalizarEntrega  codigo={entrega.codigo} />
                                                 </th>
                                             </tr>
                                         </tbody>

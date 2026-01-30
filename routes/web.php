@@ -24,8 +24,12 @@ Route::patch('/entregas/update', [EntregasController::class, 'emRotaUpdate'])
 Route::patch('/entregas/cancelar', [EntregasController::class, 'cancelar'])
     ->name('cancelar-entrega');
 
+Route::patch('/entregas/finalizar', [EntregasController::class, 'finalizar'])
+    ->name('finalizar-entrega');
+
+
 Route::get('/relatorios', function () {
-    return Inertia::render('relatorios');
+    return Inertia::render('EmDesenvolvimento');
 })->name('relatorios');
 
 Route::middleware(['auth', 'verified'])->group(function () {

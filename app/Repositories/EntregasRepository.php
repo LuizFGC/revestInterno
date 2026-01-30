@@ -98,4 +98,24 @@ class EntregasRepository
         };
     }
 
+    public function finalizarEntrega(array $data){
+        $entrega = Entregas::find($data['codigo']);
+
+        if ( !$entrega) {
+
+            return redirect()->back()->withErrors([
+                'codigo' => 'Entrega não encontrada.',
+            ]);
+
+        } else {
+
+            $entrega->update([
+                'status' => $data['status'],
+            ]);
+
+            return back();
+
+        };
+
+    }
 }

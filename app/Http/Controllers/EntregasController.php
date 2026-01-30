@@ -82,4 +82,19 @@ class EntregasController extends Controller {
 
         $this->entregasService->updateStatusCancelado($data);
     }
+
+    public function finalizar(Request $request) {
+
+        $data = $request->validate([
+
+            'codigo' => 'required',
+            'status' => 'required|string',
+        ],
+            [
+                'required' => 'Este campo e obrigatorio',
+            ]);
+
+        $this->entregasService->updateStatusFinalizado($data);
+
+    }
 }

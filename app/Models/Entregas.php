@@ -20,6 +20,7 @@ class Entregas extends Model
         'status',
         'entregador',
         'previsao',
+        'motivo',
 
     ];
 }

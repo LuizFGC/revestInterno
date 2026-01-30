@@ -38,4 +38,8 @@ class EntregasService {
 
 
   }
+
+  public function updateStatusFinalizado($entrega){
+        return $this->entregasRepository->finalizarEntrega($entrega);
+  }
 }
