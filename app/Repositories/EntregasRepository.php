@@ -118,4 +118,20 @@ class EntregasRepository
         };
 
     }
+
+    public function inserirEdicao(array $data) {
+
+        $entrega = Entregas::find($data['id']);
+
+        $entrega->update([
+            'codigo' => $data['codigo'],
+            'cliente' => $data['cliente'],
+            'endereco' => $data['endereco'],
+            'previsao' => $data['previsao'],
+            'entregador' => $data['entregador'],
+        ]);
+
+        return back();
+
+    }
 }

@@ -96,71 +96,66 @@ export default function Entregas({entregas}) {
                     {/*//Criar Entrega*/}
                     <CriarEntrega />
                     {/*//Colocar Entrega em rota*/}
-                    <ColocarEmRota/>
+                    <ColocarEmRota />
                 </div>
                 {/*//Tabela de Entregas*/}
                 <div>
                     <Card className="mx-auto flex h-[calc(100vh-200px)] flex-col justify-end gap-1 self-stretch rounded-xl border-background bg-white pb-0">
-
                         <CardHeader className="flex w-full flex-row items-start gap-2 px-3 pb-1 text-black">
                             {/*//Campos de Pesquisa*/}
 
-                                <Input
-                                    type="number"
-                                    min="0"
-                                    id="codigo"
-                                    name="codigo"
-                                    value={filtros.codigo}
-                                    onChange={handleFiltrosEntregas}
-                                    className="h-8 rounded-xl border border-background text-sm 2xl:h-10 "
-                                    placeholder="Codigo"
-                                ></Input>
-                                <Input
-                                    type="text"
-                                    id="cliente"
-                                    name="cliente"
-                                    value={filtros.cliente}
-                                    onChange={handleFiltrosEntregas}
-                                    className="h-8 rounded-xl border border-background text-sm 2xl:h-10"
-                                    placeholder="Cliente"
-                                ></Input>
-                                <Input
-                                    type="text"
-                                    id="entregador"
-                                    name="entregador"
-                                    value={filtros.entregador}
-                                    onChange={handleFiltrosEntregas}
-                                    className="h-8 rounded-xl border border-background text-sm 2xl:h-10"
-                                    placeholder="Entregador"
-                                ></Input>
+                            <Input
+                                type="number"
+                                min="0"
+                                id="codigo"
+                                name="codigo"
+                                value={filtros.codigo}
+                                onChange={handleFiltrosEntregas}
+                                className="h-8 rounded-xl border border-background text-sm 2xl:h-10"
+                                placeholder="Codigo"
+                            ></Input>
+                            <Input
+                                type="text"
+                                id="cliente"
+                                name="cliente"
+                                value={filtros.cliente}
+                                onChange={handleFiltrosEntregas}
+                                className="h-8 rounded-xl border border-background text-sm 2xl:h-10"
+                                placeholder="Cliente"
+                            ></Input>
+                            <Input
+                                type="text"
+                                id="entregador"
+                                name="entregador"
+                                value={filtros.entregador}
+                                onChange={handleFiltrosEntregas}
+                                className="h-8 rounded-xl border border-background text-sm 2xl:h-10"
+                                placeholder="Entregador"
+                            ></Input>
 
-                                <select
-                                    name="status"
-                                    id="status"
-                                    className="h-8 w-full rounded-xl border border-background text-sm 2xl:h-10"
-                                    value={filtros.status}
-                                    onChange={handleFiltrosEntregas}
-                                >
-                                    <option selected value="">
-                                        Todos
-                                    </option>
-                                    <option value="Cancelado">Cancelada</option>
-                                    <option value="Entregue">Entregue</option>
-                                    <option value="Rota">em Rota</option>
-                                    <option value="Pendente">Pendente</option>
-                                </select>
+                            <select
+                                name="status"
+                                id="status"
+                                className="h-8 w-full rounded-xl border border-background text-sm 2xl:h-10"
+                                value={filtros.status}
+                                onChange={handleFiltrosEntregas}
+                            >
+                                <option selected value="">
+                                    Todos
+                                </option>
+                                <option value="Cancelado">Cancelada</option>
+                                <option value="Entregue">Entregue</option>
+                                <option value="Rota">em Rota</option>
+                                <option value="Pendente">Pendente</option>
+                            </select>
 
-
-
-                                <Button
-                                    onClick={handleLimparFiltros}
-                                    variant="secondary"
-                                    className="m-0 h-8 w-full"
-                                >
-                                    Limpar Filtros
-                                </Button>
-
-
+                            <Button
+                                onClick={handleLimparFiltros}
+                                variant="secondary"
+                                className="m-0 h-8 w-full 2xl:h-10"
+                            >
+                                Limpar Filtros
+                            </Button>
                         </CardHeader>
 
                         <CardContent className="h-[calc(100vh-200px)] w-full overflow-auto">
@@ -202,13 +197,22 @@ export default function Entregas({entregas}) {
                                                 <th className="font-light">
                                                     {entrega.entregador}
                                                 </th>
+
                                                 <th className="flex justify-center gap-3 py-4">
                                                     {/*//Editar entrega*/}
-                                                    <EditarEntrega  entrega={entrega}/>
+                                                    <EditarEntrega
+                                                        entrega={entrega}
+                                                    />
                                                     {/*//Cancelar Entrega*/}
-                                                    <CancelarEntrega codigo={entrega.codigo}/>
+                                                    <CancelarEntrega
+                                                        codigo={entrega.codigo}
+                                                        status={entrega.status}
+                                                    />
                                                     {/*Finalizar Entrega*/}
-                                                    <FinalizarEntrega  codigo={entrega.codigo} />
+                                                    <FinalizarEntrega
+                                                        codigo={entrega.codigo}
+                                                        status={entrega.status}
+                                                    />
                                                 </th>
                                             </tr>
                                         </tbody>
@@ -216,10 +220,8 @@ export default function Entregas({entregas}) {
                                 )}
                             </table>
                         </CardContent>
-
                     </Card>
                 </div>
-
             </div>
         </AppLayout>
     );

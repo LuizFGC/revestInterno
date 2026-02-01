@@ -98,5 +98,31 @@ class EntregasController extends Controller {
 
     }
 
+    public function editar(Request $request) {
+
+        $data = $request->validate([
+            'id' => 'required',
+            'codigo' => 'required',
+            'cliente' => 'required|string',
+            'entregador' => 'string',
+            'status' => 'required|string',
+            'previsao' => 'required|date',
+            'endereco' => 'required|string',
+
+        ],
+            [
+                'required' => 'Este campo e obrigatorio',
+
+                'codigo.unique' => 'Esse codigo ja esta vinculado a outra entrega'
+            ]
+        );
+
+
+        $this->entregasService->editarEntrega($data);
+
+        return redirect()->back();
+
+    }
+
 
 }

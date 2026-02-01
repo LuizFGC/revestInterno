@@ -21,7 +21,7 @@ export default function ColocarEmRota(){
     function handleColocarEmRota(e: React.FormEvent){
         e.preventDefault()
 
-        patch('/entregas/update', {
+        patch('/entregas/rota', {
 
             onSuccess: () => {
                 reset()

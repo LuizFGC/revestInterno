@@ -22,7 +22,8 @@ interface EditarEntregaProps {
         cliente: string,
         endereco: string,
         previsao: null | Date,
-        entregador?: string
+        entregador?: string,
+        status: string
     }
 }
 
@@ -31,12 +32,13 @@ export default function EditarEntrega({entrega}:EditarEntregaProps){
 
 
     const { data, setData, patch, processing, clearErrors } = useForm({
-
+        id: entrega.codigo,
         codigo: entrega.codigo,
         cliente: entrega.cliente,
         endereco: entrega.endereco,
         entregador: entrega.entregador,
         previsao: entrega.previsao,
+        status: entrega.status
     })
 
     function handleEditarEntrega(e: React.FormEvent){
@@ -49,83 +51,98 @@ export default function EditarEntrega({entrega}:EditarEntregaProps){
 
     return (
         <Dialog>
-            <DialogTrigger>
+            <DialogTrigger
+                hidden={
+                    entrega.status == 'Cancelado' ||
+                    entrega.status == 'Entregue'
+                }
+            >
                 <Icon
                     iconNode={Pen}
-                    className="size-4 cursor-pointer hover:fill-gray-500"
+                    className={`/ size-4 cursor-pointer hover:fill-gray-500`}
                 />
             </DialogTrigger>
             <DialogContent className="rounded-xl border-none bg-white p-0">
                 <DialogHeader className="flex flex-row items-center justify-between border-b border-background px-4 py-2 pb-2 text-black">
                     Editar Entrega
                     <DialogClose>
-                        <Icon
-                            iconNode={
-                                X
-                            }
-                            className="size-4 cursor-pointer"
-                        />
+                        <Icon iconNode={X} className="size-4 cursor-pointer" />
                     </DialogClose>
                 </DialogHeader>
 
-                <form
-                    onSubmit={handleEditarEntrega}
-                    className="rounded-b-xl"
-                >
+                <form onSubmit={handleEditarEntrega} className="rounded-b-xl">
                     <section className="flex flex-col gap-3 px-6 pt-2 text-black">
                         <div>
-                            <Label>
-                                Codigo
-                            </Label>
+                            <Label>Codigo</Label>
                             <Input
-                                type='number'
+                                type="number"
                                 min={0}
-                                id='codigo'
-                                name='codigo'
+                                id="codigo"
+                                name="codigo"
                                 value={data.codigo}
-                                onChange={e => {setData ('codigo', e.target.value); clearErrors('codigo')}}
+                                onChange={(e) => {
+                                    setData('codigo', e.target.value);
+                                    clearErrors('codigo');
+                                }}
                                 className="h-10 w-full border border-background text-sm"
                                 placeholder="Codigo da entrega"
                             />
                         </div>
 
                         <div>
-                            <Label>
-                                Cliente
-                            </Label>
+                            <Label>Cliente</Label>
                             <Input
-                                id='entregador'
-                                name='entregador'
+                                id="cliente"
+                                name="cliente"
+                                value={data.cliente}
+                                onChange={(e) => {
+                                    setData('cliente', e.target.value);
+                                    clearErrors('cliente');
+                                }}
+                                className="h-10 w-full border border-background text-sm"
+                                placeholder="Nome do cliente"
+                            />
+                        </div>
+                        <div>
+                            <Label>Previsao de Entrega</Label>
+
+                            <DatePickerInput />
+                        </div>
+                        <div>
+                            <Label>Entregador</Label>
+                            <Input
+                                id="entregador"
+                                name="entregador"
                                 value={data.entregador}
-                                onChange={e => {setData ('entregador', e.target.value); clearErrors('entregador')}}
+                                onChange={(e) => {
+                                    setData('entregador', e.target.value);
+                                    clearErrors('entregador');
+                                }}
                                 className="h-10 w-full border border-background text-sm"
                                 placeholder="Nome do entregador"
                             />
                         </div>
                         <div>
-                            <Label>
-                                Previsao
-                                de
-                                Entrega
-                            </Label>
-
-                            <DatePickerInput
-                                />
-
-                        </div>
-                        <div>
-                            <Label>
-                                Endereco
-                            </Label>
+                            <Label>Endereco</Label>
                             <Input
-                                id='endereco'
-                                name='endereco'
+                                id="endereco"
+                                name="endereco"
                                 value={data.endereco}
-                                onChange={e => {setData ('endereco', e.target.value); clearErrors('endereco')}}
+                                onChange={(e) => {
+                                    setData('endereco', e.target.value);
+                                    clearErrors('endereco');
+                                }}
                                 className="h-10 w-full border border-background text-sm"
                                 placeholder="Endereco de entrega"
                             />
                         </div>
+
+                        <Input
+                            className="hidden"
+                            name="id"
+                            id="id"
+                            value={data.id}
+                        />
                     </section>
                     <section className="px-6 py-2">
                         <Button
@@ -140,5 +157,5 @@ export default function EditarEntrega({entrega}:EditarEntregaProps){
                 </form>
             </DialogContent>
         </Dialog>
-    )
+    );
 }

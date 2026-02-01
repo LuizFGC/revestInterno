@@ -18,7 +18,7 @@ Route::get('/entregas', [EntregasController::class, 'index'])
 Route::post('/entregas/store', [EntregasController::class, 'store'])
     ->name('criar-entrega');
 
-Route::patch('/entregas/update', [EntregasController::class, 'emRotaUpdate'])
+Route::patch('/entregas/rota', [EntregasController::class, 'emRotaUpdate'])
     ->name('colocar-emRota');
 
 Route::patch('/entregas/cancelar', [EntregasController::class, 'cancelar'])
@@ -26,6 +26,9 @@ Route::patch('/entregas/cancelar', [EntregasController::class, 'cancelar'])
 
 Route::patch('/entregas/finalizar', [EntregasController::class, 'finalizar'])
     ->name('finalizar-entrega');
+
+Route::patch('/entregas/update', [EntregasController::class, 'editar'])
+    ->name('editar-entrega');
 
 
 Route::get('/relatorios', function () {
