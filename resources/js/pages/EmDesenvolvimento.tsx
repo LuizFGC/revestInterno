@@ -4,7 +4,7 @@ import AppLayout from '@/layouts/app-layout';
 
 export default function EmDesenvolvimento() {
     return (
-        <AppLayout title="Relatorios" date={new Date()} >
+        <AppLayout title="Relatorios" >
             <Head title="Relatorios" />
 
             <div className="flex h-screen items-center justify-center overflow-hidden">

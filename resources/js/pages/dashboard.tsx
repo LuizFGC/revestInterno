@@ -48,7 +48,7 @@ export default function Dashboard({entregas, cardValues}) {
     ]
 
     return (
-        <AppLayout title="Dashboard" date={new Date()}>
+        <AppLayout title="Dashboard" >
             <Head title="Dashboard" />
 
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">

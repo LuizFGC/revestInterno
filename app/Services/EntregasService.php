@@ -29,6 +29,7 @@ class EntregasService {
 
     public function updateStatusEmRota($entrega){
 
+
       return  $this->entregasRepository->colocarEmRota($entrega);
 
   }
@@ -44,6 +45,10 @@ class EntregasService {
   }
 
   public function editarEntrega($entrega){
+
+      $entrega['previsao'] = Carbon::parse($entrega['previsao'])
+          ->setTimezone('America/Sao_Paulo')
+          ->format('Y-m-d H:i:s');;
 
         return $this->entregasRepository->inserirEdicao($entrega);
 

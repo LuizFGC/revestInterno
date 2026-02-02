@@ -10,6 +10,8 @@ import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
 import { Input } from '@/components/ui/input';
 import { useForm } from '@inertiajs/react';
+import { useState } from 'react';
+import { toast } from 'sonner';
 
 interface FinalizarEntregaProps{
 
@@ -19,6 +21,8 @@ interface FinalizarEntregaProps{
 
 
 export default function FinalizarEntrega({codigo, status}:FinalizarEntregaProps){
+
+    const [open, setOpen] = useState(false)
 
     const { data, patch, processing, reset, } = useForm({
 
@@ -33,6 +37,8 @@ export default function FinalizarEntrega({codigo, status}:FinalizarEntregaProps)
         patch('/entregas/finalizar', {
 
             onSuccess: () => {
+                setOpen(false)
+                toast.success('Entrega finalizada com sucesso!')
                 reset()
             }
         })
@@ -40,7 +46,7 @@ export default function FinalizarEntrega({codigo, status}:FinalizarEntregaProps)
     }
 
     return (
-        <Popover>
+        <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger
                 hidden={status == 'Cancelado' || status == 'Entregue'}
             >

@@ -40,9 +40,11 @@ function isValidDate(date: Date | undefined) {
 interface DatePickerInputProps {
     value?: Date | undefined;
     onChange?: (date: Date | undefined) => void;
+    className?: string;
+    side?:string;
 }
 
-export function DatePickerInput({ value: externalValue, onChange }: DatePickerInputProps) {
+export function DatePickerInput({ value: externalValue, onChange, className, side }: DatePickerInputProps) {
     const [open, setOpen] = React.useState(false)
     const [date, setDate] = React.useState<Date | undefined>(externalValue || new Date())
     const [month, setMonth] = React.useState<Date | undefined>(date)
@@ -64,9 +66,9 @@ export function DatePickerInput({ value: externalValue, onChange }: DatePickerIn
     }
 
     return (
-        <Field className="w-full">
+        <Field className="w-full  ">
             <FieldLabel htmlFor="date-required"></FieldLabel>
-            <InputGroup className="border-background rounded-xl">
+            <InputGroup className={`border-background rounded-xl ${className}`}>
                 <InputGroupInput
                     id="date-required"
                     value={inputValue}
@@ -83,6 +85,7 @@ export function DatePickerInput({ value: externalValue, onChange }: DatePickerIn
                             setOpen(true)
                         }
                     }}
+                    className={`pointer-events-none ${className}`}
                 />
                 <InputGroupAddon align="inline-end">
                     <Popover open={open} onOpenChange={setOpen}>
@@ -91,14 +94,15 @@ export function DatePickerInput({ value: externalValue, onChange }: DatePickerIn
                                 id="date-picker"
                                 size="icon-xs"
                                 aria-label="Select date"
+                                className="cursor-pointer"
                             >
                                 <CalendarIcon />
                                 <span className="sr-only">Select date</span>
                             </InputGroupButton>
                         </PopoverTrigger>
                         <PopoverContent
-                            className="w-auto overflow-hidden p-0 bg-black rounded-xl"
-                            side="top"
+                            className={`w-auto overflow-hidden p-0 bg-black rounded-xl`}
+                            side={side}
                             align="end"
                             sideOffset={8}
                             avoidCollisions={false}

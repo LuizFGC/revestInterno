@@ -18,8 +18,8 @@ class DatabaseSeeder extends Seeder
     {
 
         DB::table('users')->insert([
-            'name' => 'Luiz',
-            'email' => 'luiz@email.com',
+            'name' => 'Luiz Filipe',
+            'user' => 'lfcandido',
             'password' => Hash::make('123456'),
         ]);
 

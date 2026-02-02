@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Services\EntregasService;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 
 
@@ -102,21 +103,21 @@ class EntregasController extends Controller {
 
         $data = $request->validate([
             'id' => 'required',
-            'codigo' => 'required',
+            'codigo' => ['required', Rule::unique('entregas', 'codigo')->ignore($request->id)],
             'cliente' => 'required|string',
-            'entregador' => 'string',
-            'status' => 'required|string',
+            'entregador' => 'string|nullable',
             'previsao' => 'required|date',
             'endereco' => 'required|string',
 
         ],
+
             [
                 'required' => 'Este campo e obrigatorio',
 
                 'codigo.unique' => 'Esse codigo ja esta vinculado a outra entrega'
             ]
-        );
 
+        );
 
         $this->entregasService->editarEntrega($data);
 

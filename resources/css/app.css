@@ -45,6 +45,8 @@
     --color-border: var(--border);
 
 
+
+
 }
 
 :root {
@@ -63,6 +65,7 @@
     --badge-color-3:#E7000B;
     --badge-color-4: #D08700;
 }
+
 
 
 
@@ -93,5 +96,6 @@
     [data-slot="sidebar-inset"] {
         overflow: hidden !important;
     }
+
 }
 

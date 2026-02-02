@@ -6,6 +6,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useForm } from '@inertiajs/react';
 import { Spinner } from '@/components/ui/spinner';
+import { useState } from 'react';
+import { toast } from 'sonner';
 
 interface CancelarEntregaProps{
 
@@ -15,6 +17,8 @@ interface CancelarEntregaProps{
 
 
 export default function CancelarEntrega({codigo, status}:CancelarEntregaProps){
+
+    const [open, setOpen] = useState(false)
 
     const { data, setData, patch, processing, errors, reset, clearErrors } = useForm({
 
@@ -29,7 +33,11 @@ export default function CancelarEntrega({codigo, status}:CancelarEntregaProps){
         patch('/entregas/cancelar', {
 
             onSuccess: () => {
+
                 reset()
+                setOpen(false)
+                toast.success('Entrega cancelada com sucesso'
+                )
             }
         })
 
@@ -37,7 +45,7 @@ export default function CancelarEntrega({codigo, status}:CancelarEntregaProps){
     }
 
     return (
-        <Dialog>
+        <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger
                 hidden={status == 'Cancelado' || status == 'Entregue'}
             >

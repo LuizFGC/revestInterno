@@ -1,0 +1,122 @@
+
+import {
+    Calendar,
+    Clock,
+    Eye,
+    MapPin,
+    Package,
+    Truck,
+    User,
+    X,
+} from 'lucide-react';
+import {
+    Dialog,
+    DialogClose,
+    DialogContent,
+    DialogHeader,
+    DialogTrigger,
+} from '@/components/ui/dialog';
+import { Icon } from '@/components/ui/icon';
+import { useState } from 'react';
+import { Badge } from '@/components/ui/badge';
+
+interface VisualizarEntregaProps {
+
+    entrega:{
+        id: number,
+        codigo: string,
+        cliente: string,
+        endereco: string,
+        previsao: string,
+        entregador?: string
+        status: string;
+    }
+}
+
+
+export default function VisualizarEntrega({entrega}:VisualizarEntregaProps){
+
+    const data = new Date(entrega.previsao);
+
+    const options = { day: "2-digit", month: "long", year: "numeric" };
+    const dataFormatada = data.toLocaleDateString("pt-BR", options);
+
+    const [open, setOpen] = useState(false)
+
+    return (
+        <Dialog open={open} onOpenChange={setOpen}>
+            <DialogTrigger
+                hidden={
+                    entrega.status == 'Rota' || entrega.status == 'Pendente'
+                }
+            >
+                <Icon
+                    iconNode={Eye}
+                    className="size-4 cursor-pointer hover:fill-gray-500"
+                />
+            </DialogTrigger>
+            <DialogContent className="gap-0 rounded-xl border-none bg-white p-0 w-full ">
+                <DialogHeader className="flex flex-row items-center justify-between border-b border-background px-4 py-2 text-black">
+                    <section className="flex gap-2">
+                        <div>
+                            Entrega N° {entrega.codigo}
+                        </div>
+
+                        <Badge
+                            variant={entrega.status}
+                            className={`font-light text-${entrega.status}  text-sm 2xl:text-base`}
+                        >
+                            {entrega.status}
+                        </Badge>
+                    </section>
+
+                    <DialogClose>
+                        <Icon iconNode={X} className="size-4 cursor-pointer" />
+                    </DialogClose>
+                </DialogHeader>
+
+
+                {/* Informações do Cliente */}
+                <section  className="border border-gray-200 rounded p-3 space-y-2 text-black">
+                    <h3 className="font-bold flex items-center gap-2"><User size={18} /> Informações do Cliente</h3>
+
+                    <div className="pl-4">
+                        <p className="text-sm text-text-2">Nome do Cliente</p>
+                        <p className="text-sm"> {entrega.cliente}</p>
+                    </div>
+
+                </section>
+
+
+
+
+                {/* Detalhes da Entrega */}
+                <section  className="border border-gray-200 rounded p-3 space-y-2 text-black">
+                    <h3 className="font-bold flex items-center gap-2"><Package size={18} /> Detalhes da Entrega</h3>
+
+                    <div className="pl-4">
+                        <p className="text-sm text-text-2 flex items-center gap-2"><Calendar size={14} />Data</p>
+                        <p className="text-sm"> {dataFormatada}</p>
+                    </div>
+
+                    <div className="pl-4">
+                        <p className="text-sm text-text-2 flex items-center gap-2"><MapPin size={14} /> Endereço</p>
+                        <p className="text-sm"> {entrega.endereco}</p>
+                    </div>
+
+                </section>
+
+                {/* Entregador */}
+                <section  className="border border-gray-200 rounded p-3 space-y-2 text-black">
+                    <h3 className="font-bold flex items-center gap-2"><Package size={18} /> Entregador</h3>
+
+                    <div className="pl-4">
+                        <p className="text-sm text-text-2 f">Nome do Entregador</p>
+                        <p className="text-sm"> {entrega.entregador}</p>
+                    </div>
+
+                </section>
+            </DialogContent>
+        </Dialog>
+    );
+}

@@ -1,11 +1,11 @@
 import type { PropsWithChildren } from 'react';
 import { CardTitle } from '@/components/ui/card';
+import { DatePickerInput } from '@/components/ui/date-picker';
 
 
 
-export function AppSidebarHeader({ title, date}:PropsWithChildren<{
+export function AppSidebarHeader({ title}:PropsWithChildren<{
     title?:string
-    date?: Date
 }>){
 
 
@@ -14,13 +14,9 @@ export function AppSidebarHeader({ title, date}:PropsWithChildren<{
             <div className="flex items-start flex-col gap-1 ">
                 <CardTitle className="text-black 2xl:text-2xl text-xl ">{title}</CardTitle>
                 <CardTitle className="text-text-2 2xl:text-lg text-sm ">
-                    {date &&
-                        ` ${date.toLocaleDateString('pt-BR', {
-                            weekday: 'long',
-                            day: '2-digit',
-                            month: '2-digit',
-                            year: 'numeric',
-                        })}`}
+
+                    <DatePickerInput className={"h-4 border-none pb-3 px-0 "} side={'bottom'}  />
+
                 </CardTitle>
             </div>
         </header>

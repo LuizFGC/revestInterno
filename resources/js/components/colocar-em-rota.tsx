@@ -1,5 +1,7 @@
 import { useForm } from '@inertiajs/react';
 import { Pencil, X } from 'lucide-react';
+import { useState } from 'react';
+import { toast } from 'sonner'
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogClose, DialogContent, DialogHeader, DialogTrigger } from '@/components/ui/dialog';
 import { Icon } from '@/components/ui/icon';
@@ -8,6 +10,8 @@ import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
 
 export default function ColocarEmRota(){
+
+    const [open, setOpen] = useState(false)
 
     const { data, setData, patch, processing, errors, reset, clearErrors } = useForm({
 
@@ -24,6 +28,9 @@ export default function ColocarEmRota(){
         patch('/entregas/rota', {
 
             onSuccess: () => {
+
+                setOpen(false)
+                toast.success('Entrega colocada em rota!')
                 reset()
             }
         })
@@ -32,7 +39,7 @@ export default function ColocarEmRota(){
 
 
     return (
-        <Dialog>
+        <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger>
                 <Button variant="secondary" className="h-9 w-50">
                     <Icon iconNode={Pencil} />
@@ -63,7 +70,7 @@ export default function ColocarEmRota(){
                                 id="codigo"
                                 name="codigo"
                                 value={data.codigo}
-                                onChange={e => {setData ('codigo', e.target.value); clearErrors('codigo')}}
+                                onChange={e => {setData ('codigo', e.target.value); clearErrors('codigo', 'status')}}
                                 className="h-10 w-full border border-background bg-white text-sm text-black"
                                 placeholder="Codigo da entrega"
                             />
@@ -93,6 +100,9 @@ export default function ColocarEmRota(){
                         </div>
                     </section>
                     <section className="px-6 py-2">
+                        {errors.status && (
+                            <p className="text-red-500 text-xs text-center">{errors.status}</p>
+                        )}
                         <Button className="h-10 hover:bg-bg-button-1/50" disabled={processing} type='submit'>
                             {processing && <Spinner />}
                             Adicionar

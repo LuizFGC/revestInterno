@@ -1,27 +1,20 @@
 import { Head } from '@inertiajs/react';
-import { Pen, X, } from 'lucide-react';
+
 import { useState, useMemo } from 'react';
+import { Toaster } from 'sonner'
 import CancelarEntrega from '@/components/cancelar-entrega';
 import ColocarEmRota from '@/components/colocar-em-rota';
 import CriarEntrega from '@/components/criar-entrega';
+import EditarEntrega from '@/components/editar-entrega';
 import FinalizarEntrega from '@/components/finalizar-entrega';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { DatePickerInput } from '@/components/ui/date-picker';
-import {
-    Dialog,
-    DialogClose,
-    DialogContent,
-    DialogHeader,
-    DialogTrigger,
-} from "@/components/ui/dialog"
-import { Icon } from '@/components/ui/icon';
+
 import { Input } from '@/components/ui/input';
-import {Label} from '@/components/ui/label'
 
 import AppLayout from '@/layouts/app-layout';
-import EditarEntrega from '@/components/editar-entrega';
+import VisualizarEntrega from '@/components/visualizar-entrega';
 
 export default function Entregas({entregas}) {
 
@@ -73,7 +66,9 @@ export default function Entregas({entregas}) {
 
             const cliente = entrega.cliente.toLowerCase().includes(filtros.cliente.toLowerCase())
 
-            const entregador = !entrega.entregador || entrega.entregador.toLowerCase().includes(filtros.entregador.toLowerCase())
+            const filtro = filtros.entregador.toLowerCase()
+
+            const entregador = !filtro || (entrega.entregador?.toLowerCase().includes(filtro))
 
             const status = !filtros.status || entrega.status === filtros.status
 
@@ -87,9 +82,10 @@ export default function Entregas({entregas}) {
 
 
     return (
-        <AppLayout title="Entregas" date={new Date()}>
+        <AppLayout title="Entregas" >
             <Head title="Entregas" />
 
+            <Toaster position="top-right"  richColors />
             <div className="flex flex-1 flex-col gap-4 rounded-xl p-4">
                 {/*//Botoes do topo*/}
                 <div className="mb-1 flex items-center gap-3">
@@ -97,7 +93,9 @@ export default function Entregas({entregas}) {
                     <CriarEntrega />
                     {/*//Colocar Entrega em rota*/}
                     <ColocarEmRota />
+
                 </div>
+
                 {/*//Tabela de Entregas*/}
                 <div>
                     <Card className="mx-auto flex h-[calc(100vh-200px)] flex-col justify-end gap-1 self-stretch rounded-xl border-background bg-white pb-0">
@@ -170,13 +168,18 @@ export default function Entregas({entregas}) {
                                         <th>Acoes</th>
                                     </tr>
                                 </thead>
-                                {entregasFiltradas.map(
-                                    (entrega, index: number) => (
-                                        <tbody
-                                            key={index}
-                                            className="border-b border-background text-sm text-black 2xl:text-base"
-                                        >
-                                            <tr>
+                                <tbody>
+                                {entregasFiltradas.length === 0 ? (
+                                    <tr >
+                                        <td  colSpan={5} className="text-center py-4 text-black/50">
+                                            Nenhuma Entrega Encontrada
+                                        </td>
+                                    </tr>
+                                )  : (
+                                    entregasFiltradas.map(
+                                        (entrega,) => (
+
+                                            <tr className="border-b border-background text-sm text-black 2xl:text-base">
                                                 <th className="py-4 font-light">
                                                     {entrega.codigo}
                                                 </th>
@@ -199,6 +202,8 @@ export default function Entregas({entregas}) {
                                                 </th>
 
                                                 <th className="flex justify-center gap-3 py-4">
+                                                    {/*visualizar entrega*/}
+                                                    <VisualizarEntrega entrega={entrega} />
                                                     {/*//Editar entrega*/}
                                                     <EditarEntrega
                                                         entrega={entrega}
@@ -215,9 +220,11 @@ export default function Entregas({entregas}) {
                                                     />
                                                 </th>
                                             </tr>
-                                        </tbody>
-                                    ),
-                                )}
+
+                                        ),
+                                    ))}
+
+                                </tbody>
                             </table>
                         </CardContent>
                     </Card>

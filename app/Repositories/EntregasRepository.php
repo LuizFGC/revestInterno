@@ -62,7 +62,13 @@ class EntregasRepository
                 'codigo' => 'Entrega não encontrada.',
             ]);
 
-        } else {
+        } elseif ($entrega['status'] != $data['status']) {
+            return redirect()->back()->withErrors([
+                'status' => 'Entrega nao esta Pendente'
+
+            ]);
+        }
+        else {
 
           $entrega->update([
                 'status' => $data['status'],

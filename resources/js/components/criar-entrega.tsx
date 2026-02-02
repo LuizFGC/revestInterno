@@ -1,5 +1,7 @@
 import { useForm } from '@inertiajs/react';
 import { Plus, X } from 'lucide-react';
+import { useState } from 'react';
+import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { DatePickerInput } from '@/components/ui/date-picker';
 import {
@@ -18,6 +20,8 @@ import { Spinner } from '@/components/ui/spinner';
 
 export default function CriarEntrega(){
 
+    const [open, setOpen] = useState(false)
+
     const { data, setData, post, processing, errors, reset, clearErrors } = useForm({
 
         codigo: '',
@@ -32,14 +36,18 @@ export default function CriarEntrega(){
         post('/entregas/store', {
 
             onSuccess: () => {
+
+                setOpen(false)
+                toast.success('Entrega criada com sucesso!')
                 reset()
+
             }
         })
     }
 
     return (
-        <Dialog>
-            <DialogTrigger asChild>
+        <Dialog open={open} onOpenChange={setOpen} >
+            <DialogTrigger asChild >
                 <Button variant="primary" className="h-9 w-50">
                     <Icon iconNode={Plus} />
                     Adicionar nova entrega
@@ -47,7 +55,7 @@ export default function CriarEntrega(){
             </DialogTrigger>
             <DialogContent className="rounded-xl border-none bg-white p-0">
                 <DialogHeader className="flex flex-row items-center justify-between border-b border-background px-4 py-2 pb-2 text-black">
-                    <DialogTitle>Criar Entrega</DialogTitle>
+                    <DialogTitle className="font-light">Criar Entrega</DialogTitle>
                     <DialogClose>
                         <Icon
                             iconNode={X}
@@ -93,6 +101,7 @@ export default function CriarEntrega(){
                             <Label>Previsao de Entrega</Label>
 
                             <DatePickerInput
+                                side={'top'}
                                 value={data.previsao || undefined}
                                 onChange={(date) => {
                                     setData('previsao', date || null)

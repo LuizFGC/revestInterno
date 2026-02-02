@@ -18,7 +18,7 @@ import AppLayout from '@/layouts/app-layout';
 
 export default function Relatorios() {
     return (
-        <AppLayout title="Relatorios" date={new Date()} >
+        <AppLayout title="Relatorios"  >
             <Head title="Relatorios" />
 
             <div className="flex  justify-center items-center h-full mb-30 m-25 mt-10  ">
