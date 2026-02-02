@@ -1,11 +1,10 @@
 
 import {
     Calendar,
-    Clock,
+    Text,
     Eye,
     MapPin,
     Package,
-    Truck,
     User,
     X,
 } from 'lucide-react';
@@ -30,6 +29,7 @@ interface VisualizarEntregaProps {
         previsao: string,
         entregador?: string
         status: string;
+        motivo: string;
     }
 }
 
@@ -81,7 +81,7 @@ export default function VisualizarEntrega({entrega}:VisualizarEntregaProps){
                     <h3 className="font-bold flex items-center gap-2"><User size={18} /> Informações do Cliente</h3>
 
                     <div className="pl-4">
-                        <p className="text-sm text-text-2">Nome do Cliente</p>
+                        <p className="text-xs text-text-2">Nome do Cliente</p>
                         <p className="text-sm"> {entrega.cliente}</p>
                     </div>
 
@@ -95,12 +95,12 @@ export default function VisualizarEntrega({entrega}:VisualizarEntregaProps){
                     <h3 className="font-bold flex items-center gap-2"><Package size={18} /> Detalhes da Entrega</h3>
 
                     <div className="pl-4">
-                        <p className="text-sm text-text-2 flex items-center gap-2"><Calendar size={14} />Data</p>
+                        <p className=" text-xs text-text-2 flex items-center gap-2"><Calendar size={14} />Data</p>
                         <p className="text-sm"> {dataFormatada}</p>
                     </div>
 
                     <div className="pl-4">
-                        <p className="text-sm text-text-2 flex items-center gap-2"><MapPin size={14} /> Endereço</p>
+                        <p className="text-xs text-text-2 flex items-center gap-2"><MapPin size={14} /> Endereço</p>
                         <p className="text-sm"> {entrega.endereco}</p>
                     </div>
 
@@ -111,11 +111,26 @@ export default function VisualizarEntrega({entrega}:VisualizarEntregaProps){
                     <h3 className="font-bold flex items-center gap-2"><Package size={18} /> Entregador</h3>
 
                     <div className="pl-4">
-                        <p className="text-sm text-text-2 f">Nome do Entregador</p>
+                        <p className="text-xs text-text-2 ">Nome do Entregador</p>
                         <p className="text-sm"> {entrega.entregador}</p>
                     </div>
 
                 </section>
+
+                {entrega.status == 'Cancelado' ?
+
+                    <section  className="border border-gray-200 rounded p-3 space-y-2 text-black">
+                        <h3 className="font-bold flex items-center gap-2"><Text size={18} /> Motivo do Cancelamento</h3>
+
+                        <div className="pl-4">
+                            <p className="text-xs text-text-2 f">Motivo</p>
+                            <p className="text-sm"> {entrega.motivo}</p>
+                        </div>
+
+                    </section> :
+
+                    ''
+                }
             </DialogContent>
         </Dialog>
     );

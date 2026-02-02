@@ -15,6 +15,7 @@ import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
 import { useState } from 'react';
 import { toast } from 'sonner';
+import { type } from 'node:os';
 
 interface EditarEntregaProps {
 
@@ -32,18 +33,23 @@ interface EditarEntregaProps {
 
 export default function EditarEntrega({entrega}:EditarEntregaProps){
 
+
+
+
     const [open, setOpen] = useState(false)
 
-    const { data, setData, patch, processing,errors, clearErrors } = useForm({
+    const { data, setData, patch, processing, errors, clearErrors } = useForm({
         id: entrega.id,
         codigo: entrega.codigo,
         cliente: entrega.cliente,
         endereco: entrega.endereco,
         entregador: entrega.entregador,
-        previsao: new Date(`${entrega.previsao}T12:00:00`) ,
-    })
+        previsao: entrega.previsao
+            ? new Date(`${entrega.previsao}T12:00:00`)
+            : undefined,
+    });
 
-
+    console.log(typeof(data.previsao))
     function handleEditarEntrega(e: React.FormEvent){
         e.preventDefault()
 
@@ -58,7 +64,12 @@ export default function EditarEntrega({entrega}:EditarEntregaProps){
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>
-            <DialogTrigger hidden={entrega.status == 'Cancelado' || entrega.status == 'Entregue'}>
+            <DialogTrigger
+                hidden={
+                    entrega.status == 'Cancelado' ||
+                    entrega.status == 'Entregue'
+                }
+            >
                 <Icon
                     iconNode={Pen}
                     className="size-4 cursor-pointer hover:fill-gray-500"
@@ -68,88 +79,88 @@ export default function EditarEntrega({entrega}:EditarEntregaProps){
                 <DialogHeader className="flex flex-row items-center justify-between border-b border-background px-4 py-2 pb-2 text-black">
                     Editar Entrega
                     <DialogClose>
-                        <Icon
-                            iconNode={
-                                X
-                            }
-                            className="size-4 cursor-pointer"
-                        />
+                        <Icon iconNode={X} className="size-4 cursor-pointer" />
                     </DialogClose>
                 </DialogHeader>
 
-                <form
-                    onSubmit={handleEditarEntrega}
-                    className="rounded-b-xl"
-                >
+                <form onSubmit={handleEditarEntrega} className="rounded-b-xl">
                     <section className="flex flex-col gap-3 px-6 pt-2 text-black">
                         <div>
-                            <Label>
-                                Codigo
-                            </Label>
+                            <Label>Codigo</Label>
                             <Input
-                                type='number'
+                                type="number"
                                 min={0}
-                                id='codigo'
-                                name='codigo'
+                                id="codigo"
+                                name="codigo"
                                 value={data.codigo}
-                                onChange={e => {setData ('codigo', e.target.value); clearErrors('codigo')}}
+                                onChange={(e) => {
+                                    setData('codigo', e.target.value);
+                                    clearErrors('codigo');
+                                }}
                                 className="h-10 w-full border border-background text-sm"
                                 placeholder="Codigo da entrega"
                             />
                             {errors.codigo && (
-                                <p className="text-red-500 text-xs">{errors.codigo}</p>
+                                <p className="text-xs text-red-500">
+                                    {errors.codigo}
+                                </p>
                             )}
                         </div>
 
-
                         <div>
-                            <Label>
-                                Cliente
-                            </Label>
+                            <Label>Cliente</Label>
                             <Input
-                                id='cliente'
-                                name='cliente'
+                                id="cliente"
+                                name="cliente"
                                 value={data.cliente}
-                                onChange={e => {setData ('cliente', e.target.value); clearErrors('cliente')}}
+                                onChange={(e) => {
+                                    setData('cliente', e.target.value);
+                                    clearErrors('cliente');
+                                }}
                                 className="h-10 w-full border border-background text-sm"
                                 placeholder="Nome do cliente"
                             />
                         </div>
                         {errors.cliente && (
-                            <p className="text-red-500 text-xs">{errors.cliente}</p>
+                            <p className="text-xs text-red-500">
+                                {errors.cliente}
+                            </p>
                         )}
                         <div>
-                            <Label>
-                                Previsao
-                                de
-                                Entrega
-                            </Label>
+                            <Label>Previsao de Entrega</Label>
 
                             <DatePickerInput
                                 value={data.previsao}
+                                onChange={(date) => {
+                                    setData('previsao', date );
+                                    clearErrors('previsao');
+                                }}
                                 side="top"
                             />
-
-
                         </div>
                         {errors.previsao && (
-                            <p className="text-red-500 text-xs">{errors.previsao}</p>
+                            <p className="text-xs text-red-500">
+                                {errors.previsao}
+                            </p>
                         )}
                         <div>
-                            <Label>
-                                Endereco
-                            </Label>
+                            <Label>Endereco</Label>
                             <Input
-                                id='endereco'
-                                name='endereco'
+                                id="endereco"
+                                name="endereco"
                                 value={data.endereco}
-                                onChange={e => {setData ('endereco', e.target.value); clearErrors('endereco')}}
+                                onChange={(e) => {
+                                    setData('endereco', e.target.value);
+                                    clearErrors('endereco');
+                                }}
                                 className="h-10 w-full border border-background text-sm"
                                 placeholder="Endereco de entrega"
                             />
                         </div>
                         {errors.endereco && (
-                            <p className="text-red-500 text-xs">{errors.endereco}</p>
+                            <p className="text-xs text-red-500">
+                                {errors.endereco}
+                            </p>
                         )}
                         <div>
                             <Label>Entregador</Label>
@@ -166,12 +177,14 @@ export default function EditarEntrega({entrega}:EditarEntregaProps){
                             />
                         </div>
                         {errors.entregador && (
-                            <p className="text-red-500 text-xs">{errors.entregador}</p>
+                            <p className="text-xs text-red-500">
+                                {errors.entregador}
+                            </p>
                         )}
                         <Input
                             className="hidden"
-                            name='id'
-                            id='id'
+                            name="id"
+                            id="id"
                             value={data.id}
                         />
                     </section>
@@ -188,5 +201,5 @@ export default function EditarEntrega({entrega}:EditarEntregaProps){
                 </form>
             </DialogContent>
         </Dialog>
-    )
+    );
 }
