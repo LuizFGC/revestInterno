@@ -1,6 +1,7 @@
-import { Form, Head } from '@inertiajs/react';
+import { Head, useForm } from '@inertiajs/react';
 import {Lock, Eye, User } from 'lucide-react'
-import InputError from '@/components/input-error';
+
+import React from 'react';
 import TextLink from '@/components/text-link';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -8,20 +9,31 @@ import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
 import AuthLayout from '@/layouts/auth-layout';
 import { register } from '@/routes';
-import { store } from '@/routes/login';
-import { request } from '@/routes/password';
+import { toast } from 'sonner';
 
-type Props = {
-    status?: string;
-    canResetPassword: boolean;
-    canRegister: boolean;
-};
 
-export default function Login({
-    status,
-    canResetPassword,
-    canRegister,
-}: Props) {
+export default function Login(){
+
+    const { data, setData, post, processing, errors, reset, clearErrors } = useForm({
+
+        user: '',
+        password: '',
+    })
+
+    function handleLogin(e: React.FormEvent){
+        e.preventDefault()
+
+        post('/login-interno', {
+
+            onSuccess: () => {
+
+                toast.success('Entrega criada com sucesso!')
+                reset()
+
+            }
+        })
+    }
+
     return (
         <AuthLayout
             title="Bem vindo ao sistema de controle interno Revest"
@@ -30,12 +42,8 @@ export default function Login({
         >
             <Head title="Log in" />
 
-            <Form
-                {...store.form()}
-                resetOnSuccess={['password']}
-                className="flex flex-col gap-6"
-            >
-                {({ processing, errors }) => (
+                <form  onSubmit={handleLogin}
+                       className="flex flex-col gap-6">
                     <>
                         <div className="grid gap-6">
                             <div className="grid gap-2">
@@ -48,17 +56,22 @@ export default function Login({
                                 <Input
                                     leftIcon={User}
                                     className="h-[40px] border-login-card-border text-sm 2xl:h-[52px]"
-                                    id="email"
-                                    type="email"
-                                    name="email"
+                                    id="user"
+                                    type="text"
+                                    name="user"
                                     required
+                                    value={data.user}
+                                    onChange={e => {setData('user', e.target.value); clearErrors('user')}}
                                     autoFocus
                                     tabIndex={1}
                                     autoComplete="email"
                                     placeholder="Digite seu usuário"
                                 />
-                                <InputError message={errors.email} />
+                                {errors.user && (
+                                    <p className="text-red-500 text-xs">{errors.user}</p>
+                                )}
                             </div>
+
 
                             <div className="grid gap-2">
                                 <div className="flex items-center">
@@ -68,15 +81,6 @@ export default function Login({
                                     >
                                         Senha
                                     </Label>
-                                    {canResetPassword && (
-                                        <TextLink
-                                            href={request()}
-                                            className="ml-auto text-sm"
-                                            tabIndex={5}
-                                        >
-                                            Forgot password?
-                                        </TextLink>
-                                    )}
                                 </div>
                                 <Input
                                     leftIcon={Lock}
@@ -85,12 +89,18 @@ export default function Login({
                                     type="password"
                                     name="password"
                                     required
+                                    value={data.password}
+                                    onChange={e => {setData('password', e.target.value); clearErrors('password')}}
                                     tabIndex={2}
                                     autoComplete="current-password"
                                     placeholder="Digite sua senha"
                                     rightIcon={Eye}
                                 />
-                                <InputError message={errors.password} />
+                                {errors.password && (
+                                    <p className="text-red-500 text-xs p-0 m-0">{errors.password}</p>
+                                )}
+
+
                             </div>
 
                             <Button
@@ -98,13 +108,14 @@ export default function Login({
                                 tabIndex={4}
                                 disabled={processing}
                                 data-test="login-button"
+
                             >
                                 {processing && <Spinner />}
                                 Entrar
                             </Button>
                         </div>
 
-                        {canRegister && (
+
                             <div className="text-center text-sm">
                                 <ul>
                                     <li>
@@ -131,16 +142,9 @@ export default function Login({
                                     © 2025 Revest Materiais
                                 </div>
                             </div>
-                        )}
                     </>
-                )}
-            </Form>
+                </form>
 
-            {status && (
-                <div className="mb-4 text-center text-sm font-medium text-green-600">
-                    {status}
-                </div>
-            )}
         </AuthLayout>
     );
 }

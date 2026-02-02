@@ -63,17 +63,17 @@ export default function Profile(){
                                         </div>
 
                                         <div className="w-full " >
-                                            <Label htmlFor="email">Email </Label>
+                                            <Label htmlFor="email">Usuario </Label>
 
                                             <Input
-                                                id="email"
-                                                type="email"
+                                                id="user"
+                                                type="text"
                                                 className="border border-background h-10 "
                                                 defaultValue={auth.user.email}
-                                                name="email"
+                                                name="user"
                                                 required
                                                 autoComplete="username"
-                                                placeholder="Digite seu email"
+                                                placeholder="Digite seu usuario"
                                             />
 
                                             <InputError
