@@ -36,8 +36,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/entregas/store', [EntregasController::class, 'store'])
         ->name('criar-entrega');
 
-    Route::post('/dashboard/data', [DashboardController::class, 'data'])
-        ->name('data-entrega');
 
     Route::patch('/entregas/rota', [EntregasController::class, 'emRotaUpdate'])
         ->name('colocar-emRota');

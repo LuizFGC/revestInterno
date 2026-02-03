@@ -47,7 +47,7 @@ class ProfileController extends Controller
             'cargo' => ['string'],
 
         ], [
-            'required' => 'Este campo es obrigatorio.',
+            'required' => 'Este campo e obrigatorio.',
 
             ]
 
