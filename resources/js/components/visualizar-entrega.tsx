@@ -7,6 +7,7 @@ import {
     Package,
     User,
     X,
+    Truck,
 } from 'lucide-react';
 import { useState } from 'react';
 import { Badge } from '@/components/ui/badge';
@@ -18,6 +19,7 @@ import {
     DialogTrigger,
 } from '@/components/ui/dialog';
 import { Icon } from '@/components/ui/icon';
+import EditarEntrega from '@/components/editar-entrega';
 
 interface VisualizarEntregaProps {
 
@@ -30,25 +32,28 @@ interface VisualizarEntregaProps {
         entregador?: string
         status: string;
         motivo: string;
+        created_at: string;
     }
 }
 
 
 export default function VisualizarEntrega({entrega}:VisualizarEntregaProps){
 
-    const data = new Date(entrega.previsao);
+    const data = new Date(`${entrega.previsao}T12:00:00`);
 
     const options = { day: "2-digit", month: "long", year: "numeric" };
     const dataFormatada = data.toLocaleDateString("pt-BR", options);
+
+    const emissao = new Date(entrega.created_at);
+
+    const emissaoFormatada = emissao.toLocaleDateString("pt-BR", options);
 
     const [open, setOpen] = useState(false)
 
     return (
         <Dialog open={open} onOpenChange={setOpen} >
             <DialogTrigger
-                hidden={
-                    entrega.status == 'Rota' || entrega.status == 'Pendente'
-                }
+
             >
                 <Icon
                     iconNode={Eye}
@@ -91,13 +96,27 @@ export default function VisualizarEntrega({entrega}:VisualizarEntregaProps){
 
 
                 {/* Detalhes da Entrega */}
-                <section  className="border border-gray-200 rounded p-3 space-y-2 text-black">
+                <section  className="border border-gray-300 rounded p-3 space-y-2 text-black">
                     <h3 className="font-bold flex items-center gap-2"><Package size={18} /> Detalhes da Entrega</h3>
 
+                    <section className="flex">
                     <div className="pl-4">
-                        <p className=" text-xs text-text-2 flex items-center gap-2"><Calendar size={14} />Data</p>
-                        <p className="text-sm"> {dataFormatada}</p>
+
+                        <p className=" text-xs text-text-2 flex items-center gap-2"><Calendar size={14} />Emissao</p>
+                        <p className="text-sm"> {emissaoFormatada}</p>
                     </div>
+
+                        {entrega.status == 'Cancelado' ?  '' :
+                            <div className="pl-4">
+                                {entrega.status == 'Pendente' ||entrega.status == 'Rota' ?
+                                    <p className=" text-xs text-text-2 flex items-center gap-2"><Truck size={14} />Previsao</p>
+                                    :  <p className=" text-xs text-text-2 flex items-center gap-2"><Truck size={14} />Entrega</p>
+                                }
+                                <p className="text-sm"> {dataFormatada}</p>
+                            </div> }
+
+
+                    </section>
 
                     <div className="pl-4">
                         <p className="text-xs text-text-2 flex items-center gap-2"><MapPin size={14} /> Endereço</p>
@@ -107,7 +126,7 @@ export default function VisualizarEntrega({entrega}:VisualizarEntregaProps){
                 </section>
 
                 {/* Entregador */}
-                <section  className="border border-gray-200 rounded p-3 space-y-2 text-black">
+                <section  className="border border-gray-300 rounded p-3 space-y-2 text-black">
                     <h3 className="font-bold flex items-center gap-2"><Package size={18} /> Entregador</h3>
 
                     <div className="pl-4">
@@ -119,7 +138,7 @@ export default function VisualizarEntrega({entrega}:VisualizarEntregaProps){
 
                 {entrega.status == 'Cancelado' ?
 
-                    <section  className="border border-gray-200 rounded p-3 space-y-2 text-black">
+                    <section  className="border border-gray-300 rounded p-3 space-y-2 text-black">
                         <h3 className="font-bold flex items-center gap-2"><Text size={18} /> Motivo do Cancelamento</h3>
 
                         <div className="pl-4">
@@ -131,6 +150,11 @@ export default function VisualizarEntrega({entrega}:VisualizarEntregaProps){
 
                     ''
                 }
+
+                {/*//Editar entrega*/}
+                <EditarEntrega
+                    entrega={entrega}
+                />
             </DialogContent>
         </Dialog>
     );
