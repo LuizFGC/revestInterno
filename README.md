@@ -27,23 +27,6 @@ O sistema usa Laravel para o backend, React + Inertia.js no frontend, e Tailwind
 
 ---
 
-## 📸 Screenshots
-
-<div align="center">
-  <img src="public/screenshots/loginPage.png" alt="Dashboard de entregas" width="80%" />
-  <p>Pagina de Login</p>
-
-  <img src="public/screeshots/dashboard.png" alt="Criar entrega" width="80%" />
-  <p>Dashboard</p>
-
-  <img src="public/screenshots/entregas.png" alt="Filtros de entrega" width="80%" />
-  <p>Entregas</p>
-
-</div>
-
-
----
-
 ## 🧠 Tecnologias
 
 - **Backend:** PHP 8+ com Laravel  
@@ -53,5 +36,30 @@ O sistema usa Laravel para o backend, React + Inertia.js no frontend, e Tailwind
 - **Controle de estado:** React Hooks  
 
 ---
+
+## 📸 Screenshots
+
+<div align="center">
+  <img src="public/screeshots/loginPage.png" alt="Dashboard de entregas" width="80%" />
+  <p>Pagina de Login</p>
+
+  <img src="public/screeshots/dashboard.png" alt="Criar entrega" width="80%" />
+  <p>Dashboard</p>
+
+  <img src="public/screeshots/brave_screenshot_localhost (1).png" alt="Filtros de entrega" width="80%" />
+  <p>Entregas</p>
+
+<img src="public/screeshots/brave_screenshot_localhost (2).png" alt="Filtros de entrega" width="80%" />
+  <p>Relatorios (ainda em desenvolvimento) </p>
+
+  <img src="public/screeshots/brave_screenshot_localhost (3).png" alt="Filtros de entrega" width="80%" />
+  <p>Configuracoes</p>
+
+</div>
+
+
+---
+
+
 
 
