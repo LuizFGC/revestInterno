@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
+use function Laravel\Prompts\password;
 
 class ProfileController extends Controller
 {
@@ -24,8 +25,11 @@ class ProfileController extends Controller
     public function edit(Request $request): Response
     {
         $user = Auth::user();
+        $password = Auth::user()['password'];
+
         return Inertia::render('settings/profile', [
                 'user' => $user,
+            'password' => $password,
         ]);
     }
 

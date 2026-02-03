@@ -1,7 +1,7 @@
 import { Head, useForm } from '@inertiajs/react';
 import {Save, Lock} from 'lucide-react';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { toast, Toaster } from 'sonner';
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
@@ -10,6 +10,7 @@ import {Icon} from '@/components/ui/icon';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import AppLayout from '@/layouts/app-layout';
+import { reset } from '@/routes/password';
 
 interface UserProps {
 
@@ -18,22 +19,24 @@ interface UserProps {
         telefone: string,
         user: string,
         cargo: string,
-        password: string,
+
 
 
 },
+
+
 }
 
 
 export default function Profile({ user }: UserProps) {
 
-    const { data, setData, patch, processing, errors, clearErrors } =
+    const { data, setData, patch, processing, errors,reset, clearErrors } =
         useForm({
             name: user.name,
             telefone: user.telefone,
             user: user.user,
             cargo: user.cargo,
-            currentPassword: user.password,
+            currentPassword: '',
             newPassword: '',
             confirmPassword: '',
         });
@@ -52,13 +55,25 @@ export default function Profile({ user }: UserProps) {
     function handleUpdatePassword(e: React.FormEvent) {
         e.preventDefault()
 
-        patch('/entregas/update', {
+        patch('/settings/update-password', {
             onSuccess: () => {
 
                 toast.success('Senha Alterada com sucesso!');
+                reset()
             },
         });
     }
+    useEffect(() => {
+        if (errors.currentPassword) {
+            toast.error(errors.currentPassword)
+        }
+    }, [errors.currentPassword])
+
+    useEffect(() => {
+        if (errors.confirmPassword) {
+            toast.error(errors.confirmPassword)
+        }
+    }, [errors.confirmPassword])
 
     return (
         <AppLayout title="Configuracoes">
@@ -175,32 +190,45 @@ export default function Profile({ user }: UserProps) {
                             </CardHeader>
                             <section className="flex h-10 w-full gap-3">
                                 <div className="w-full">
-                                    <Label htmlFor="current_password">
-                                        Senha Atual
-                                    </Label>
+
+                                        <Label >
+                                            Senha Atual
+                                        </Label>
+
+
+
 
                                     <Input
                                         id="current_password"
                                         value={data.currentPassword}
+                                        onChange={(e) => {
+                                            setData('currentPassword', e.target.value);
+                                            clearErrors('currentPassword');
+                                        }}
                                         name="current_password"
                                         type="password"
                                         className="h-10 w-full border border-background"
                                         autoComplete="current-password"
                                         placeholder="Senha Atual"
                                     />
-
-                                    <InputError
-                                        message={errors.currentPassword}
-                                    />
                                 </div>
+
                             </section>
                             <section className="flex w-full gap-3">
                                 <div className="w-full">
-                                    <Label htmlFor="password">Nova Senha</Label>
+
+                                        <Label >
+                                            Nova Senha
+                                        </Label>
+
 
                                     <Input
                                         id="password"
                                         value={data.newPassword}
+                                        onChange={(e) => {
+                                            setData('newPassword', e.target.value);
+                                            clearErrors('newPassword');
+                                        }}
                                         name="password"
                                         type="password"
                                         className="h-10 border border-background"
@@ -208,28 +236,31 @@ export default function Profile({ user }: UserProps) {
                                         placeholder="Nova senha"
                                     />
 
-                                    <InputError message={errors.newPassword} />
                                 </div>
                                 <div className="w-full">
-                                    <Label htmlFor="password_confirmation">
-                                        Confirmar Senha
-                                    </Label>
+                                        <Label >
+                                            Confirmar Senha
+                                        </Label>
 
                                     <Input
                                         id="password_confirmation"
                                         name="password_confirmation"
                                         type="password"
                                         value={data.confirmPassword}
+                                        onChange={(e) => {
+                                            setData('confirmPassword', e.target.value);
+                                            clearErrors('confirmPassword');
+                                        }}
                                         className="h-10 border border-background"
                                         autoComplete="new-password"
                                         placeholder="Confirme sua senha"
                                     />
 
-                                    <InputError
-                                        message={errors.confirmPassword}
-                                    />
+
                                 </div>
+
                             </section>
+
                             <div className="flex items-center gap-4">
                                 <Button
                                     variant="primary"

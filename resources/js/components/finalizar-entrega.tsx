@@ -4,14 +4,14 @@ import {
     PopoverHeader,
     PopoverTrigger,
 } from '@/components/ui/popover';
-import { Icon } from '@/components/ui/icon';
-import { Check } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
-import { Input } from '@/components/ui/input';
 import { useForm } from '@inertiajs/react';
+import { Check } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
+import { Button } from '@/components/ui/button';
+import { Icon } from '@/components/ui/icon';
+import { Input } from '@/components/ui/input';
 
 interface FinalizarEntregaProps{
 
@@ -24,7 +24,7 @@ export default function FinalizarEntrega({codigo, status}:FinalizarEntregaProps)
 
     const [open, setOpen] = useState(false)
 
-    const { data, patch, processing, reset, } = useForm({
+    const { data, patch, processing, reset,errors } = useForm({
 
         codigo: codigo,
         status: 'Entregue'
@@ -40,6 +40,9 @@ export default function FinalizarEntrega({codigo, status}:FinalizarEntregaProps)
                 setOpen(false)
                 toast.success('Entrega finalizada com sucesso!')
                 reset()
+            }, onError: () => {
+
+                toast.error(errors.status)
             }
         })
 

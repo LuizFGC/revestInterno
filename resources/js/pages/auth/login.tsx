@@ -1,7 +1,8 @@
 import { Head, useForm } from '@inertiajs/react';
-import {Lock, Eye, User } from 'lucide-react'
+import {Lock, Eye,EyeOff, User } from 'lucide-react'
 
-import React from 'react';
+import React, { useState } from 'react';
+import { toast } from 'sonner';
 import TextLink from '@/components/text-link';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -9,10 +10,17 @@ import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
 import AuthLayout from '@/layouts/auth-layout';
 import { register } from '@/routes';
-import { toast } from 'sonner';
 
 
 export default function Login(){
+
+    const [mostrarSenha, setMostrarSenha] = useState(false);
+
+     function  handleMostrarSenha(){
+
+        setMostrarSenha(!mostrarSenha)
+
+    }
 
     const { data, setData, post, processing, errors, reset, clearErrors } = useForm({
 
@@ -84,9 +92,9 @@ export default function Login(){
                                 </div>
                                 <Input
                                     leftIcon={Lock}
-                                    className="} h-[40px] border-login-card-border text-sm 2xl:h-[52px]"
+                                    className=" h-[40px] border-login-card-border text-sm 2xl:h-[52px]"
                                     id="password"
-                                    type="password"
+                                    type={mostrarSenha ? "text" : "password"}
                                     name="password"
                                     required
                                     value={data.password}
@@ -95,10 +103,9 @@ export default function Login(){
                                     autoComplete="current-password"
                                     placeholder="Digite sua senha"
                                     rightIcon={Eye}
+                                    onRightIconClick={handleMostrarSenha}
                                 />
-                                {errors.password && (
-                                    <p className="text-red-500 text-xs p-0 m-0">{errors.password}</p>
-                                )}
+
 
 
                             </div>
