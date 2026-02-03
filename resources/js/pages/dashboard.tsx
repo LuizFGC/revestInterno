@@ -1,5 +1,5 @@
-import { Head, router } from '@inertiajs/react';
-import { useEffect, useMemo, useState } from 'react';
+import { Head } from '@inertiajs/react';
+import {  useMemo } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { useData } from '@/contexts/DataContext';

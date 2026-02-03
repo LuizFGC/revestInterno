@@ -1,6 +1,6 @@
 import { Head } from '@inertiajs/react';
 
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 import { Toaster } from 'sonner'
 import CancelarEntrega from '@/components/cancelar-entrega';
 import ColocarEmRota from '@/components/colocar-em-rota';
@@ -14,6 +14,9 @@ import { Input } from '@/components/ui/input';
 import VisualizarEntrega from '@/components/visualizar-entrega';
 import { useData } from '@/contexts/DataContext';
 import AppLayout from '@/layouts/app-layout';
+
+
+
 
 
 
@@ -34,12 +37,11 @@ export default function Entregas({entregas}) {
         status: '',
     })
 
-    useEffect(() => {
-        setFiltros(prev => ({
-            ...prev,
-            data: dataSelecionada
-        }))
-    }, [dataSelecionada])
+    // Fixed: Removed useEffect and using useMemo to sync filtros.data with dataSelecionada
+    const filtrosAtualizados = useMemo(() => ({
+        ...filtros,
+        data: dataSelecionada
+    }), [filtros, dataSelecionada]);
 
     function handleFiltrosEntregas(e) {
 
@@ -77,20 +79,20 @@ export default function Entregas({entregas}) {
 
             const dataEntrega = entrega.created_at ? new Date(entrega.created_at).toISOString().split('T')[0] : null
 
-            const dataFiltro = filtros.data ? new Date(filtros.data).toISOString().split('T')[0] : null
+            const dataFiltro = filtrosAtualizados.data ? new Date(filtrosAtualizados.data).toISOString().split('T')[0] : null
 
 
             const data = dataEntrega === dataFiltro
 
-            const codigo = !filtros.codigo || codigoEntrega.toString().includes(filtros.codigo)
+            const codigo = !filtrosAtualizados.codigo || codigoEntrega.toString().includes(filtrosAtualizados.codigo)
 
-            const cliente = entrega.cliente.toLowerCase().includes(filtros.cliente.toLowerCase())
+            const cliente = entrega.cliente.toLowerCase().includes(filtrosAtualizados.cliente.toLowerCase())
 
-            const filtro = filtros.entregador.toLowerCase()
+            const filtro = filtrosAtualizados.entregador.toLowerCase()
 
             const entregador = !filtro || (entrega.entregador?.toLowerCase().includes(filtro))
 
-            const status = !filtros.status || entrega.status === filtros.status
+            const status = !filtrosAtualizados.status || entrega.status === filtrosAtualizados.status
 
             return (
                 codigo && cliente && entregador && status && data
@@ -98,7 +100,7 @@ export default function Entregas({entregas}) {
             )
         })
 
-    }, [entregas, filtros])
+    }, [entregas, filtrosAtualizados])
 
 
     return (
@@ -127,7 +129,7 @@ export default function Entregas({entregas}) {
                                 min="0"
                                 id="codigo"
                                 name="codigo"
-                                value={filtros.codigo}
+                                value={filtrosAtualizados.codigo}
                                 onChange={handleFiltrosEntregas}
                                 className="h-8 rounded-xl border border-background text-sm 2xl:h-10"
                                 placeholder="Codigo"
@@ -136,7 +138,7 @@ export default function Entregas({entregas}) {
                                 type="text"
                                 id="cliente"
                                 name="cliente"
-                                value={filtros.cliente}
+                                value={filtrosAtualizados.cliente}
                                 onChange={handleFiltrosEntregas}
                                 className="h-8 rounded-xl border border-background text-sm 2xl:h-10"
                                 placeholder="Cliente"
@@ -145,7 +147,7 @@ export default function Entregas({entregas}) {
                                 type="text"
                                 id="entregador"
                                 name="entregador"
-                                value={filtros.entregador}
+                                value={filtrosAtualizados.entregador}
                                 onChange={handleFiltrosEntregas}
                                 className="h-8 rounded-xl border border-background text-sm 2xl:h-10"
                                 placeholder="Entregador"
@@ -155,7 +157,7 @@ export default function Entregas({entregas}) {
                                 name="status"
                                 id="status"
                                 className="h-8 w-full rounded-xl border border-background text-sm 2xl:h-10"
-                                value={filtros.status}
+                                value={filtrosAtualizados.status}
                                 onChange={handleFiltrosEntregas}
                             >
                                 <option selected value="">
@@ -179,14 +181,14 @@ export default function Entregas({entregas}) {
                         <CardContent className="h-[calc(100vh-200px)] w-full overflow-auto">
                             <table className="w-full">
                                 <thead className="sticky top-0 z-10 h-10 w-full bg-background text-base text-text-2 2xl:text-lg">
-                                    <tr>
-                                        <th>Codigo</th>
-                                        <th>Cliente</th>
-                                        <th>Endereco</th>
-                                        <th>Status</th>
-                                        <th>Entregador</th>
-                                        <th>Acoes</th>
-                                    </tr>
+                                <tr>
+                                    <th>Codigo</th>
+                                    <th>Cliente</th>
+                                    <th>Endereco</th>
+                                    <th>Status</th>
+                                    <th>Entregador</th>
+                                    <th>Acoes</th>
+                                </tr>
                                 </thead>
                                 <tbody>
                                 {entregasFiltradas.length === 0 ? (
@@ -250,4 +252,3 @@ export default function Entregas({entregas}) {
         </AppLayout>
     );
 }
-

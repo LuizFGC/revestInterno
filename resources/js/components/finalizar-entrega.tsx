@@ -1,10 +1,3 @@
-import {
-    Popover,
-    PopoverContent,
-    PopoverHeader,
-    PopoverTrigger,
-} from '@/components/ui/popover';
-import { Spinner } from '@/components/ui/spinner';
 import { useForm } from '@inertiajs/react';
 import { Check } from 'lucide-react';
 import { useState } from 'react';
@@ -12,6 +5,13 @@ import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Icon } from '@/components/ui/icon';
 import { Input } from '@/components/ui/input';
+import {
+    Popover,
+    PopoverContent,
+    PopoverHeader,
+    PopoverTrigger,
+} from '@/components/ui/popover';
+import { Spinner } from '@/components/ui/spinner';
 
 interface FinalizarEntregaProps{
 

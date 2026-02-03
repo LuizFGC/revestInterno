@@ -1,6 +1,5 @@
 import { House,Package,FileSpreadsheet,Settings } from 'lucide-react';
 
-import AppLogo from './app-logo';
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
 import {
@@ -13,6 +12,7 @@ import {
 import { dashboard, entregas, relatorios } from '@/routes';
 import { edit } from '@/routes/profile';
 import type { NavItem } from '@/types';
+import AppLogo from './app-logo';
 
 
 const mainNavItems: NavItem[] = [

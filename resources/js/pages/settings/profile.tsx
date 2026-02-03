@@ -10,7 +10,6 @@ import {Icon} from '@/components/ui/icon';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import AppLayout from '@/layouts/app-layout';
-import { reset } from '@/routes/password';
 
 interface UserProps {
 

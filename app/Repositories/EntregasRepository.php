@@ -32,7 +32,7 @@ class EntregasRepository
     public function colocarEmRota(array $data)
     {
 
-        $entrega = Entregas::find($data['codigo']);
+        $entrega = Entregas::firstWhere('codigo', $data['codigo']);
 
         if ( !$entrega) {
 

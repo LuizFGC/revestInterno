@@ -10,6 +10,7 @@ import {
     Truck,
 } from 'lucide-react';
 import { useState } from 'react';
+import EditarEntrega from '@/components/editar-entrega';
 import { Badge } from '@/components/ui/badge';
 import {
     Dialog,
@@ -19,7 +20,6 @@ import {
     DialogTrigger,
 } from '@/components/ui/dialog';
 import { Icon } from '@/components/ui/icon';
-import EditarEntrega from '@/components/editar-entrega';
 
 interface VisualizarEntregaProps {
 

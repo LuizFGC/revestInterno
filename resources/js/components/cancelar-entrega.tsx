@@ -1,13 +1,13 @@
+import { useForm } from '@inertiajs/react';
 import { X } from 'lucide-react';
+import { useState } from 'react';
+import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogClose, DialogContent, DialogHeader, DialogTrigger } from '@/components/ui/dialog';
 import { Icon } from '@/components/ui/icon';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { useForm } from '@inertiajs/react';
 import { Spinner } from '@/components/ui/spinner';
-import { useState } from 'react';
-import { toast } from 'sonner';
 
 interface CancelarEntregaProps{
 
