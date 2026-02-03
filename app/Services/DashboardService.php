@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Repositories\EntregasRepository;
+use Carbon\Carbon;
 
 class DashboardService {
 
@@ -12,13 +13,11 @@ class DashboardService {
     ){}
 
     public function getLastEntregas() {
-        return $this->entregasRepository->lastEntregas();
+
+
+
+        return $this->entregasRepository->all();
     }
 
-    public function getCardValues() {
-
-        return json_encode($this->entregasRepository->resumoStatus()) ;
-
-    }
 
 }

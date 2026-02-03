@@ -27,7 +27,7 @@ export default function CriarEntrega(){
         codigo: '',
         cliente: '',
         endereco: '',
-        previsao: null as Date | null,
+        previsao:  null as Date | null,
         status: 'Pendente'
     })
     function handleAdicionarEntrega(e: React.FormEvent){
@@ -104,7 +104,7 @@ export default function CriarEntrega(){
                                 side={'top'}
                                 value={data.previsao || undefined}
                                 onChange={(date) => {
-                                    setData('previsao', date || null)
+                                    setData('previsao', date || null  )
                                     clearErrors('previsao')
                                 }}/>
 

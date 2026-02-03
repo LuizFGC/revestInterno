@@ -1,32 +1,45 @@
 import { Head } from '@inertiajs/react';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Toaster } from 'sonner'
 import CancelarEntrega from '@/components/cancelar-entrega';
 import ColocarEmRota from '@/components/colocar-em-rota';
 import CriarEntrega from '@/components/criar-entrega';
-import EditarEntrega from '@/components/editar-entrega';
 import FinalizarEntrega from '@/components/finalizar-entrega';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 
 import { Input } from '@/components/ui/input';
-
-import AppLayout from '@/layouts/app-layout';
 import VisualizarEntrega from '@/components/visualizar-entrega';
+import { useData } from '@/contexts/DataContext';
+import AppLayout from '@/layouts/app-layout';
+
+
+
+
 
 export default function Entregas({entregas}) {
+
+
+    const {dataSelecionada} = useData();
+
 
     const [filtros, setFiltros] = useState({
 
         codigo: '',
         cliente: '',
         entregador: '',
-        data: '',
+        data: dataSelecionada,
         status: '',
     })
 
+    useEffect(() => {
+        setFiltros(prev => ({
+            ...prev,
+            data: dataSelecionada
+        }))
+    }, [dataSelecionada])
 
     function handleFiltrosEntregas(e) {
 
@@ -47,7 +60,7 @@ export default function Entregas({entregas}) {
             codigo: '',
             cliente: '',
             entregador: '',
-            data: '',
+            data: dataSelecionada,
             status: '',
         })
     }
@@ -62,6 +75,13 @@ export default function Entregas({entregas}) {
             const codigoEntrega = entrega.codigo
 
 
+            const dataEntrega = entrega.created_at ? new Date(entrega.created_at).toISOString().split('T')[0] : null
+
+            const dataFiltro = filtros.data ? new Date(filtros.data).toISOString().split('T')[0] : null
+
+
+            const data = dataEntrega === dataFiltro
+
             const codigo = !filtros.codigo || codigoEntrega.toString().includes(filtros.codigo)
 
             const cliente = entrega.cliente.toLowerCase().includes(filtros.cliente.toLowerCase())
@@ -73,7 +93,7 @@ export default function Entregas({entregas}) {
             const status = !filtros.status || entrega.status === filtros.status
 
             return (
-                codigo && cliente && entregador && status
+                codigo && cliente && entregador && status && data
 
             )
         })
@@ -179,7 +199,7 @@ export default function Entregas({entregas}) {
                                     entregasFiltradas.map(
                                         (entrega,) => (
 
-                                            <tr className="border-b border-background text-sm text-black 2xl:text-base">
+                                            <tr key={entrega.codigo} className="border-b border-background text-sm text-black 2xl:text-base">
                                                 <th className="py-4 font-light">
                                                     {entrega.codigo}
                                                 </th>
@@ -204,10 +224,7 @@ export default function Entregas({entregas}) {
                                                 <th className="flex justify-center gap-3 py-4">
                                                     {/*visualizar entrega*/}
                                                     <VisualizarEntrega entrega={entrega} />
-                                                    {/*//Editar entrega*/}
-                                                    <EditarEntrega
-                                                        entrega={entrega}
-                                                    />
+
                                                     {/*//Cancelar Entrega*/}
                                                     <CancelarEntrega
                                                         codigo={entrega.codigo}

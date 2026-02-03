@@ -15,7 +15,7 @@ import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
 import { useState } from 'react';
 import { toast } from 'sonner';
-import { type } from 'node:os';
+
 
 interface EditarEntregaProps {
 
@@ -69,11 +69,10 @@ export default function EditarEntrega({entrega}:EditarEntregaProps){
                     entrega.status == 'Cancelado' ||
                     entrega.status == 'Entregue'
                 }
+
+                className="w-full flex  items-center justify-end px-4 py-2 "
             >
-                <Icon
-                    iconNode={Pen}
-                    className="size-4 cursor-pointer hover:fill-gray-500"
-                />
+                <Button variant='primary' className="">Editar</Button>
             </DialogTrigger>
             <DialogContent className="rounded-xl border-none bg-white p-0">
                 <DialogHeader className="flex flex-row items-center justify-between border-b border-background px-4 py-2 pb-2 text-black">

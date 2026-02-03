@@ -3,6 +3,7 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EntregasController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\Settings\PasswordController;
 use App\Http\Controllers\Settings\ProfileController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -23,6 +24,9 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('settings/update-profile', [ProfileController::class, 'update'])
         ->name('settings.update-profile');
 
+    Route::patch('settings/update-password', [PasswordController::class, 'update'])
+        ->name('settings.update-password');
+
     Route::get('/dashboard', [DashboardController::class, 'index'])
         ->name('dashboard');
 
@@ -31,6 +35,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/entregas/store', [EntregasController::class, 'store'])
         ->name('criar-entrega');
+
+    Route::post('/dashboard/data', [DashboardController::class, 'data'])
+        ->name('data-entrega');
 
     Route::patch('/entregas/rota', [EntregasController::class, 'emRotaUpdate'])
         ->name('colocar-emRota');

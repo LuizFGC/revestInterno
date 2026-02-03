@@ -11,7 +11,7 @@ export default ({
     title: string;
     className?: string;
 }) => (
-    <AppLayoutTemplate title={title}  {...props}>
+    <AppLayoutTemplate title={title}   {...props}>
         {children}
     </AppLayoutTemplate>
 );

@@ -20,29 +20,7 @@ class EntregasRepository
         return $this->model->all();
     }
 
-    //Retorna as 5 entregas
-    public function lastEntregas()
-    {
 
-        return $this->model->latest()->take(5)->get();
-    }
-
-    //Count do Status para o dashboard
-    public function resumoStatus()
-    {
-        $totaisPorStatus = $this->model
-            ->select('status')
-            ->selectRaw('COUNT(*) as total')
-            ->groupBy('status')
-            ->pluck('total', 'status');
-
-        return [
-            'total' => $this->model->count(),
-            'status' => $totaisPorStatus,
-        ];
-
-
-    }
 
     // Cria uma entrega
     public function inserirEntrega(array $data): Entregas

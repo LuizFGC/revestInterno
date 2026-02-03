@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\EntregasService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
@@ -17,9 +18,10 @@ class EntregasController extends Controller {
 
 
 
-    public function index() {
-            $entregas = $this->entregasService->getAllEntregas();
+    public function index( ) {
 
+
+            $entregas = $this->entregasService->getAllEntregas();
             return Inertia::render('entregas', [
                 'entregas' => $entregas,
             ]);
@@ -94,6 +96,12 @@ class EntregasController extends Controller {
             [
                 'required' => 'Este campo e obrigatorio',
             ]);
+
+        if ($data['status'] != 'Rota'){
+
+            return redirect()->back()->withErrors(['status' => 'Entrega nao esta em Rota']);
+
+        }
 
         $this->entregasService->updateStatusFinalizado($data);
 

@@ -17,7 +17,7 @@ export default function AppSidebarLayout({
         <AppShell variant="sidebar">
             <AppSidebar />
             <AppContent variant="sidebar" className={`overflow-x-hidden`}>
-                <AppSidebarHeader title={title}  />
+                <AppSidebarHeader title={title}   />
                 {children}
             </AppContent>
         </AppShell>

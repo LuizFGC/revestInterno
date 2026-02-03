@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Services\DashboardService;
+use Carbon\Carbon;
+
+
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class DashboardController extends Controller
@@ -19,13 +23,12 @@ class DashboardController extends Controller
 
         $entregas = $this->dashboardService->getLastEntregas();
 
-        $cardValues = json_decode($this->dashboardService->getCardValues());
 
         return Inertia::render('dashboard', [
 
             'entregas' => $entregas,
 
-            'cardValues' => $cardValues,
+
 
         ]);
     }

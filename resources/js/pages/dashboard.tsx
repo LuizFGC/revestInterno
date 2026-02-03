@@ -1,10 +1,9 @@
-import { Head } from '@inertiajs/react';
+import { Head, router } from '@inertiajs/react';
+import { useEffect, useMemo, useState } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { useData } from '@/contexts/DataContext';
 import AppLayout from '@/layouts/app-layout';
-
-
-
 const statusColorMap = {
     Pendente: 'text-Pendente',
     Rota: 'text-Rota',
@@ -14,33 +13,87 @@ const statusColorMap = {
 };
 
 
-export default function Dashboard({entregas, cardValues}) {
+export default function Dashboard({entregas}) {
+
+
+const {dataSelecionada} = useData()
+
+    const [filtros, setFiltros] = useState({
+
+        data: dataSelecionada,
+
+    })
+
+    useEffect(() => {
+        setFiltros(prev => ({
+            ...prev,
+            data: dataSelecionada
+        }))
+    }, [dataSelecionada])
+
+    const entregasFiltradas = useMemo(() => {
+
+
+
+        return entregas.filter(entrega => {
+
+
+            const dataEntrega = entrega.created_at ? new Date(entrega.created_at).toISOString().split('T')[0] : null
+
+            const dataFiltro = filtros.data ? new Date(filtros.data).toISOString().split('T')[0] : null
+
+
+           return dataEntrega === dataFiltro
+
+
+
+        })
+
+    }, [entregas, filtros])
+
+
+
+    const ultimas5 = [...entregasFiltradas]
+        .sort((a, b) => {
+            const dateA = new Date(a.created_at).getTime();
+            const dateB = new Date(b.created_at).getTime();
+            return dateB - dateA;
+        })
+        .slice(0, 5);
+
+    const quantidadePorStatus = entregasFiltradas.reduce((acc, entrega) => {
+        const status = entrega.status;
+        acc[status] = (acc[status] || 0) + 1;
+        return acc;
+    }, {});
+
+
 
     const cards = [
 
         {
             Title: 'Total de Entregas',
-            value: cardValues.total,
+            value: entregasFiltradas.length,
             color: 'black'
         },
         {
             Title: 'Pendentes',
-            value:  cardValues.status['Pendente']|| 0,
+            value:  quantidadePorStatus.Pendente|| 0,
             color: 'Pendente'
         },
         {
             Title: 'Entregue',
-            value:  cardValues.status['Entregue']|| 0,
+            value:  quantidadePorStatus.Entregue|| 0,
             color: 'Entregue'
         },
         {
             Title: 'Em Rota',
-            value:  cardValues.status['Rota']|| 0,
+            value:  quantidadePorStatus.Rota|| 0,
             color: 'Rota'
         },
         {
             Title: 'Canceladas',
-            value:  cardValues.status['Cancelado']|| 0,
+            value:  quantidadePorStatus.Cancelado|| 0,
             color: 'Cancelado'
         }
 
@@ -56,7 +109,7 @@ export default function Dashboard({entregas, cardValues}) {
                 <div className="mt-8 mb-8 flex items-center justify-center gap-12 self-stretch">
 
                     {cards.map((card) =>
-                        <Card className="flex h-30 w-80 flex-col w-full rounded-xl border border-background bg-white px-6 pt-6 pb-0.5 2xl:h-40">
+                        <Card key={card.Title} className="flex h-30 w-80 flex-col w-full rounded-xl border border-background bg-white px-6 pt-6 pb-0.5 2xl:h-40">
                             <div className="flex h-6 shrink-0 items-start w-full self-stretch text-[16px] text-text-2 2xl:h-10 2xl:text-xl">
                                 {card.Title}
                             </div>
@@ -87,7 +140,7 @@ export default function Dashboard({entregas, cardValues}) {
                                         <th>Entregador</th>
                                     </tr>
                                 </thead>
-                                {entregas.map((entrega, index:number) => (
+                                {ultimas5.map((entrega, index:number) => (
 
                                     <tbody key={index} className="text-black  text-sm 2xl:text-base border-b border-background">
                                         <tr >
