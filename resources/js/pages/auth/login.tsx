@@ -124,26 +124,7 @@ export default function Login(){
 
 
                             <div className="text-center text-sm">
-                                <ul>
-                                    <li>
-                                        <TextLink
-                                            href={register()}
-                                            tabIndex={5}
-                                            className="text-login-card-border"
-                                        >
-                                            Esqueceu sua senha?
-                                        </TextLink>
-                                    </li>
-                                    <li>
-                                        <TextLink
-                                            href={register()}
-                                            tabIndex={5}
-                                            className="pt-3 text-login-card-border"
-                                        >
-                                            Esqueceu seu nome de Usuário?
-                                        </TextLink>
-                                    </li>
-                                </ul>
+
 
                                 <div className="pt-3 text-login-card-border">
                                     © 2025 Revest Materiais

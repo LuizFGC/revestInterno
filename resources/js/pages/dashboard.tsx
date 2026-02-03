@@ -4,32 +4,24 @@ import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { useData } from '@/contexts/DataContext';
 import AppLayout from '@/layouts/app-layout';
-const statusColorMap = {
-    Pendente: 'text-Pendente',
-    Rota: 'text-Rota',
-    Entregue: 'text-Entregue',
-    Cancelado: 'text-Cancelado',
-    black: 'text-black',
-};
+// const statusColorMap = {
+//     Pendente: 'text-Pendente',
+//     Rota: 'text-Rota',
+//     Entregue: 'text-Entregue',
+//     Cancelado: 'text-Cancelado',
+//     black: 'text-black',
+// };
 
 
 export default function Dashboard({entregas}) {
 
 
-const {dataSelecionada} = useData()
+    const {dataSelecionada} = useData()
 
-    const [filtros, setFiltros] = useState({
-
+    // Fixed: Removed useEffect and derived filtros directly from dataSelecionada
+    const filtros = useMemo(() => ({
         data: dataSelecionada,
-
-    })
-
-    useEffect(() => {
-        setFiltros(prev => ({
-            ...prev,
-            data: dataSelecionada
-        }))
-    }, [dataSelecionada])
+    }), [dataSelecionada]);
 
     const entregasFiltradas = useMemo(() => {
 
@@ -43,7 +35,7 @@ const {dataSelecionada} = useData()
             const dataFiltro = filtros.data ? new Date(filtros.data).toISOString().split('T')[0] : null
 
 
-           return dataEntrega === dataFiltro
+            return dataEntrega === dataFiltro
 
 
 
@@ -132,17 +124,17 @@ const {dataSelecionada} = useData()
                         <CardContent className="w-full">
                             <table className="w-full">
                                 <thead className="w-full bg-background text-text-2 2xl:text-lg h-8 border border-background text-base">
-                                    <tr >
-                                        <th>Codigo</th>
-                                        <th>Cliente</th>
-                                        <th>Endereco</th>
-                                        <th>Status</th>
-                                        <th>Entregador</th>
-                                    </tr>
+                                <tr >
+                                    <th>Codigo</th>
+                                    <th>Cliente</th>
+                                    <th>Endereco</th>
+                                    <th>Status</th>
+                                    <th>Entregador</th>
+                                </tr>
                                 </thead>
                                 {ultimas5.map((entrega, index:number) => (
 
-                                    <tbody key={index} className="text-black  text-sm 2xl:text-base border-b border-background">
+                                        <tbody key={index} className="text-black  text-sm 2xl:text-base border-b border-background">
                                         <tr >
                                             <th className="py-4 font-light " >
                                                 {entrega.codigo}
@@ -163,7 +155,7 @@ const {dataSelecionada} = useData()
                                                 {entrega.entregador}
                                             </th>
                                         </tr>
-                                    </tbody>
+                                        </tbody>
 
 
                                     )
@@ -179,4 +171,3 @@ const {dataSelecionada} = useData()
         </AppLayout>
     );
 }
-
