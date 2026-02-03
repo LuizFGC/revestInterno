@@ -8,6 +8,8 @@ import {
     User,
     X,
 } from 'lucide-react';
+import { useState } from 'react';
+import { Badge } from '@/components/ui/badge';
 import {
     Dialog,
     DialogClose,
@@ -16,8 +18,6 @@ import {
     DialogTrigger,
 } from '@/components/ui/dialog';
 import { Icon } from '@/components/ui/icon';
-import { useState } from 'react';
-import { Badge } from '@/components/ui/badge';
 
 interface VisualizarEntregaProps {
 
@@ -44,7 +44,7 @@ export default function VisualizarEntrega({entrega}:VisualizarEntregaProps){
     const [open, setOpen] = useState(false)
 
     return (
-        <Dialog open={open} onOpenChange={setOpen}>
+        <Dialog open={open} onOpenChange={setOpen} >
             <DialogTrigger
                 hidden={
                     entrega.status == 'Rota' || entrega.status == 'Pendente'
@@ -55,7 +55,7 @@ export default function VisualizarEntrega({entrega}:VisualizarEntregaProps){
                     className="size-4 cursor-pointer hover:fill-gray-500"
                 />
             </DialogTrigger>
-            <DialogContent className="gap-0 rounded-xl border-none bg-white p-0 w-full ">
+            <DialogContent className="gap-0 rounded-xl border-background bg-white p-0 w-full ">
                 <DialogHeader className="flex flex-row items-center justify-between border-b border-background px-4 py-2 text-black">
                     <section className="flex gap-2">
                         <div>

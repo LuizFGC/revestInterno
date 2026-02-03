@@ -3,6 +3,7 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EntregasController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\Settings\ProfileController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Laravel\Fortify\Features;
@@ -18,6 +19,9 @@ Route::post('/login-interno', [LoginController::class, 'index'])
 
 
 Route::middleware(['auth'])->group(function () {
+
+    Route::patch('settings/update-profile', [ProfileController::class, 'update'])
+        ->name('settings.update-profile');
 
     Route::get('/dashboard', [DashboardController::class, 'index'])
         ->name('dashboard');

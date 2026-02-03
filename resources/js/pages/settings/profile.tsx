@@ -1,9 +1,8 @@
-import { Transition } from '@headlessui/react';
-import { Form, Head,usePage } from '@inertiajs/react';
+import { Head, useForm } from '@inertiajs/react';
 import {Save, Lock} from 'lucide-react';
-import { useRef } from 'react';
-import PasswordController from '@/actions/App/Http/Controllers/Settings/PasswordController';
-import ProfileController from '@/actions/App/Http/Controllers/Settings/ProfileController';
+
+import React from 'react';
+import { toast, Toaster } from 'sonner';
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader } from '@/components/ui/card';
@@ -11,240 +10,240 @@ import {Icon} from '@/components/ui/icon';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import AppLayout from '@/layouts/app-layout';
-import type { SharedData } from '@/types';
+
+interface UserProps {
+
+    user: {
+        name: string,
+        telefone: string,
+        user: string,
+        cargo: string,
+        password: string,
 
 
+},
+}
 
-export default function Profile(){
-    const passwordInput = useRef<HTMLInputElement>(null)
-    const currentPasswordInput = useRef<HTMLInputElement>(null)
-    const { auth } = usePage<SharedData>().props
+
+export default function Profile({ user }: UserProps) {
+
+    const { data, setData, patch, processing, errors, clearErrors } =
+        useForm({
+            name: user.name,
+            telefone: user.telefone,
+            user: user.user,
+            cargo: user.cargo,
+            currentPassword: user.password,
+            newPassword: '',
+            confirmPassword: '',
+        });
+
+    function handleUpdateProfile(e: React.FormEvent) {
+        e.preventDefault()
+
+        patch('/settings/update-profile', {
+            onSuccess: () => {
+
+                toast.success('Edicao feita com sucesso!');
+            },
+        });
+    }
+
+    function handleUpdatePassword(e: React.FormEvent) {
+        e.preventDefault()
+
+        patch('/entregas/update', {
+            onSuccess: () => {
+
+                toast.success('Senha Alterada com sucesso!');
+            },
+        });
+    }
 
     return (
-        <AppLayout title="Configuracoes" date={new Date()}>
+        <AppLayout title="Configuracoes">
             <Head title="Configuracoes" />
+            <Toaster position="top-right" richColors />
+            <div className="flex h-full w-full flex-col items-center justify-center gap-4 px-6 py-6 2xl:py-0">
+                <form onSubmit={handleUpdateProfile} className="w-full">
+                    <>
+                        <Card className="w-full gap-3 gap-8 border border-background bg-transparent px-6 py-2 text-black">
+                            <CardHeader className="px-0 text-black 2xl:text-lg">
+                                Perfil do Usuario
+                            </CardHeader>
 
-                <div className="flex flex-col justify-center items-center h-full w-full gap-4 px-6 py-6 2xl:py-0 ">
+                            <section className="flex w-full gap-3">
+                                <div className="w-full">
+                                    <Label htmlFor="name">Nome</Label>
 
-                    <Form
-                        {...ProfileController.update.form()}
-                        options={{
-                            preserveScroll: true,
-                        }}
-                        className="space-y-6 w-full  "
-                    >
-                        {({ processing, recentlySuccessful, errors }) => (
-                            <>
+                                    <Input
+                                        id="name"
+                                        className="h-10 border border-background"
+                                        value={data.name}
+                                        onChange={(e) => {
+                                            setData('name', e.target.value);
+                                            clearErrors('name');
+                                        }}
+                                        name="name"
+                                        required
+                                        autoComplete="name"
+                                        placeholder="Nome Completo"
+                                    />
 
-                                <Card className="bg-transparent  gap-3 text-black border border-background px-6 py-2 gap-8 w-full ">
+                                    <InputError
+                                        className="mt-2"
+                                        message={errors.name}
+                                    />
+                                </div>
 
-                                    <CardHeader className="text-black  2xl:text-lg px-0   ">
-                                        Perfil do Usuario
-                                    </CardHeader>
+                                <div className="w-full">
+                                    <Label htmlFor="email">Usuario </Label>
 
-                                    <section  className="flex gap-3 w-full ">
-                                        <div className="w-full "  >
-                                            <Label htmlFor="name">Nome</Label>
+                                    <Input
+                                        id="user"
+                                        type="text"
+                                        className="h-10 border border-background"
+                                        value={data.user}
+                                        onChange={(e) => {
+                                            setData('user', e.target.value);
+                                            clearErrors('user');
+                                        }}
+                                        name="user"
+                                        required
+                                        autoComplete="username"
+                                        placeholder="Digite seu usuario"
+                                    />
 
-                                            <Input
-                                                id="name"
-                                                className="border border-background h-10 "
-                                                defaultValue={auth.user.name}
-                                                name="name"
-                                                required
-                                                autoComplete="name"
-                                                placeholder="Nome Completo"
-                                            />
+                                    <InputError
+                                        className="mt-2"
+                                        message={errors.user}
+                                    />
+                                </div>
+                            </section>
 
-                                            <InputError
-                                                className="mt-2"
-                                                message={errors.name}
-                                            />
-                                        </div>
+                            <section className="flex w-full gap-3">
+                                <div className="w-full">
+                                    <Label>Telefone</Label>
+                                    <Input
+                                        id="telefone"
+                                        name="telefone"
+                                        value={data.telefone}
+                                        onChange={(e) => {
+                                            setData('telefone', e.target.value);
+                                            clearErrors('telefone');
+                                        }}
+                                        className="h-10 border border-background"
+                                        placeholder="(34) 9 9912-6903"
+                                    />
+                                </div>
+                                <div className="w-full">
+                                    <Label>Cargo</Label>
+                                    <Input
+                                        id="cargo"
+                                        name="cargo"
+                                        onChange={(e) => {
+                                            setData('cargo', e.target.value);
+                                            clearErrors('cargo');
+                                        }}
+                                        value={data.cargo}
+                                        className="h-10 border border-background"
+                                        placeholder="Auxiliar Administrativo"
+                                    />
+                                </div>
+                            </section>
 
-                                        <div className="w-full " >
-                                            <Label htmlFor="email">Usuario </Label>
-
-                                            <Input
-                                                id="user"
-                                                type="text"
-                                                className="border border-background h-10 "
-                                                defaultValue={auth.user.email}
-                                                name="user"
-                                                required
-                                                autoComplete="username"
-                                                placeholder="Digite seu usuario"
-                                            />
-
-                                            <InputError
-                                                className="mt-2"
-                                                message={errors.email}
-                                            />
-                                        </div>
-                                    </section>
-
-                                    <section className="flex gap-3 w-full ">
-                                        <div className="w-full ">
-                                            <Label>Telefone</Label>
-                                            <Input
-                                                className="border border-background h-10 "
-                                                placeholder="(34) 9 9912-6903"
-                                            />
-                                        </div>
-                                        <div className="w-full ">
-                                            <Label>Cargo</Label>
-                                            <Input
-                                                className="border border-background h-10"
-                                                placeholder="Auxiliar Administrativo"
-                                            />
-                                        </div>
-                                    </section>
-
-                                    <div className="flex items-center gap-4 ">
-                                        <Button
-                                            variant='primary'
-                                            disabled={processing}
-                                            data-test="update-profile-button"
-                                        >
-                                            <Icon iconNode={Save}/>
-                                            Salvar Configuracoes
-                                        </Button>
-
-                                        <Transition
-                                            show={recentlySuccessful}
-                                            enter="transition ease-in-out"
-                                            enterFrom="opacity-0"
-                                            leave="transition ease-in-out"
-                                            leaveTo="opacity-0"
-                                        >
-                                            <p className="text-sm text-neutral-600">
-                                                Salvo
-                                            </p>
-                                        </Transition>
-                                    </div>
-
-                                </Card>
+                            <div className="flex items-center gap-4">
+                                <Button
+                                    variant="primary"
+                                    disabled={processing}
+                                    type="submit"
+                                >
+                                    <Icon iconNode={Save} />
+                                    Salvar Configuracoes
+                                </Button>
+                            </div>
+                        </Card>
+                    </>
+                </form>
 
 
-                            </>
-                        )}
-                    </Form>
-                    <Form
-                        {...PasswordController.update.form()}
-                        options={{
-                            preserveScroll: true,
-                        }}
-                        resetOnError={[
-                            'password',
-                            'password_confirmation',
-                            'current_password',
-                        ]}
-                        resetOnSuccess
-                        onError={(errors) => {
-                            if (errors.password) {
-                                passwordInput.current?.focus();
-                            }
+                <form onSubmit={handleUpdatePassword} className="w-full">
+                    <>
+                        <Card className="gap-3 gap-8 border border-background bg-transparent px-6 py-2 text-black">
+                            <CardHeader className="px-0 text-black 2xl:text-lg">
+                                Seguranca
+                            </CardHeader>
+                            <section className="flex h-10 w-full gap-3">
+                                <div className="w-full">
+                                    <Label htmlFor="current_password">
+                                        Senha Atual
+                                    </Label>
 
-                            if (errors.current_password) {
-                                currentPasswordInput.current?.focus();
-                            }
-                        }}
-                        className="space-y-6 w-full "
-                    >
-                        {({ errors, processing, recentlySuccessful }) => (
-                            <>
+                                    <Input
+                                        id="current_password"
+                                        value={data.currentPassword}
+                                        name="current_password"
+                                        type="password"
+                                        className="h-10 w-full border border-background"
+                                        autoComplete="current-password"
+                                        placeholder="Senha Atual"
+                                    />
 
-                                <Card className="bg-transparent  gap-3 text-black border border-background px-6 py-2 gap-8 ">
-                                    <CardHeader className="text-black  2xl:text-lg px-0   ">
-                                        Seguranca
-                                    </CardHeader>
-                                        <section className="flex gap-3 w-full h-10">
-                                            <div className="w-full " >
-                                                <Label htmlFor="current_password">
-                                                    Senha Atual
-                                                </Label>
+                                    <InputError
+                                        message={errors.currentPassword}
+                                    />
+                                </div>
+                            </section>
+                            <section className="flex w-full gap-3">
+                                <div className="w-full">
+                                    <Label htmlFor="password">Nova Senha</Label>
 
-                                                <Input
-                                                    id="current_password"
-                                                    ref={currentPasswordInput}
-                                                    name="current_password"
-                                                    type="password"
-                                                    className="border border-background w-full h-10"
-                                                    autoComplete="current-password"
-                                                    placeholder="Senha Atual"
-                                                />
+                                    <Input
+                                        id="password"
+                                        value={data.newPassword}
+                                        name="password"
+                                        type="password"
+                                        className="h-10 border border-background"
+                                        autoComplete="new-password"
+                                        placeholder="Nova senha"
+                                    />
 
-                                                <InputError
-                                                    message={errors.current_password}
-                                                />
-                                            </div>
+                                    <InputError message={errors.newPassword} />
+                                </div>
+                                <div className="w-full">
+                                    <Label htmlFor="password_confirmation">
+                                        Confirmar Senha
+                                    </Label>
 
-                                        </section>
-                                    <section className="flex gap-3 w-full  ">
-                                        <div className="w-full ">
-                                            <Label htmlFor="password">
-                                                Nova Senha
-                                            </Label>
+                                    <Input
+                                        id="password_confirmation"
+                                        name="password_confirmation"
+                                        type="password"
+                                        value={data.confirmPassword}
+                                        className="h-10 border border-background"
+                                        autoComplete="new-password"
+                                        placeholder="Confirme sua senha"
+                                    />
 
-                                            <Input
-                                                id="password"
-                                                ref={passwordInput}
-                                                name="password"
-                                                type="password"
-                                                className="border border-background h-10"
-                                                autoComplete="new-password"
-                                                placeholder="Nova senha"
-                                            />
-
-                                            <InputError message={errors.password} />
-                                        </div>
-                                        <div className="w-full " >
-                                            <Label htmlFor="password_confirmation">
-                                                Confirmar Senha
-                                            </Label>
-
-                                            <Input
-                                                id="password_confirmation"
-                                                name="password_confirmation"
-                                                type="password"
-                                                className="border border-background"
-                                                autoComplete="new-password"
-                                                placeholder="Confirme sua senha"
-                                            />
-
-                                            <InputError
-                                                message={errors.password_confirmation}
-                                            />
-                                        </div>
-                                    </section>
-                                    <div className="flex items-center gap-4">
-                                        <Button
-                                            variant='primary'
-                                            disabled={processing}
-                                            data-test="update-password-button"
-                                        >
-                                            <Icon iconNode={Lock}/>
-                                            Atualizar Senha
-                                        </Button>
-
-                                        <Transition
-                                            show={recentlySuccessful}
-                                            enter="transition ease-in-out"
-                                            enterFrom="opacity-0"
-                                            leave="transition ease-in-out"
-                                            leaveTo="opacity-0"
-                                        >
-                                            <p className="text-sm text-neutral-600">
-                                                Saved
-                                            </p>
-                                        </Transition>
-                                    </div>
-                                </Card>
-
-                            </>
-                        )}
-                    </Form>
-                </div>
+                                    <InputError
+                                        message={errors.confirmPassword}
+                                    />
+                                </div>
+                            </section>
+                            <div className="flex items-center gap-4">
+                                <Button
+                                    variant="primary"
+                                    disabled={processing}
+                                    type="submit"
+                                >
+                                    <Icon iconNode={Lock} />
+                                    Atualizar Senha
+                                </Button>
+                            </div>
+                        </Card>
+                    </>
+                </form>
+            </div>
         </AppLayout>
     );
 }
