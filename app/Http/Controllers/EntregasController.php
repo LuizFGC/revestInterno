@@ -96,11 +96,7 @@ class EntregasController extends Controller {
                 'required' => 'Este campo e obrigatorio',
             ]);
 
-        if ($data['status'] != 'Rota'){
 
-            return redirect()->back()->withErrors(['status' => 'Entrega nao esta em Rota']);
-
-        }
 
         $this->entregasService->updateStatusFinalizado($data);
 

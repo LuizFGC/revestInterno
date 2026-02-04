@@ -96,7 +96,7 @@ export default function VisualizarEntrega({entrega}:VisualizarEntregaProps){
 
 
                 {/* Detalhes da Entrega */}
-                <section  className="border border-gray-300 rounded p-3 space-y-2 text-black">
+                <section  className="border border-gray-200 rounded p-3 space-y-2 text-black">
                     <h3 className="font-bold flex items-center gap-2"><Package size={18} /> Detalhes da Entrega</h3>
 
                     <section className="flex">
@@ -126,7 +126,7 @@ export default function VisualizarEntrega({entrega}:VisualizarEntregaProps){
                 </section>
 
                 {/* Entregador */}
-                <section  className="border border-gray-300 rounded p-3 space-y-2 text-black">
+                <section  className="border border-gray-200 rounded p-3 space-y-2 text-black">
                     <h3 className="font-bold flex items-center gap-2"><Package size={18} /> Entregador</h3>
 
                     <div className="pl-4">
@@ -138,7 +138,7 @@ export default function VisualizarEntrega({entrega}:VisualizarEntregaProps){
 
                 {entrega.status == 'Cancelado' ?
 
-                    <section  className="border border-gray-300 rounded p-3 space-y-2 text-black">
+                    <section  className="border border-gray-200 rounded p-3 space-y-2 text-black">
                         <h3 className="font-bold flex items-center gap-2"><Text size={18} /> Motivo do Cancelamento</h3>
 
                         <div className="pl-4">

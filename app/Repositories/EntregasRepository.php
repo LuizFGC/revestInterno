@@ -62,7 +62,7 @@ class EntregasRepository
 
     public function cancelarEntrega(array $data){
 
-        $entrega = Entregas::find($data['codigo']);
+        $entrega = Entregas::firstWhere('codigo', $data['codigo']);
 
         if ( !$entrega) {
 
@@ -83,7 +83,14 @@ class EntregasRepository
     }
 
     public function finalizarEntrega(array $data){
-        $entrega = Entregas::find($data['codigo']);
+
+        $entrega = Entregas::firstWhere('codigo', $data['codigo']);
+
+        if ($entrega['status'] != 'Rota'){
+
+            return redirect()->back()->withErrors(['status' => 'Entrega nao esta em Rota']);
+
+        }
 
         if ( !$entrega) {
 
@@ -105,7 +112,7 @@ class EntregasRepository
 
     public function inserirEdicao(array $data) {
 
-        $entrega = Entregas::find($data['id']);
+        $entrega = Entregas::firstWhere('codigo', $data['codigo']);
 
         $entrega->update([
             'codigo' => $data['codigo'],
