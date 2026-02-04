@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Services\EntregasService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 
@@ -21,8 +22,12 @@ class EntregasController extends Controller {
 
 
             $entregas = $this->entregasService->getAllEntregas();
+
+            $user = Auth::user()->role;
+
             return Inertia::render('entregas', [
                 'entregas' => $entregas,
+                    'user' => $user
             ]);
 
     }

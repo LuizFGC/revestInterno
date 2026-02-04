@@ -34,10 +34,11 @@ interface VisualizarEntregaProps {
         motivo: string;
         created_at: string;
     }
+    user: string;
 }
 
 
-export default function VisualizarEntrega({entrega}:VisualizarEntregaProps){
+export default function VisualizarEntrega({entrega, user}:VisualizarEntregaProps){
 
     const data = new Date(`${entrega.previsao}T12:00:00`);
 
@@ -152,9 +153,10 @@ export default function VisualizarEntrega({entrega}:VisualizarEntregaProps){
                 }
 
                 {/*//Editar entrega*/}
-                <EditarEntrega
+                {user == 'admin' ? <EditarEntrega
                     entrega={entrega}
-                />
+                /> : ''}
+
             </DialogContent>
         </Dialog>
     );
