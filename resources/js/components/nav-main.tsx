@@ -26,7 +26,7 @@ export function NavMain({ items = [] }: { items: NavItem[] }) {
                         >
                             <Link href={item.href} prefetch >
                                 {item.icon && <item.icon />}
-                                <span>{item.title}</span>
+                                <span className="text-white">{item.title}</span>
                             </Link>
                         </SidebarMenuButton>
                     </SidebarMenuItem>
