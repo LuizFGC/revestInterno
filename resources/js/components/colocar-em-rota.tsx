@@ -61,7 +61,7 @@ export default function ColocarEmRota(){
                     onSubmit={handleColocarEmRota}
                     className="rounded-b-xl bg-sidebar-bg"
                 >
-                    <section className="flex flex-row gap-3 px-6 pt-2">
+                    <section className="flex flex-row gap-3 px-6 pt-2 text-white">
                         <div>
                             <Label>Entrega</Label>
                             <Input

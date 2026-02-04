@@ -67,7 +67,7 @@ export default function CancelarEntrega({codigo, status}:CancelarEntregaProps){
                     className="rounded-b-xl bg-sidebar-bg"
                 >
                     <section className="w-full">
-                        <div className="flex w-full flex-col gap-3 px-6 pt-2 text-center">
+                        <div className="flex w-full flex-col gap-3 px-6 pt-2 text-center text-white">
                             <Label>Motivo do cancelamento</Label>
                             <Input
                                 id="motivo"

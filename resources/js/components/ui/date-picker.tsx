@@ -101,7 +101,7 @@ export function DatePickerInput({ value: externalValue, onChange, className, sid
                             </InputGroupButton>
                         </PopoverTrigger>
                         <PopoverContent
-                            className={`w-auto overflow-hidden p-0 bg-black rounded-xl`}
+                            className={`w-auto overflow-hidden p-0 bg-white rounded-xl text-black`}
                             side={side}
                             align="end"
                             sideOffset={8}

@@ -17,7 +17,7 @@ export function NavMain({ items = [] }: { items: NavItem[] }) {
 
             <SidebarMenu>
                 {items.map((item) => (
-                    <SidebarMenuItem key={item.title}>
+                    <SidebarMenuItem key={item.title} className="text-sidebar-accent-foreground">
                         <SidebarMenuButton
                             asChild
                             isActive={isCurrentUrl(item.href)}

@@ -44,7 +44,7 @@
 
     --color-border: var(--border);
 
-
+    --color-sidebar-accent-foreground: var(--sidebar-text-foreground)
 
 
 }
@@ -64,6 +64,7 @@
     --badge-color-2:#00A63E;
     --badge-color-3:#E7000B;
     --badge-color-4: #D08700;
+    --sidebar-text-foreground: #FFFF;
 }
 
 
