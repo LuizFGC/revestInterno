@@ -60,11 +60,11 @@ type PageProps = {
 
 export function AppSidebar() {
 
-    // const { auth } = usePage<PageProps>().props;
-    //
-    // const filteredNavItems = mainNavItems.filter(item =>
-    //     item.role?.includes(auth.role || '')
-    // );
+    const { auth } = usePage<PageProps>().props;
+
+    const filteredNavItems = mainNavItems.filter(item =>
+        item.role?.includes(auth.role || '')
+    );
 
 
     return (
@@ -74,7 +74,7 @@ export function AppSidebar() {
             </SidebarHeader>
 
             <SidebarContent>
-                <NavMain items={mainNavItems} />
+                <NavMain items={filteredNavItems} />
             </SidebarContent>
 
             <SidebarFooter>

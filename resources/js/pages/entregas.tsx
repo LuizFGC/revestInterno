@@ -29,13 +29,14 @@ type User = {
 type PageProps = {
     auth: {
         user: User | null;
-        role: string ;
+        role: string | null;
     };
 };
 
 export default function Entregas({entregas}) {
 
     const { auth } = usePage<PageProps>().props;
+    console.log(auth)
 
         console.log(auth.role)
     const {dataSelecionada} = useData();

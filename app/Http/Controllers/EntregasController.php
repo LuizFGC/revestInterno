@@ -21,6 +21,7 @@ class EntregasController extends Controller {
     public function index( ) {
 
 
+
             $entregas = $this->entregasService->getAllEntregas();
 
             $user = Auth::user()->role;
