@@ -1,4 +1,4 @@
-# Revest Interno – Sistema de Gestão de Entregas 🚚
+  # 🇧🇷 Revest Interno – Sistema de Gestão de Entregas 🚚
 ## Meu Primeiro projeto fullstack para usuario reais
 [![Laravel](https://img.shields.io/badge/Laravel-FF2D20?style=flat&logo=laravel&logoColor=white)](https://laravel.com/)  
 [![React](https://img.shields.io/badge/React-61DAFB?style=flat&logo=react&logoColor=black)](https://reactjs.org/)  
@@ -37,6 +37,45 @@ O sistema usa Laravel para o backend, React + Inertia.js no frontend, e Tailwind
 
 ---
 
+# 🇺🇸 Revest Interno – Delivery Management System 🚚
+## My first fullstack project for real users
+
+[![Laravel](https://img.shields.io/badge/Laravel-FF2D20?style=flat&logo=laravel&logoColor=white)](https://laravel.com/)  
+[![React](https://img.shields.io/badge/React-61DAFB?style=flat&logo=react&logoColor=black)](https://reactjs.org/)  
+[![TailwindCSS](https://img.shields.io/badge/TailwindCSS-38B2AC?style=flat&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)  
+[![PHP](https://img.shields.io/badge/PHP-777BB4?style=flat&logo=php&logoColor=white)](https://www.php.net/)  
+
+Revest Interno is a web system for managing store deliveries, allowing the creation, editing, completion, and detailed real-time tracking of deliveries.
+
+🔎 About
+The project aims to simplify the store’s delivery logistics management, enabling employees and managers to:
+
+Create new deliveries
+
+Edit existing delivery information
+
+Complete deliveries
+
+Track delivery status
+
+Filter deliveries by delivery person, date, status, and more
+
+The system uses Laravel for the backend, React + Inertia.js for the frontend, and TailwindCSS for modern and responsive styling.
+
+🧠 Technologies
+
+Backend: PHP 8+ with Laravel
+
+Frontend: React + Inertia.js + TypeScript
+
+Styling: TailwindCSS
+
+Build Tools: Vite
+
+State Management: React Hooks
+
+---
+
 ## 📸 Screenshots
 
 <div align="center">
@@ -56,7 +95,6 @@ O sistema usa Laravel para o backend, React + Inertia.js no frontend, e Tailwind
   <p>Configuracoes</p>
 
 </div>
-
 
 ---
 
