@@ -18,11 +18,12 @@ class DatabaseSeeder extends Seeder
     {
 
         DB::table('users')->insert([
-            'name' => 'Luiz Filipe',
-            'user' => 'lfcandido',
+            'name' => 'Teste Vendedor',
+            'user' => 'testevendedor',
             'cargo' => 'Auxiliar Administrativo',
             'telefone' => '34 9 9833-1203',
             'password' => Hash::make('123456'),
+            'role' => 'vendedor',
         ]);
 
     }

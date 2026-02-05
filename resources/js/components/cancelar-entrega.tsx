@@ -13,10 +13,11 @@ interface CancelarEntregaProps{
 
     codigo: number;
     status: string;
+    user: string;
 }
 
 
-export default function CancelarEntrega({codigo, status}:CancelarEntregaProps){
+export default function CancelarEntrega({codigo, status, user}:CancelarEntregaProps){
 
     const [open, setOpen] = useState(false)
 
@@ -47,7 +48,7 @@ export default function CancelarEntrega({codigo, status}:CancelarEntregaProps){
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger
-                hidden={status == 'Cancelado' || status == 'Entregue'}
+                hidden={ user != 'admin' || status == 'Cancelado' || status == 'Entregue'}
             >
                 <Icon
                     iconNode={X}

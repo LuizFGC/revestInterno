@@ -18,7 +18,7 @@ export default function Dashboard({entregas}) {
 
     const {dataSelecionada} = useData()
 
-    // Fixed: Removed useEffect and derived filtros directly from dataSelecionada
+
     const filtros = useMemo(() => ({
         data: dataSelecionada,
     }), [dataSelecionada]);

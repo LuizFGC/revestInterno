@@ -125,7 +125,7 @@ export default function Login(){
 
 
                                 <div className="pt-3 text-login-card-border">
-                                    © 2025 Revest Materiais
+                                    © {new Date().getFullYear()} Revest Materiais
                                 </div>
                             </div>
                     </>

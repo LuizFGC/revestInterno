@@ -14,17 +14,30 @@ import { Input } from '@/components/ui/input';
 import VisualizarEntrega from '@/components/visualizar-entrega';
 import { useData } from '@/contexts/DataContext';
 import AppLayout from '@/layouts/app-layout';
+import { usePage } from '@inertiajs/react';
 
 
 
 
+type User = {
+    id: number;
+    name: string;
+    email: string;
+    role: string;
+};
 
-
-
+type PageProps = {
+    auth: {
+        user: User | null;
+        role: string ;
+    };
+};
 
 export default function Entregas({entregas}) {
 
+    const { auth } = usePage<PageProps>().props;
 
+        console.log(auth.role)
     const {dataSelecionada} = useData();
 
 
@@ -108,15 +121,17 @@ export default function Entregas({entregas}) {
             <Head title="Entregas" />
 
             <Toaster position="top-right"  richColors />
+
             <div className="flex flex-1 flex-col gap-4 rounded-xl p-4">
                 {/*//Botoes do topo*/}
-                <div className="mb-1 flex items-center gap-3">
+                {auth.role == 'admin' ?
+                    <div className="mb-1 flex items-center gap-3">
                     {/*//Criar Entrega*/}
                     <CriarEntrega />
                     {/*//Colocar Entrega em rota*/}
                     <ColocarEmRota />
 
-                </div>
+                </div> : '' }
 
                 {/*//Tabela de Entregas*/}
                 <div>
@@ -225,17 +240,19 @@ export default function Entregas({entregas}) {
 
                                                 <th className="flex justify-center gap-3 py-4">
                                                     {/*visualizar entrega*/}
-                                                    <VisualizarEntrega entrega={entrega} />
+                                                    <VisualizarEntrega entrega={entrega} user={auth.role} />
 
                                                     {/*//Cancelar Entrega*/}
                                                     <CancelarEntrega
                                                         codigo={entrega.codigo}
                                                         status={entrega.status}
+                                                        user={auth.role}
                                                     />
                                                     {/*Finalizar Entrega*/}
                                                     <FinalizarEntrega
                                                         codigo={entrega.codigo}
                                                         status={entrega.status}
+                                                        user={auth.role}
                                                     />
                                                 </th>
                                             </tr>

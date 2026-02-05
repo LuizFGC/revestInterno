@@ -17,11 +17,12 @@ interface FinalizarEntregaProps{
 
     codigo: number;
     status: string;
+    user: string;
 }
 
 
-export default function FinalizarEntrega({codigo, status}:FinalizarEntregaProps){
-
+export default function FinalizarEntrega({codigo, status, user}:FinalizarEntregaProps){
+    console.log(user)
     const [open, setOpen] = useState(false)
 
     const { data, patch, processing, reset,errors } = useForm({
@@ -51,7 +52,7 @@ export default function FinalizarEntrega({codigo, status}:FinalizarEntregaProps)
     return (
         <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger
-                hidden={status == 'Cancelado' || status == 'Entregue'}
+                hidden={ user != 'admin' || status == 'Cancelado' || status == 'Entregue'}
             >
                 <Icon
                     iconNode={Check}
